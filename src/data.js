@@ -75,7 +75,7 @@ const discussions = [
 
 const words = {
   'zh-CN': {
-    nav: ['首页', '新闻', '比赛', '积分榜', '球队', '球员'], tagline: '足球，因你而热闹', sub: '全球赛场 · 每日更新', today: '球迷主场', daily: '每日更新',
+    nav: ['首页', '新闻', '比赛', '积分榜', '球队', '球员'], tagline: '为每份热爱，找到同频球迷', sub: '全球赛场 · 每日更新', today: '球迷主场', daily: '每日更新',
     headline1: '为每份热爱，', headline2: '找到同频球迷', headSub: '最新资讯、赛后赛果、球队故事和球迷观点。无论你支持谁，这里都有同一份热爱。', discover: '看看今天的足球', choose: '选择球队',
     latest: '最新新闻', latestSub: '全球赛场，一手跟进', allNews: '全部新闻', moreStory: '更多足球故事', all: '全部赛事', read: '分钟阅读', results: '近期赛果', resultsSub: '最近 7 天 · 赛后结果', schedule: '赛程与赛果', sevenDays: '最近 7 天',
     dynamics: '球队动态', dynamicsSub: '跟进你关心的每一次出场', noTeams: '暂时没有关注球队', popular: '热门球队正在发生什么', hot: '热门讨论', hotSub: '球迷正在聊什么', pick: '挑选你的主队',
@@ -84,7 +84,7 @@ const words = {
     footer: '好球值得分享。好观点，值得被听见。', local: '关注列表保存在当前设备，之后可随登录功能同步。', scoreAll: '全部赛事', scoreFollowing: '关注球队', searchLabel: '搜索', openSearch: '搜索', close: '关闭', sourceRead: '阅读原文',
   },
   'zh-TW': {
-    nav: ['首頁', '新聞', '賽事', '積分榜', '球隊', '球員'], tagline: '足球，因你而熱鬧', sub: '全球賽場 · 每日更新', today: '球迷主場', daily: '每日更新',
+    nav: ['首頁', '新聞', '賽事', '積分榜', '球隊', '球員'], tagline: '為每份熱愛，找到同頻球迷', sub: '全球賽場 · 每日更新', today: '球迷主場', daily: '每日更新',
     headline1: '為每份熱愛，', headline2: '找到同頻球迷', headSub: '最新資訊、賽後賽果、球隊故事和球迷觀點。無論你支持誰，這裡都有同一份熱愛。', discover: '看看今天的足球', choose: '選擇球隊',
     latest: '最新新聞', latestSub: '全球賽場，第一時間跟進', allNews: '全部新聞', moreStory: '更多足球故事', all: '全部賽事', read: '分鐘閱讀', results: '近期賽果', resultsSub: '最近 7 天 · 賽後結果', schedule: '賽程與賽果', sevenDays: '最近 7 天',
     dynamics: '球隊動態', dynamicsSub: '跟進你關心的每一次出場', noTeams: '暫時沒有關注球隊', popular: '熱門球隊正在發生什麼', hot: '熱門討論', hotSub: '球迷正在聊什麼', pick: '挑選你的主隊',
@@ -93,7 +93,7 @@ const words = {
     footer: '好球值得分享。好觀點，值得被聽見。', local: '關注清單儲存在目前裝置，之後可隨登入功能同步。', scoreAll: '全部賽事', scoreFollowing: '關注球隊', searchLabel: '搜尋', openSearch: '搜尋', close: '關閉', sourceRead: '閱讀原文',
   },
   en: {
-    nav: ['Home', 'News', 'Matches', 'Standings', 'Teams', 'Players'], tagline: 'Football brings us together', sub: 'Global football · Updated daily', today: 'The fans’ home', daily: 'Daily update',
+    nav: ['Home', 'News', 'Matches', 'Standings', 'Teams', 'Players'], tagline: 'Find your people through football', sub: 'Global football · Updated daily', today: 'The fans’ home', daily: 'Daily update',
     headline1: 'Find your people,', headline2: 'through football.', headSub: 'News, full-time scores, team stories and fan voices. Whoever you support, there’s a place for your passion here.', discover: 'Explore today’s game', choose: 'Choose teams',
     latest: 'Latest stories', latestSub: 'A closer look at the global game', allNews: 'All news', moreStory: 'On the touchline', all: 'All competitions', read: 'min read', results: 'Recent results', resultsSub: 'Last 7 days · Full-time scores', schedule: 'Fixtures & results', sevenDays: 'Last 7 days',
     dynamics: 'Team updates', dynamicsSub: 'Follow every moment that matters', noTeams: 'No teams followed yet', popular: 'Popular teams, latest stories', hot: 'Trending discussions', hotSub: 'What fans are talking about', pick: 'Pick your team',
