@@ -130,9 +130,9 @@ function localizeTime(time, locale) {
   return time.replace('分钟前', 'min ago').replace('小时', 'h').replace('前', ' ago');
 }
 
-function browserLocale() {
+function browserLocale(): keyof typeof words {
   const saved = localStorage.getItem('kickoff-locale');
-  if (saved && words[saved]) return saved;
+  if (saved && saved in words) return saved as keyof typeof words;
   const lang = navigator.language.toLowerCase();
   if (lang.startsWith('zh-tw') || lang.startsWith('zh-hk') || lang.startsWith('zh-mo') || lang.includes('hant')) return 'zh-TW';
   return lang.startsWith('en') ? 'en' : 'zh-CN';

@@ -1,0 +1,41 @@
+name: Update football data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 2 * * *'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: football-data-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Update snapshot
+        if: env.FOOTBALL_DATA_API_KEY != ''
+        run: npm run sync:football
+      - name: Missing API key
+        if: env.FOOTBALL_DATA_API_KEY == ''
+        run: echo '::notice::Add FOOTBALL_DATA_API_KEY in Settings > Secrets and variables > Actions.'
+      - name: Commit changed snapshot
+        if: env.FOOTBALL_DATA_API_KEY != ''
+        run: |
+          if git diff --quiet -- public/data/football.json; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/data/football.json
+          git commit -m 'Update football data snapshot'
+          git push

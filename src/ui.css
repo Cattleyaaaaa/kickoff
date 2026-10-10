@@ -2,6 +2,8 @@
 
 .story-copy > .photo-credit{font-size:12px;line-height:1.5;margin:9px 0 0;color:var(--muted)}
 .photo-credit a{color:inherit;text-decoration:underline;text-underline-offset:2px}
+.standings-group-heading{font-size:20px;font-weight:850;padding:18px 24px 0}
+.footer-right a{color:inherit;text-decoration:underline;text-underline-offset:3px}
 
 :root{font-family:'DM Sans','Noto Sans SC',sans-serif;color:#22251f;background:#f6f5ef;font-synthesis:none;--paper:#f6f5ef;--card:#fffefa;--ink:#22251f;--muted:#70746a;--line:#ddded3;--soft:#eceee4;--lime:#d2f34d;--purple:#b9a6ed;--blue:#b3d4f8;--border:#22251f;--shadow:4px 4px 0 #22251f;color-scheme:light}
 :root[data-theme=dark]{--paper:#181b17;--card:#232820;--ink:#f1f1e5;--muted:#afb7a5;--line:#424939;--soft:#303729;--border:#bbc69f;--shadow:4px 4px 0 #bbc69f;color-scheme:dark}
