@@ -1,1 +1,1569 @@
-{"status":"unconfigured"}
+{
+  "source": "football-data.org",
+  "updatedAt": "2026-10-10T03:09:38.322Z",
+  "range": {
+    "from": "2026-10-02",
+    "to": "2026-10-10"
+  },
+  "matches": [
+    {
+      "id": "564706",
+      "league": "西甲",
+      "utcDate": "2026-10-09T19:00:00Z",
+      "home": "Málaga",
+      "away": "Espanyol",
+      "hs": 1,
+      "as": 1,
+      "teamHome": "MAL",
+      "teamAway": "ESP",
+      "colors": [
+        "#7377db",
+        "#7377db"
+      ]
+    },
+    {
+      "id": "559669",
+      "league": "法甲",
+      "utcDate": "2026-10-09T18:45:00Z",
+      "home": "RC Lens",
+      "away": "Olympique Lyon",
+      "hs": 2,
+      "as": 1,
+      "teamHome": "RCL",
+      "teamAway": "LYO",
+      "colors": [
+        "#7377db",
+        "#7377db"
+      ]
+    },
+    {
+      "id": "565820",
+      "league": "德甲",
+      "utcDate": "2026-10-09T18:30:00Z",
+      "home": "Dortmund",
+      "away": "Bremen",
+      "hs": 2,
+      "as": 2,
+      "teamHome": "BVB",
+      "teamAway": "SVW",
+      "colors": [
+        "#7377db",
+        "#7377db"
+      ]
+    }
+  ],
+  "standings": {
+    "英超": {
+      "season": "2026 / 27",
+      "groups": [
+        {
+          "name": "Matchday",
+          "rows": [
+            {
+              "pos": 1,
+              "team": "曼城",
+              "color": "#54a8dc",
+              "pts": 15,
+              "p": 5,
+              "w": 5,
+              "d": 0,
+              "l": 0,
+              "gd": "+8"
+            },
+            {
+              "pos": 2,
+              "team": "阿森纳",
+              "color": "#e34448",
+              "pts": 12,
+              "p": 5,
+              "w": 4,
+              "d": 0,
+              "l": 1,
+              "gd": "+4"
+            },
+            {
+              "pos": 3,
+              "team": "Brighton Hove",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 5,
+              "w": 3,
+              "d": 1,
+              "l": 1,
+              "gd": "+11"
+            },
+            {
+              "pos": 4,
+              "team": "Brentford",
+              "color": "#7377db",
+              "pts": 9,
+              "p": 5,
+              "w": 2,
+              "d": 3,
+              "l": 0,
+              "gd": "+6"
+            },
+            {
+              "pos": 5,
+              "team": "Leeds United",
+              "color": "#7377db",
+              "pts": 9,
+              "p": 5,
+              "w": 2,
+              "d": 3,
+              "l": 0,
+              "gd": "+4"
+            },
+            {
+              "pos": 6,
+              "team": "利物浦",
+              "color": "#c93640",
+              "pts": 9,
+              "p": 5,
+              "w": 2,
+              "d": 3,
+              "l": 0,
+              "gd": "+3"
+            },
+            {
+              "pos": 7,
+              "team": "Everton",
+              "color": "#7377db",
+              "pts": 9,
+              "p": 5,
+              "w": 2,
+              "d": 3,
+              "l": 0,
+              "gd": "+3"
+            },
+            {
+              "pos": 8,
+              "team": "Hull City",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 5,
+              "w": 2,
+              "d": 2,
+              "l": 1,
+              "gd": "+2"
+            },
+            {
+              "pos": 9,
+              "team": "Newcastle",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 5,
+              "w": 2,
+              "d": 2,
+              "l": 1,
+              "gd": "0"
+            },
+            {
+              "pos": 10,
+              "team": "Chelsea",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 5,
+              "w": 2,
+              "d": 1,
+              "l": 2,
+              "gd": "-2"
+            },
+            {
+              "pos": 11,
+              "team": "Ipswich Town",
+              "color": "#7377db",
+              "pts": 6,
+              "p": 5,
+              "w": 2,
+              "d": 0,
+              "l": 3,
+              "gd": "-4"
+            },
+            {
+              "pos": 12,
+              "team": "Man United",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 5,
+              "w": 1,
+              "d": 2,
+              "l": 2,
+              "gd": "0"
+            },
+            {
+              "pos": 13,
+              "team": "Nottingham",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 5,
+              "w": 1,
+              "d": 2,
+              "l": 2,
+              "gd": "-1"
+            },
+            {
+              "pos": 14,
+              "team": "Sunderland",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-4"
+            },
+            {
+              "pos": 15,
+              "team": "Crystal Palace",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-5"
+            },
+            {
+              "pos": 16,
+              "team": "Aston Villa",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-5"
+            },
+            {
+              "pos": 17,
+              "team": "Bournemouth",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 5,
+              "w": 0,
+              "d": 3,
+              "l": 2,
+              "gd": "-2"
+            },
+            {
+              "pos": 18,
+              "team": "Coventry City",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 5,
+              "w": 1,
+              "d": 0,
+              "l": 4,
+              "gd": "-9"
+            },
+            {
+              "pos": 19,
+              "team": "Fulham",
+              "color": "#7377db",
+              "pts": 2,
+              "p": 5,
+              "w": 0,
+              "d": 2,
+              "l": 3,
+              "gd": "-3"
+            },
+            {
+              "pos": 20,
+              "team": "Tottenham",
+              "color": "#7377db",
+              "pts": 2,
+              "p": 5,
+              "w": 0,
+              "d": 2,
+              "l": 3,
+              "gd": "-6"
+            }
+          ]
+        }
+      ]
+    },
+    "西甲": {
+      "season": "2026 / 27",
+      "groups": [
+        {
+          "name": "Matchday",
+          "rows": [
+            {
+              "pos": 1,
+              "team": "巴塞罗那",
+              "color": "#783e99",
+              "pts": 21,
+              "p": 7,
+              "w": 7,
+              "d": 0,
+              "l": 0,
+              "gd": "+24"
+            },
+            {
+              "pos": 2,
+              "team": "Atleti",
+              "color": "#7377db",
+              "pts": 16,
+              "p": 7,
+              "w": 5,
+              "d": 1,
+              "l": 1,
+              "gd": "+9"
+            },
+            {
+              "pos": 3,
+              "team": "Real Betis",
+              "color": "#7377db",
+              "pts": 16,
+              "p": 7,
+              "w": 5,
+              "d": 1,
+              "l": 1,
+              "gd": "+2"
+            },
+            {
+              "pos": 4,
+              "team": "皇家马德里",
+              "color": "#d6b652",
+              "pts": 15,
+              "p": 7,
+              "w": 5,
+              "d": 0,
+              "l": 2,
+              "gd": "+10"
+            },
+            {
+              "pos": 5,
+              "team": "Sevilla FC",
+              "color": "#7377db",
+              "pts": 13,
+              "p": 7,
+              "w": 4,
+              "d": 1,
+              "l": 2,
+              "gd": "+1"
+            },
+            {
+              "pos": 6,
+              "team": "Alavés",
+              "color": "#7377db",
+              "pts": 11,
+              "p": 7,
+              "w": 3,
+              "d": 2,
+              "l": 2,
+              "gd": "+5"
+            },
+            {
+              "pos": 7,
+              "team": "Deportivo",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 7,
+              "w": 2,
+              "d": 4,
+              "l": 1,
+              "gd": "+2"
+            },
+            {
+              "pos": 8,
+              "team": "Real Sociedad",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 7,
+              "w": 3,
+              "d": 1,
+              "l": 3,
+              "gd": "-4"
+            },
+            {
+              "pos": 9,
+              "team": "Villarreal",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 7,
+              "w": 2,
+              "d": 2,
+              "l": 3,
+              "gd": "+1"
+            },
+            {
+              "pos": 10,
+              "team": "Athletic",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 6,
+              "w": 2,
+              "d": 2,
+              "l": 2,
+              "gd": "+1"
+            },
+            {
+              "pos": 11,
+              "team": "Espanyol",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 8,
+              "w": 2,
+              "d": 2,
+              "l": 4,
+              "gd": "0"
+            },
+            {
+              "pos": 12,
+              "team": "Getafe",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 7,
+              "w": 2,
+              "d": 2,
+              "l": 3,
+              "gd": "-3"
+            },
+            {
+              "pos": 13,
+              "team": "Rayo Vallecano",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 7,
+              "w": 2,
+              "d": 2,
+              "l": 3,
+              "gd": "-5"
+            },
+            {
+              "pos": 14,
+              "team": "Osasuna",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 7,
+              "w": 2,
+              "d": 2,
+              "l": 3,
+              "gd": "-7"
+            },
+            {
+              "pos": 15,
+              "team": "Celta",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 7,
+              "w": 1,
+              "d": 4,
+              "l": 2,
+              "gd": "+2"
+            },
+            {
+              "pos": 16,
+              "team": "Santander",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 7,
+              "w": 2,
+              "d": 1,
+              "l": 4,
+              "gd": "-10"
+            },
+            {
+              "pos": 17,
+              "team": "Levante",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 6,
+              "w": 1,
+              "d": 2,
+              "l": 3,
+              "gd": "-4"
+            },
+            {
+              "pos": 18,
+              "team": "Elche",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 7,
+              "w": 1,
+              "d": 2,
+              "l": 4,
+              "gd": "-6"
+            },
+            {
+              "pos": 19,
+              "team": "Málaga",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 8,
+              "w": 0,
+              "d": 4,
+              "l": 4,
+              "gd": "-9"
+            },
+            {
+              "pos": 19,
+              "team": "Valencia",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 7,
+              "w": 1,
+              "d": 1,
+              "l": 5,
+              "gd": "-9"
+            }
+          ]
+        }
+      ]
+    },
+    "意甲": {
+      "season": "2026 / 27",
+      "groups": [
+        {
+          "name": "Matchday",
+          "rows": [
+            {
+              "pos": 1,
+              "team": "Roma",
+              "color": "#7377db",
+              "pts": 13,
+              "p": 5,
+              "w": 4,
+              "d": 1,
+              "l": 0,
+              "gd": "+11"
+            },
+            {
+              "pos": 2,
+              "team": "国际米兰",
+              "color": "#3279bd",
+              "pts": 13,
+              "p": 5,
+              "w": 4,
+              "d": 1,
+              "l": 0,
+              "gd": "+7"
+            },
+            {
+              "pos": 3,
+              "team": "Lazio",
+              "color": "#7377db",
+              "pts": 13,
+              "p": 5,
+              "w": 4,
+              "d": 1,
+              "l": 0,
+              "gd": "+5"
+            },
+            {
+              "pos": 4,
+              "team": "Cagliari",
+              "color": "#7377db",
+              "pts": 12,
+              "p": 5,
+              "w": 4,
+              "d": 0,
+              "l": 1,
+              "gd": "+3"
+            },
+            {
+              "pos": 5,
+              "team": "Milan",
+              "color": "#7377db",
+              "pts": 11,
+              "p": 5,
+              "w": 3,
+              "d": 2,
+              "l": 0,
+              "gd": "+6"
+            },
+            {
+              "pos": 6,
+              "team": "Frosinone",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 5,
+              "w": 3,
+              "d": 1,
+              "l": 1,
+              "gd": "+5"
+            },
+            {
+              "pos": 7,
+              "team": "Juventus",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 5,
+              "w": 3,
+              "d": 1,
+              "l": 1,
+              "gd": "+4"
+            },
+            {
+              "pos": 8,
+              "team": "Como 1907",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 5,
+              "w": 3,
+              "d": 1,
+              "l": 1,
+              "gd": "+3"
+            },
+            {
+              "pos": 9,
+              "team": "Napoli",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 5,
+              "w": 2,
+              "d": 1,
+              "l": 2,
+              "gd": "+1"
+            },
+            {
+              "pos": 10,
+              "team": "Sassuolo",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 5,
+              "w": 2,
+              "d": 1,
+              "l": 2,
+              "gd": "0"
+            },
+            {
+              "pos": 11,
+              "team": "Atalanta",
+              "color": "#7377db",
+              "pts": 6,
+              "p": 5,
+              "w": 2,
+              "d": 0,
+              "l": 3,
+              "gd": "-2"
+            },
+            {
+              "pos": 12,
+              "team": "Lecce",
+              "color": "#7377db",
+              "pts": 6,
+              "p": 5,
+              "w": 2,
+              "d": 0,
+              "l": 3,
+              "gd": "-5"
+            },
+            {
+              "pos": 13,
+              "team": "Udinese",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-3"
+            },
+            {
+              "pos": 14,
+              "team": "Torino",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-3"
+            },
+            {
+              "pos": 15,
+              "team": "Parma",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-3"
+            },
+            {
+              "pos": 16,
+              "team": "Monza",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-4"
+            },
+            {
+              "pos": 17,
+              "team": "Fiorentina",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-6"
+            },
+            {
+              "pos": 18,
+              "team": "Bologna",
+              "color": "#7377db",
+              "pts": 2,
+              "p": 5,
+              "w": 0,
+              "d": 2,
+              "l": 3,
+              "gd": "-3"
+            },
+            {
+              "pos": 19,
+              "team": "Genoa",
+              "color": "#7377db",
+              "pts": 1,
+              "p": 5,
+              "w": 0,
+              "d": 1,
+              "l": 4,
+              "gd": "-7"
+            },
+            {
+              "pos": 20,
+              "team": "Venezia FC",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 5,
+              "w": 0,
+              "d": 0,
+              "l": 5,
+              "gd": "-9"
+            }
+          ]
+        }
+      ]
+    },
+    "德甲": {
+      "season": "2026 / 27",
+      "groups": [
+        {
+          "name": "Matchday",
+          "rows": [
+            {
+              "pos": 1,
+              "team": "Dortmund",
+              "color": "#7377db",
+              "pts": 13,
+              "p": 5,
+              "w": 4,
+              "d": 1,
+              "l": 0,
+              "gd": "+7"
+            },
+            {
+              "pos": 2,
+              "team": "拜仁慕尼黑",
+              "color": "#d64545",
+              "pts": 10,
+              "p": 4,
+              "w": 3,
+              "d": 1,
+              "l": 0,
+              "gd": "+12"
+            },
+            {
+              "pos": 3,
+              "team": "Freiburg",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 4,
+              "w": 3,
+              "d": 1,
+              "l": 0,
+              "gd": "+9"
+            },
+            {
+              "pos": 4,
+              "team": "Bremen",
+              "color": "#7377db",
+              "pts": 8,
+              "p": 5,
+              "w": 2,
+              "d": 2,
+              "l": 1,
+              "gd": "0"
+            },
+            {
+              "pos": 5,
+              "team": "Augsburg",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 4,
+              "w": 2,
+              "d": 1,
+              "l": 1,
+              "gd": "+5"
+            },
+            {
+              "pos": 6,
+              "team": "Leverkusen",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 4,
+              "w": 2,
+              "d": 1,
+              "l": 1,
+              "gd": "+5"
+            },
+            {
+              "pos": 7,
+              "team": "Mainz",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 4,
+              "w": 2,
+              "d": 1,
+              "l": 1,
+              "gd": "+4"
+            },
+            {
+              "pos": 8,
+              "team": "Elversberg",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 4,
+              "w": 2,
+              "d": 1,
+              "l": 1,
+              "gd": "+1"
+            },
+            {
+              "pos": 9,
+              "team": "RB Leipzig",
+              "color": "#7377db",
+              "pts": 6,
+              "p": 4,
+              "w": 2,
+              "d": 0,
+              "l": 2,
+              "gd": "+4"
+            },
+            {
+              "pos": 10,
+              "team": "Frankfurt",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 4,
+              "w": 1,
+              "d": 2,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 11,
+              "team": "Schalke",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 4,
+              "w": 1,
+              "d": 2,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 12,
+              "team": "SC Paderborn",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 4,
+              "w": 1,
+              "d": 1,
+              "l": 2,
+              "gd": "-2"
+            },
+            {
+              "pos": 13,
+              "team": "1. FC Köln",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 4,
+              "w": 1,
+              "d": 1,
+              "l": 2,
+              "gd": "-3"
+            },
+            {
+              "pos": 14,
+              "team": "Hoffenheim",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 4,
+              "w": 1,
+              "d": 0,
+              "l": 3,
+              "gd": "-3"
+            },
+            {
+              "pos": 15,
+              "team": "Stuttgart",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 4,
+              "w": 1,
+              "d": 0,
+              "l": 3,
+              "gd": "-3"
+            },
+            {
+              "pos": 16,
+              "team": "HSV",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 4,
+              "w": 1,
+              "d": 0,
+              "l": 3,
+              "gd": "-11"
+            },
+            {
+              "pos": 17,
+              "team": "Union Berlin",
+              "color": "#7377db",
+              "pts": 1,
+              "p": 4,
+              "w": 0,
+              "d": 1,
+              "l": 3,
+              "gd": "-13"
+            },
+            {
+              "pos": 18,
+              "team": "M'gladbach",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 4,
+              "w": 0,
+              "d": 0,
+              "l": 4,
+              "gd": "-10"
+            }
+          ]
+        }
+      ]
+    },
+    "法甲": {
+      "season": "2026 / 27",
+      "groups": [
+        {
+          "name": "Matchday",
+          "rows": [
+            {
+              "pos": 1,
+              "team": "Monaco",
+              "color": "#7377db",
+              "pts": 13,
+              "p": 5,
+              "w": 4,
+              "d": 1,
+              "l": 0,
+              "gd": "+5"
+            },
+            {
+              "pos": 2,
+              "team": "Olympique Lyon",
+              "color": "#7377db",
+              "pts": 11,
+              "p": 6,
+              "w": 3,
+              "d": 2,
+              "l": 1,
+              "gd": "+7"
+            },
+            {
+              "pos": 3,
+              "team": "Paris FC",
+              "color": "#7377db",
+              "pts": 11,
+              "p": 5,
+              "w": 3,
+              "d": 2,
+              "l": 0,
+              "gd": "+5"
+            },
+            {
+              "pos": 4,
+              "team": "Lille",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 5,
+              "w": 3,
+              "d": 1,
+              "l": 1,
+              "gd": "+4"
+            },
+            {
+              "pos": 5,
+              "team": "Stade Rennais",
+              "color": "#7377db",
+              "pts": 10,
+              "p": 5,
+              "w": 3,
+              "d": 1,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 6,
+              "team": "巴黎圣日耳曼",
+              "color": "#4b67b2",
+              "pts": 8,
+              "p": 5,
+              "w": 2,
+              "d": 2,
+              "l": 1,
+              "gd": "+1"
+            },
+            {
+              "pos": 7,
+              "team": "RC Lens",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 6,
+              "w": 2,
+              "d": 1,
+              "l": 3,
+              "gd": "+1"
+            },
+            {
+              "pos": 8,
+              "team": "Angers SCO",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 5,
+              "w": 2,
+              "d": 1,
+              "l": 2,
+              "gd": "+1"
+            },
+            {
+              "pos": 9,
+              "team": "Strasbourg",
+              "color": "#7377db",
+              "pts": 7,
+              "p": 5,
+              "w": 2,
+              "d": 1,
+              "l": 2,
+              "gd": "0"
+            },
+            {
+              "pos": 10,
+              "team": "Le Mans",
+              "color": "#7377db",
+              "pts": 6,
+              "p": 5,
+              "w": 1,
+              "d": 3,
+              "l": 1,
+              "gd": "0"
+            },
+            {
+              "pos": 11,
+              "team": "Auxerre",
+              "color": "#7377db",
+              "pts": 6,
+              "p": 5,
+              "w": 2,
+              "d": 0,
+              "l": 3,
+              "gd": "-5"
+            },
+            {
+              "pos": 12,
+              "team": "Brest",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 5,
+              "w": 1,
+              "d": 2,
+              "l": 2,
+              "gd": "-1"
+            },
+            {
+              "pos": 13,
+              "team": "Lorient",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 5,
+              "w": 1,
+              "d": 2,
+              "l": 2,
+              "gd": "-1"
+            },
+            {
+              "pos": 14,
+              "team": "Toulouse",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 5,
+              "w": 1,
+              "d": 2,
+              "l": 2,
+              "gd": "-2"
+            },
+            {
+              "pos": 15,
+              "team": "Nice",
+              "color": "#7377db",
+              "pts": 5,
+              "p": 5,
+              "w": 1,
+              "d": 2,
+              "l": 2,
+              "gd": "-3"
+            },
+            {
+              "pos": 16,
+              "team": "Troyes",
+              "color": "#7377db",
+              "pts": 4,
+              "p": 5,
+              "w": 1,
+              "d": 1,
+              "l": 3,
+              "gd": "-7"
+            },
+            {
+              "pos": 17,
+              "team": "Marseille",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 5,
+              "w": 1,
+              "d": 0,
+              "l": 4,
+              "gd": "-1"
+            },
+            {
+              "pos": 18,
+              "team": "Le Havre",
+              "color": "#7377db",
+              "pts": 2,
+              "p": 5,
+              "w": 0,
+              "d": 2,
+              "l": 3,
+              "gd": "-3"
+            }
+          ]
+        }
+      ]
+    },
+    "欧冠": {
+      "season": "2026 / 27",
+      "groups": [
+        {
+          "name": "League phase",
+          "rows": [
+            {
+              "pos": 1,
+              "team": "巴黎圣日耳曼",
+              "color": "#4b67b2",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+5"
+            },
+            {
+              "pos": 2,
+              "team": "拜仁慕尼黑",
+              "color": "#d64545",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+5"
+            },
+            {
+              "pos": 3,
+              "team": "巴塞罗那",
+              "color": "#783e99",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+4"
+            },
+            {
+              "pos": 4,
+              "team": "Man United",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+4"
+            },
+            {
+              "pos": 5,
+              "team": "Como 1907",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+3"
+            },
+            {
+              "pos": 6,
+              "team": "Sporting CP",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+2"
+            },
+            {
+              "pos": 6,
+              "team": "Stuttgart",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+2"
+            },
+            {
+              "pos": 8,
+              "team": "曼城",
+              "color": "#54a8dc",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+2"
+            },
+            {
+              "pos": 9,
+              "team": "Aston Villa",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+1"
+            },
+            {
+              "pos": 9,
+              "team": "RC Lens",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+1"
+            },
+            {
+              "pos": 9,
+              "team": "Real Betis",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+1"
+            },
+            {
+              "pos": 12,
+              "team": "Dortmund",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+1"
+            },
+            {
+              "pos": 13,
+              "team": "利物浦",
+              "color": "#c93640",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+1"
+            },
+            {
+              "pos": 13,
+              "team": "皇家马德里",
+              "color": "#d6b652",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+1"
+            },
+            {
+              "pos": 15,
+              "team": "阿森纳",
+              "color": "#e34448",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+1"
+            },
+            {
+              "pos": 16,
+              "team": "PAE AEK",
+              "color": "#7377db",
+              "pts": 3,
+              "p": 1,
+              "w": 1,
+              "d": 0,
+              "l": 0,
+              "gd": "+1"
+            },
+            {
+              "pos": 17,
+              "team": "Roma",
+              "color": "#7377db",
+              "pts": 1,
+              "p": 1,
+              "w": 0,
+              "d": 1,
+              "l": 0,
+              "gd": "0"
+            },
+            {
+              "pos": 17,
+              "team": "Shaktar",
+              "color": "#7377db",
+              "pts": 1,
+              "p": 1,
+              "w": 0,
+              "d": 1,
+              "l": 0,
+              "gd": "0"
+            },
+            {
+              "pos": 19,
+              "team": "Fenerbahçe",
+              "color": "#7377db",
+              "pts": 1,
+              "p": 1,
+              "w": 0,
+              "d": 1,
+              "l": 0,
+              "gd": "0"
+            },
+            {
+              "pos": 19,
+              "team": "PSV",
+              "color": "#7377db",
+              "pts": 1,
+              "p": 1,
+              "w": 0,
+              "d": 1,
+              "l": 0,
+              "gd": "0"
+            },
+            {
+              "pos": 21,
+              "team": "Villarreal",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 22,
+              "team": "Club Brugge",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 22,
+              "team": "Lille",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 22,
+              "team": "Slavia Praha",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 25,
+              "team": "Atleti",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 25,
+              "team": "国际米兰",
+              "color": "#3279bd",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 27,
+              "team": "LASK",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 27,
+              "team": "Napoli",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-1"
+            },
+            {
+              "pos": 29,
+              "team": "Galatasaray",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-2"
+            },
+            {
+              "pos": 29,
+              "team": "Viking",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-2"
+            },
+            {
+              "pos": 31,
+              "team": "Porto",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-2"
+            },
+            {
+              "pos": 32,
+              "team": "RB Leipzig",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-3"
+            },
+            {
+              "pos": 33,
+              "team": "Feyenoord",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-4"
+            },
+            {
+              "pos": 34,
+              "team": "Sabah FK",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-4"
+            },
+            {
+              "pos": 35,
+              "team": "Sl. Bratislava",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-5"
+            },
+            {
+              "pos": 36,
+              "team": "Bodø/Glimt",
+              "color": "#7377db",
+              "pts": 0,
+              "p": 1,
+              "w": 0,
+              "d": 0,
+              "l": 1,
+              "gd": "-5"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
