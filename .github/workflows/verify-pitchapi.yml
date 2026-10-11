@@ -1,0 +1,22 @@
+name: Verify PitchAPI coverage
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    env:
+      PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+      - run: npm ci
+      - name: Check six current-season competitions and sample metrics
+        run: npm run verify:pitchapi
