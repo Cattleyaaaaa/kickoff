@@ -223,7 +223,7 @@ export default function App() {
     return [...byCode.values()];
   })();
   useEffect(()=>{ document.documentElement.lang=locale; localStorage.setItem('kickoff-locale',locale); },[locale]);
-  useEffect(()=>{ const controller=new AbortController(); fetch('/data/football.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isFootballSnapshot(data))setSnapshot(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
+  useEffect(()=>{ const controller=new AbortController(); (async()=>{ for(const url of ['/api/v1/football','/data/football.json']) { try { const response=await fetch(url,{signal:controller.signal,cache:'no-store'}); if(!response.ok)continue; const data=await response.json(); if(isFootballSnapshot(data)){setSnapshot(data);break;} } catch { if(controller.signal.aborted)break; } } })(); return ()=>controller.abort(); },[]);
   useEffect(()=>{ const controller=new AbortController(); fetch('/data/players.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isPublishablePlayerStatsSnapshot(data))setPlayerStats(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
   useEffect(()=>{ const media=matchMedia('(prefers-color-scheme: dark)'); const apply=()=>document.documentElement.dataset.theme=theme==='system'?(media.matches?'dark':'light'):theme; apply();localStorage.setItem('kickoff-theme',theme);media.addEventListener('change',apply);return()=>media.removeEventListener('change',apply); },[theme]);
   useEffect(()=>{const onPop=()=>{setPage(readRoute());setMenu(false);window.scrollTo(0,0);};window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[]);

@@ -9,3 +9,5 @@ playwright-report/
 *.local
 .DS_Store
 Thumbs.db
+backend/.m2/
+backend/target/

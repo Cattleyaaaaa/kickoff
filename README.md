@@ -11,6 +11,17 @@ npm run dev
 
 开发服务器启动后，访问 Vite 输出的本地地址。构建命令为 `npm run build`，端到端测试命令为 `npm run test:e2e`（需先安装 Playwright 浏览器：`npx playwright install chromium`）。
 
+### Java 后端
+
+后端使用 Java 21+、Maven 和 Spring Boot，提供 `GET /api/v1/football`（已核实的赛果、赛程和积分榜快照）及 `GET /api/v1/health`。在另一个终端运行：
+
+```powershell
+cd backend
+mvn '-Dmaven.repo.local=.m2' spring-boot:run
+```
+
+默认端口为 `8080`，快照目录为项目的 `public/data`。如果从其他工作目录启动后端，请用 `KICKOFF_SNAPSHOT_DIR` 环境变量指定快照目录。Vite 开发服务器会把 `/api` 请求转发给 Java；后端未运行时，前端继续读取原有静态 JSON。生产环境部署 Java 后端时，应将同域名的 `/api` 路径转发到后端。当前 GitHub Actions 仍负责生成 Football-Data.org 快照；PitchAPI 的公开展示许可和整季完整性确认前，不会把它的数据发布到球队榜或球员榜。
+
 ## 当前原型
 
 - 独立的首页、新闻、比赛、球队和球员页面；积分榜已并入球队页
