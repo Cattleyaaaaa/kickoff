@@ -2,9 +2,6 @@ name: Verify API-Football coverage
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - .github/workflows/verify-api-football.yml
 
 permissions:
   contents: read
