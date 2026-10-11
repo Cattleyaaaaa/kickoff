@@ -43,12 +43,15 @@ mvn '-Dmaven.repo.local=.m2' spring-boot:run
 
 同步覆盖英超、西甲、意甲、德甲、法甲和欧冠。比赛页整合本赛季完整赛程与最近七天赛果，并支持按赛事、月份、球队筛选。球队榜和积分榜分别独立成页；球队页用于浏览和关注球队，不重复展示赛程、近期赛果。球队榜基础字段来自 Football-Data.org 积分榜；GOAL API 同步流程准备按当前赛季补充其文档列出的球队赛季统计。球队榜以整行浅色区分赛事区间，并在区间起始行右侧显示名称：各联赛按自己的规则配置。英超第 18–20 名直接降级，没有固定升降级附加赛，第 5 名欧冠或欧联待定，欧协杯名额不能固定标给第 6 名；德甲与法甲第 16 名标为升降级附加赛区，法甲第 4 名标为欧冠资格赛区；欧冠联赛阶段显示直通十六强、淘汰赛附加赛和出局区。其他联赛的欧联和欧协杯只标为候选，杯赛冠军、UEFA 额外名额和资格限制可能改变席位，页面附有官方规则链接。开球时间按浏览器所在时区显示。淘汰赛点球比分与常规/加时比赛比分分开显示。旧快照没有完整赛季赛程和进失球字段，需要重新运行同步后才会显示。缺失的统计明确显示为空。
 
-本地同步可在 PowerShell 中运行：
+本地同步现在由 Java 后端执行，可在 PowerShell 中运行：
 
 ```powershell
 $env:FOOTBALL_DATA_API_KEY = '你的密钥'
-npm run sync:football
+$env:KICKOFF_SNAPSHOT_DIR = 'public/data'
+mvn -f backend/pom.xml '-Dmaven.repo.local=backend/.m2' -DskipTests package
+java -jar backend/target/kickoff-backend-0.1.0.jar --spring.main.web-application-type=none --kickoff.sync-on-start=true
 Remove-Item Env:FOOTBALL_DATA_API_KEY
+Remove-Item Env:KICKOFF_SNAPSHOT_DIR
 ```
 
 同步完成后运行 `npm run dev` 查看结果。旧快照仍可显示赛果和积分榜，但要重新同步才会包含未来赛程与进失球。同步失败时，工作流不会覆盖上一次成功的数据快照。可用 `npm run typecheck`、`npm run test:sync`、`npm run test:e2e` 验证代码。

@@ -28,6 +28,10 @@ jobs:
       DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -35,7 +39,11 @@ jobs:
       - run: npm ci
       - name: Update snapshot
         if: env.FOOTBALL_DATA_API_KEY != ''
-        run: npm run sync:football
+        env:
+          KICKOFF_SNAPSHOT_DIR: public/data
+        run: |
+          mvn -B -f backend/pom.xml -DskipTests package
+          java -jar backend/target/kickoff-backend-0.1.0.jar --spring.main.web-application-type=none --kickoff.sync-on-start=true
       - name: Missing API key
         if: env.FOOTBALL_DATA_API_KEY == ''
         run: echo '::notice::Add FOOTBALL_DATA_API_KEY in Settings > Secrets and variables > Actions.'
