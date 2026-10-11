@@ -2,6 +2,11 @@ name: Update football data
 
 on:
   workflow_dispatch:
+    inputs:
+      sync_players:
+        description: 'Fetch provider-only player data for manual audit (hidden from site)'
+        type: boolean
+        default: false
   schedule:
     # 06:00 and 18:00 Asia/Hong_Kong (UTC+8)
     - cron: '0 22 * * *'
@@ -36,17 +41,17 @@ jobs:
         run: echo '::notice::Add FOOTBALL_DATA_API_KEY in Settings > Secrets and variables > Actions.'
       - name: Update player snapshot
         id: players
-        if: env.GOAL_API_KEY != ''
+        if: github.event_name == 'workflow_dispatch' && inputs.sync_players && env.GOAL_API_KEY != ''
         continue-on-error: true
         run: npm run sync:players
       - name: Player snapshot unavailable
         if: steps.players.outcome == 'failure'
         run: echo '::warning::Player sync failed; football results can still be updated. Inspect the Update player snapshot step.'
       - name: Missing player API key
-        if: env.GOAL_API_KEY == ''
-        run: echo '::notice::Add GOAL_API_KEY in Settings > Secrets and variables > Actions to enable verified player statistics.'
+        if: github.event_name == 'workflow_dispatch' && inputs.sync_players && env.GOAL_API_KEY == ''
+        run: echo '::notice::Add GOAL_API_KEY in Settings > Secrets and variables > Actions to run a manual player-feed audit.'
       - name: Missing player-name translation key
-        if: env.GOAL_API_KEY != '' && env.DEEPSEEK_API_KEY == ''
+        if: github.event_name == 'workflow_dispatch' && inputs.sync_players && env.GOAL_API_KEY != '' && env.DEEPSEEK_API_KEY == ''
         run: echo '::notice::Add DEEPSEEK_API_KEY in Settings > Secrets and variables > Actions to localize player names in Chinese.'
       - name: Commit changed snapshot
         run: |

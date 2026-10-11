@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { normalizeTopScorers } from '../scripts/player-transform.ts';
+import { isPublishablePlayerStatsSnapshot, normalizeTopScorers } from '../scripts/player-transform.ts';
 
 test('normalizes API scoring rows without inventing unavailable fields', () => {
   const players = normalizeTopScorers([
@@ -26,4 +26,11 @@ test('keeps provider-supplied season scorer metrics and leaves missing detail ab
   assert.equal(player.shots, 23);
   assert.equal(player.shotsOnTarget, 12);
   assert.equal(player.passes, undefined);
+});
+
+test('does not publish an unverified provider leaderboard as player statistics', () => {
+  const snapshot = { schemaVersion: 2, source: 'goal-api.com', updatedAt: '2026-10-11T00:00:00Z', leagues: {} };
+  assert.equal(isPublishablePlayerStatsSnapshot(snapshot), false);
+  assert.equal(isPublishablePlayerStatsSnapshot({ ...snapshot, verification: 'provider-only' }), false);
+  assert.equal(isPublishablePlayerStatsSnapshot({ ...snapshot, verification: 'independently-verified' }), true);
 });

@@ -3,7 +3,7 @@ import gsap from 'gsap';
 import { ArrowUpRight, ArrowRight, ArrowDown, Search, Sun, Moon, Globe2, Menu, X, Check, Plus, Trophy, UsersRound, MessageCircle, Heart, SlidersHorizontal, Clock3, ChevronRight, Shield, Zap, MoveUpRight } from 'lucide-react';
 import { teams, articles, extraStories, discussions, words, localeIndex, localizeLeague, localizeClub, localizePlayer, browserLocale } from './data';
 import type { FootballSnapshot } from '../scripts/football-transform';
-import { isPlayerStatsSnapshot } from '../scripts/player-transform';
+import { isPublishablePlayerStatsSnapshot } from '../scripts/player-transform';
 import type { PlayerStatsSnapshot } from '../scripts/player-transform';
 import { getClubMark } from './clubIdentity';
 import BayernKit from './BayernKit';
@@ -201,7 +201,8 @@ function Players({ locale, snapshot }: { locale: Locale; snapshot: PlayerStatsSn
     values: playerValues(player),
   }));
   return <section id="players">
-    <PageTitle title={copy(locale, '球员数据', '球員數據', 'Player stats')} description={copy(locale, '按赛事查看赛季进攻、传控、防守与纪律数据。', '按賽事查看賽季進攻、傳控、防守與紀律數據。', 'Season attack, passing, defensive and discipline statistics by competition.')} label="GAME CHANGERS" icon={Zap} />
+    <PageTitle title={copy(locale, '球员数据', '球員數據', 'Player stats')} description={copy(locale, '按赛事查看已核实的赛季球员数据。', '按賽事查看已核實的賽季球員資料。', 'Verified season player statistics by competition.')} label="GAME CHANGERS" icon={Zap} />
+    {!snapshot && <p className="stats-unavailable" role="status">{copy(locale, '现有数据只覆盖部分射手，且与官方记录存在差异。球员榜暂停展示，待找到并核实可靠的当赛季数据源后恢复。', '現有資料只涵蓋部分射手，且與官方紀錄存在差異。球員榜暫停展示，待找到並核實可靠的當賽季資料來源後恢復。', 'The current feed covers only selected scorers and differs from official records. Player rankings are paused until a reliable current-season source is verified.')}</p>}
     <div className="data-card player-league-card"><div className="table-toolbar player-toolbar"><div className="tabs scroll-tabs">{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => setLeague(name)}>{localizeLeague(name, locale)}</button>)}</div><span className="season-label">{selected?.season || '—'}</span></div></div>
     <StatsBoard key={league} locale={locale} entries={entries} groups={playerMetricGroups} source={selected ? `GOAL API · ${updatedLabel(snapshot!.updatedAt, locale)}` : copy(locale, '球员赛季与球队归属仍需核实', '球員賽季與球隊歸屬仍需核實', 'Player season and club assignments are still being verified')} />
   </section>;
@@ -223,7 +224,7 @@ export default function App() {
   })();
   useEffect(()=>{ document.documentElement.lang=locale; localStorage.setItem('kickoff-locale',locale); },[locale]);
   useEffect(()=>{ const controller=new AbortController(); fetch('/data/football.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isFootballSnapshot(data))setSnapshot(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
-  useEffect(()=>{ const controller=new AbortController(); fetch('/data/players.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isPlayerStatsSnapshot(data))setPlayerStats(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
+  useEffect(()=>{ const controller=new AbortController(); fetch('/data/players.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isPublishablePlayerStatsSnapshot(data))setPlayerStats(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
   useEffect(()=>{ const media=matchMedia('(prefers-color-scheme: dark)'); const apply=()=>document.documentElement.dataset.theme=theme==='system'?(media.matches?'dark':'light'):theme; apply();localStorage.setItem('kickoff-theme',theme);media.addEventListener('change',apply);return()=>media.removeEventListener('change',apply); },[theme]);
   useEffect(()=>{const onPop=()=>{setPage(readRoute());setMenu(false);window.scrollTo(0,0);};window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[]);
   useEffect(()=>{const key=e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setModal('search');}};document.addEventListener('keydown',key);return()=>document.removeEventListener('keydown',key);},[]);

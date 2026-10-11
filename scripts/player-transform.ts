@@ -31,6 +31,7 @@ export type PlayerLeague = { season: string; players: PlayerStat[] };
 export type PlayerStatsSnapshot = {
   schemaVersion: 2;
   source: 'goal-api.com';
+  verification?: 'provider-only' | 'independently-verified';
   updatedAt: string;
   leagues: Record<string, PlayerLeague>;
 };
@@ -123,4 +124,10 @@ export function isPlayerStatsSnapshot(value: unknown): value is PlayerStatsSnaps
   return data.schemaVersion === 2 && data.source === 'goal-api.com' && typeof data.updatedAt === 'string'
     && !!data.leagues && typeof data.leagues === 'object'
     && Object.values(data.leagues).every(league => !!league && typeof league.season === 'string' && Array.isArray(league.players));
+}
+
+// A provider response alone does not prove that its current-season totals are accurate.
+// Older snapshots without this field also stay out of the published player leaderboard.
+export function isPublishablePlayerStatsSnapshot(value: unknown): value is PlayerStatsSnapshot {
+  return isPlayerStatsSnapshot(value) && value.verification === 'independently-verified';
 }

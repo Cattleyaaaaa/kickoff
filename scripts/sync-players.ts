@@ -53,7 +53,7 @@ async function get<T>(path: string): Promise<T> {
   throw new Error(`${path}: exhausted rate limit retries`);
 }
 
-const snapshot: PlayerStatsSnapshot = { schemaVersion: 2, source: 'goal-api.com', updatedAt: new Date().toISOString(), leagues: {} };
+const snapshot: PlayerStatsSnapshot = { schemaVersion: 2, source: 'goal-api.com', verification: 'provider-only', updatedAt: new Date().toISOString(), leagues: {} };
 
 for (const target of targets) {
   const leagues = await get<ApiList<ApiLeague>>(`/leagues?search=${encodeURIComponent(target.search)}&limit=100`);
