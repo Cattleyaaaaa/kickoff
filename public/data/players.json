@@ -1,0 +1,1836 @@
+{
+  "source": "goal-api.com",
+  "updatedAt": "2026-10-11T01:07:00.445Z",
+  "leagues": {
+    "英超": {
+      "season": "2026/2027",
+      "players": [
+        {
+          "id": "cmv32ayhy7wacl90710ka1tos",
+          "name": "Erling Haaland",
+          "team": "Manchester City",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wadl907k6df0pz9",
+          "name": "Alexander Isak",
+          "team": "Liverpool",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7waml9079n9cw3xe",
+          "name": "Pascal Gross",
+          "team": "Brighton",
+          "goals": 3,
+          "assists": 3,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wakl907iravsmla",
+          "name": "Pedro Joao",
+          "team": "Chelsea",
+          "goals": 3,
+          "assists": 3,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wafl9073wbgz9xp",
+          "name": "Rayan Cherki",
+          "team": "Manchester City",
+          "goals": 3,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wajl907eh2vvld3",
+          "name": "Bruno Fernandes",
+          "team": "Manchester United",
+          "goals": 3,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wahl907l967xt1t",
+          "name": "Morgan Rogers",
+          "team": "Chelsea",
+          "goals": 3,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wagl907320j2iqt",
+          "name": "Kevin Schade",
+          "team": "Brentford",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wail9072056slne",
+          "name": "Marcus Tavernier",
+          "team": "AFC Bournemouth",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wall90750vnl8bb",
+          "name": "Bukayo Saka",
+          "team": "Arsenal",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wael907bodwwes6",
+          "name": "Brian Brobbey",
+          "team": "Sunderland",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wazl907706gnjuy",
+          "name": "Antoine Semenyo",
+          "team": "Manchester City",
+          "goals": 2,
+          "assists": 3,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhz7watl907tp5wf8fc",
+          "name": "Cole Palmer",
+          "team": "Chelsea",
+          "goals": 2,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wb4l907dk6m4lv1",
+          "name": "Mohamed Belloumi",
+          "team": "Hull C.",
+          "goals": 2,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wb5l9072qr6f4ao",
+          "name": "Leif Davis",
+          "team": "Ipswich T.",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wb1l907jg3hjmde",
+          "name": "Dominic Calvert-Lewin",
+          "team": "Leeds United",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhz7wasl9077lul9cp6",
+          "name": "Emersonn",
+          "team": "Ipswich T.",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07waul9074n9dfd9v",
+          "name": "Charalampos Kostoulas",
+          "team": "Brighton",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wavl907y8h6gsr9",
+          "name": "Joshua King",
+          "team": "Fulham",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wanl907dhtxoatg",
+          "name": "Vitaly Janelt",
+          "team": "Brentford",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7waol907vncmfy5s",
+          "name": "Kai Havertz",
+          "team": "Arsenal",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7wapl907rp21k7eg",
+          "name": "Thierno Barry",
+          "team": "Everton",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7waql907mlakr45v",
+          "name": "Bryan Mbeumo",
+          "team": "Manchester United",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayhy7warl9073x84z555",
+          "name": "Anthony Elanga",
+          "team": "Newcastle United",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wawl907zlmrmx6f",
+          "name": "Martin Odegaard",
+          "team": "Arsenal",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07waxl907jjxqnggq",
+          "name": "Jack Hinshelwood",
+          "team": "Brighton",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wayl907eiaxssyb",
+          "name": "Malick Yalcouye",
+          "team": "Brighton",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wb0l907qcwcssgc",
+          "name": "Joe Willock",
+          "team": "Newcastle United",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wb2l907aiwdni1l",
+          "name": "Jayden Bogle",
+          "team": "Leeds United",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32ayi07wb3l907l72vmim9",
+          "name": "Tyrick Mitchell",
+          "team": "Crystal Palace",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        }
+      ]
+    },
+    "西甲": {
+      "season": "2026/2027",
+      "players": [
+        {
+          "id": "cmv2pgomsisjml90703qqayom",
+          "name": "R. Lewandowski",
+          "team": "Barcelona",
+          "goals": 9,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjol9077ubxd00h",
+          "name": "A. Budimir",
+          "team": "Osasuna",
+          "goals": 8,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjnl907cwn0yaxn",
+          "name": "A. Moleiro",
+          "team": "Villarreal",
+          "goals": 8,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjpl907c6yjhhuz",
+          "name": "Hernandez Cucho",
+          "team": "Betis",
+          "goals": 8,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjql907yx4ubjyt",
+          "name": "Yamal Lamine",
+          "team": "Barcelona",
+          "goals": 7,
+          "assists": 4,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjrl907wwwakq7g",
+          "name": "J. Alvarez",
+          "team": "Atl. Madrid",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjul9075a7m8t7j",
+          "name": "V. Vanat",
+          "team": "Girona",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjvl907evxyo3hp",
+          "name": "Sergio Camello",
+          "team": "Rayo Vallecano",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjtl90761jug6a7",
+          "name": "B. Iglesias",
+          "team": "Celta Vigo",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjyl907m4aqj7lu",
+          "name": "Yassir Zabiri",
+          "team": "Racing Santander",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk4l907eo6cjx93",
+          "name": "J. de Frutos",
+          "team": "Rayo Vallecano",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk5l907e796e71i",
+          "name": "K. Etta Eyong",
+          "team": "Levante",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk2l907e0zi5x7y",
+          "name": "P. Milla",
+          "team": "Espanyol",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk1l907y2s6it24",
+          "name": "R. Mir",
+          "team": "Elche",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk0l907ywrojenf",
+          "name": "H. Duro",
+          "team": "Valencia",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisjzl907dv1cuy7c",
+          "name": "Jaen Fernandez",
+          "team": "Espanyol",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk3l907ql4p1i2g",
+          "name": "A. Griezmann",
+          "team": "Atl. Madrid",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk7l9072yg7qai7",
+          "name": "Junior Vinicius",
+          "team": "Real Madrid",
+          "goals": 5,
+          "assists": 3,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk9l9079xbwtmz2",
+          "name": "Pierre-Emerick Aubameyang",
+          "team": "Deportivo La Coruna",
+          "goals": 5,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskal9074mjipcju",
+          "name": "Antony",
+          "team": "Betis",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsisk8l907iw0o4ckh",
+          "name": "Niño Fer",
+          "team": "Elche",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskdl9075b8pnivp",
+          "name": "Fermin Lopez",
+          "team": "Barcelona",
+          "goals": 4,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskcl907cojc0o6k",
+          "name": "Lucas Boye",
+          "team": "Deportivo Alaves",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskbl907epymco3l",
+          "name": "Alex Baena",
+          "team": "Atletico Madrid",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskil907e0xhpb6o",
+          "name": "Mariano Diaz",
+          "team": "Deportivo Alaves",
+          "goals": 3,
+          "assists": 3,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskel907qhf7en1e",
+          "name": "Jude Bellingham",
+          "team": "Real Madrid",
+          "goals": 3,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskfl907x1np9cd6",
+          "name": "Pape Gueye",
+          "team": "Villarreal",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskhl907iu5cneul",
+          "name": "Jonathan David",
+          "team": "Atletico Madrid",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskgl907jbr81j9g",
+          "name": "Roger Brugue",
+          "team": "Levante",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv2pgomsiskjl9074ne31e2u",
+          "name": "Luka Sucic",
+          "team": "Real Sociedad",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        }
+      ]
+    },
+    "意甲": {
+      "season": "2026/2027",
+      "players": [
+        {
+          "id": "cmv32b7wz7yswl9077triiis0",
+          "name": "C. Pulisic",
+          "team": "AC Milan",
+          "goals": 8,
+          "assists": 9,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ysxl907mvgv888y",
+          "name": "K. Yildiz",
+          "team": "Juventus",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ysyl907ziycrb0g",
+          "name": "H. Calhanoglu",
+          "team": "Inter",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt0l907h1v57z0e",
+          "name": "R. Orsolini",
+          "team": "Bologna",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yszl907z18gwlw4",
+          "name": "R. Leao",
+          "team": "AC Milan",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytal907sod3ezt2",
+          "name": "N. Paz",
+          "team": "Como",
+          "goals": 6,
+          "assists": 8,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt7l907ticiw8qc",
+          "name": "S. Castro",
+          "team": "Bologna",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt1l907skw3d2hr",
+          "name": "M. Thuram",
+          "team": "Inter",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt6l9079wvaw9ee",
+          "name": "R. Hojlund",
+          "team": "Napoli",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt2l90773kggp5x",
+          "name": "Donyell Malen",
+          "team": "Roma",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt5l907mbthnr80",
+          "name": "G. Orban",
+          "team": "Verona",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt8l907q3ejueup",
+          "name": "K. Davis",
+          "team": "Udinese",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt3l9073gr6ty8h",
+          "name": "A. Douvikas",
+          "team": "Como",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt9l907rfbbkosf",
+          "name": "M. Soule",
+          "team": "AS Roma",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7yt4l907hcso9h4z",
+          "name": "M. Pellegrino",
+          "team": "Parma",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytbl9071wzeyl9m",
+          "name": "N. Krstovic",
+          "team": "Atalanta",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytfl907tfdpleia",
+          "name": "N. Zaniolo",
+          "team": "Udinese",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytel907rhewj2ac",
+          "name": "N. Vlasic",
+          "team": "Torino",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytdl9079pdnl9qd",
+          "name": "F. Bonazzoli",
+          "team": "Cremonese",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytcl907m8v11cbo",
+          "name": "S. McTominay",
+          "team": "Napoli",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytil9076xwc3te6",
+          "name": "Varela Gustavo",
+          "team": "Monza",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytgl907udb1kbkm",
+          "name": "A. Raimondo",
+          "team": "Frosinone",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytml907n47r2yf3",
+          "name": "G. Kvernadze",
+          "team": "Frosinone",
+          "goals": 3,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytnl907h2vjupq2",
+          "name": "Diego Moreira",
+          "team": "Milan",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytol907a9aubnt9",
+          "name": "Davide Frattesi",
+          "team": "Lazio",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytjl907u7zuwbnd",
+          "name": "Vasilije Adzic",
+          "team": "Sassuolo",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytll907wcj5vsla",
+          "name": "Franco Mastantuono",
+          "team": "Fiorentina",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7wz7ytkl907kka809wo",
+          "name": "Daniel Maldini",
+          "team": "Cagliari",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7x07yu2l907y5ede6v9",
+          "name": "Adrien Rabiot",
+          "team": "Milan",
+          "goals": 2,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32b7x07ytrl90703pujhi6",
+          "name": "Lassana Coulibaly",
+          "team": "Lecce",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        }
+      ]
+    },
+    "德甲": {
+      "season": "2026/2027",
+      "players": [
+        {
+          "id": "cmv32aa7q7pkwl9073fvz7ufc",
+          "name": "L. Diaz",
+          "team": "Bayern Munich",
+          "goals": 9,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pkxl907p7qbo8dc",
+          "name": "H. Tabakovic",
+          "team": "B. Monchengladbach",
+          "goals": 9,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pkyl907qmnuanki",
+          "name": "J. Burkardt",
+          "team": "Eintracht Frankfurt",
+          "goals": 8,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pkzl907sllq3665",
+          "name": "S. El Mala",
+          "team": "FC Koln",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl7l907si5iroyg",
+          "name": "M. Amoura",
+          "team": "Wolfsburg",
+          "goals": 6,
+          "assists": 9,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl9l907kvyld6pk",
+          "name": "A. Kramaric",
+          "team": "Hoffenheim",
+          "goals": 6,
+          "assists": 8,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl0l907x5cv4y31",
+          "name": "Cardoso Romulo",
+          "team": "RB Leipzig",
+          "goals": 6,
+          "assists": 4,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl3l9074knowqnz",
+          "name": "V. Grifo",
+          "team": "Freiburg",
+          "goals": 6,
+          "assists": 11,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl4l907rhdep7in",
+          "name": "P. Schick",
+          "team": "Bayer Leverkusen",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl6l9070o92s4dj",
+          "name": "Y. Diomande",
+          "team": "RB Leipzig",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plbl907494pr1nm",
+          "name": "S. Gnabry",
+          "team": "Bayern Munich",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plcl907vyzw3kny",
+          "name": "C. Baumgartner",
+          "team": "RB Leipzig",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl2l907n4jmw43g",
+          "name": "S. Guirassy",
+          "team": "Dortmund",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl8l907d3he8v2o",
+          "name": "C. Y. Uzun",
+          "team": "Eintracht Frankfurt",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plal907vyxos2wt",
+          "name": "F. Asllani",
+          "team": "Hoffenheim",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl5l9070n0yup9y",
+          "name": "T. Lemperle",
+          "team": "Hoffenheim",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pl1l9077ldlqn46",
+          "name": "J. Stage",
+          "team": "Werder Bremen",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plgl907rx5qxywj",
+          "name": "Y. Ebnoutalib",
+          "team": "Eintracht Frankfurt",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plel907wleuqkqm",
+          "name": "Phillip Tietz",
+          "team": "Mainz 05",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pldl907dae47xdk",
+          "name": "Yuito Suzuki",
+          "team": "Freiburg",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plhl907ojxs3vjq",
+          "name": "Niclas Fullkrug",
+          "team": "Werder Bremen",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plkl90764s8otik",
+          "name": "M. Gregoritsch",
+          "team": "Augsburg",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plnl907wfkgcplg",
+          "name": "M. Krattenmacher",
+          "team": "Elversberg",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plll907086452y1",
+          "name": "Igor Matanovic",
+          "team": "Freiburg",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7pktl907l0bypmcb",
+          "name": "H. Kane",
+          "team": "Bayern Munich",
+          "goals": 21,
+          "assists": 8,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7r7pm3l907j0vrtjq8",
+          "name": "Marco Grull",
+          "team": "Werder Bremen",
+          "goals": 2,
+          "assists": 4,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plrl907psi0j2r9",
+          "name": "Sheraldo Becker",
+          "team": "Mainz 05",
+          "goals": 2,
+          "assists": 3,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plpl90733nskl69",
+          "name": "Adam Daghim",
+          "team": "Hoffenheim",
+          "goals": 2,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7q7plwl90741apoa8i",
+          "name": "Antonio Nusa",
+          "team": "RB Leipzig",
+          "goals": 2,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32aa7r7pm5l9073qzvm71s",
+          "name": "Fabio Silva",
+          "team": "Dortmund",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        }
+      ]
+    },
+    "法甲": {
+      "season": "2026/2027",
+      "players": [
+        {
+          "id": "cmv32bemk80fql907xgejakwu",
+          "name": "E. Lepaul",
+          "team": "Rennes",
+          "goals": 9,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32bemk80frl907h493h1p6",
+          "name": "W. Said",
+          "team": "Lens",
+          "goals": 8,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32bemk80fsl9074iazzoy3",
+          "name": "P. Sulc",
+          "team": "Lyon",
+          "goals": 8,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32bemk80ftl9072yz8aobi",
+          "name": "O. Edouard",
+          "team": "Lens",
+          "goals": 7,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32bemk80fxl907nbathf9i",
+          "name": "L. Sinayoko",
+          "team": "Auxerre",
+          "goals": 6,
+          "assists": 8,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32bemk80fyl9070vta8td8",
+          "name": "B. Barcola",
+          "team": "PSG",
+          "goals": 6,
+          "assists": 10,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80fzl9072ulxtx03",
+          "name": "A. Fati",
+          "team": "Monaco",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32bemk80fwl907xudg46ar",
+          "name": "S. Diop",
+          "team": "Nice",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32bemk80fvl907jt5jd395",
+          "name": "R. Del Castillo",
+          "team": "Brest",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32bemk80ful907prnn140b",
+          "name": "I. Kebbal",
+          "team": "Paris FC",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g1l907o2waphx4",
+          "name": "H. Igamane",
+          "team": "Lille",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g0l90743iil1yl",
+          "name": "F. Magri",
+          "team": "Toulouse",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g2l907s624bwja",
+          "name": "H. Haraldsson",
+          "team": "Lille",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g7l9079d86m5ct",
+          "name": "Y. Gboho",
+          "team": "Toulouse",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g5l907g5wmhe9g",
+          "name": "G. Hein",
+          "team": "Metz",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g4l9070ecvm6g1",
+          "name": "O. Dembele",
+          "team": "PSG",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g3l9074xjurf8o",
+          "name": "F. Thauvin",
+          "team": "Lens",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g6l907jw3knq8i",
+          "name": "P. Aubameyang",
+          "team": "Marseille",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80gal907e4vnyyba",
+          "name": "Amine Gouiri",
+          "team": "Marseille",
+          "goals": 4,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80gbl907xck9lelq",
+          "name": "Ferran Torres",
+          "team": "Paris S.G.",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g9l9075wbhidpg",
+          "name": "Kamory Doumbia",
+          "team": "Brest",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80g8l907hjnyl288",
+          "name": "Paris Brunner",
+          "team": "Monaco",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80gjl907wtcfy4fa",
+          "name": "Bourabaa Adil",
+          "team": "Le Mans FC",
+          "goals": 3,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80ggl907q19yqkin",
+          "name": "L. Mafouta",
+          "team": "Le Mans FC",
+          "goals": 3,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80gfl907v27z8gbx",
+          "name": "Ernest Nuamah",
+          "team": "Lyon",
+          "goals": 3,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80gil907pcoqoqgd",
+          "name": "Marquinhos",
+          "team": "Paris S.G.",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80ghl907qks7trar",
+          "name": "Casper Tengstedt",
+          "team": "Toulouse",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80gel907vemwuirb",
+          "name": "Cameron Archer",
+          "team": "Auxerre",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80gol907qv3r836n",
+          "name": "Zachary Athekame",
+          "team": "Lyon",
+          "goals": 2,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv32beml80gpl907bv79ine5",
+          "name": "T. Jørgensen",
+          "team": "Toulouse",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        }
+      ]
+    },
+    "欧冠": {
+      "season": "2026/2027",
+      "players": [
+        {
+          "id": "cmv327lia6fkpl907l88t2531",
+          "name": "K. Mbappe",
+          "team": "Real Madrid",
+          "goals": 9,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lia6fkrl907dtev0xqn",
+          "name": "V. Osimhen",
+          "team": "Galatasaray",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lia6fkql907tqeepm96",
+          "name": "E. Haaland",
+          "team": "Manchester City",
+          "goals": 6,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lib6fkul907d0niqvyf",
+          "name": "H. Kane",
+          "team": "Bayern Munich",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lia6fksl907yove50d0",
+          "name": "A. Gordon",
+          "team": "Newcastle",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lib6fktl9076h5v6iyo",
+          "name": "G. Martinelli",
+          "team": "Arsenal",
+          "goals": 5,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lib6fkvl907oajdl0y2",
+          "name": "I. Paixao",
+          "team": "Marseille",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl0l907ue3t4aob",
+          "name": "J. Alvarez",
+          "team": "Atl. Madrid",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fkyl907jhwpx5ed",
+          "name": "H. Barnes",
+          "team": "Newcastle",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fkxl907kth5cxat",
+          "name": "V. Ferreira",
+          "team": "PSG",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lib6fkwl907z8jp49so",
+          "name": "L. Martinez",
+          "team": "Inter",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fkzl9077frw362e",
+          "name": "M. Rashford",
+          "team": "Barcelona",
+          "goals": 4,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl3l907btlqxsxv",
+          "name": "Talisca",
+          "team": "Fenerbahce",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl1l907nun32ug6",
+          "name": "R. Pepi",
+          "team": "PSV",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lie6flcl907cxco98ms",
+          "name": "P. Aubameyang",
+          "team": "Marseille",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl2l9078stoullo",
+          "name": "Ermedin Demirovic",
+          "team": "Stuttgart",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lie6flal907in247o2f",
+          "name": "C. Driouech",
+          "team": "PSV",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lie6fl9l907g6ridnm1",
+          "name": "Fermín",
+          "team": "Barcelona",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl8l907m29241sq",
+          "name": "S. Guirassy",
+          "team": "Dortmund",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl7l9073ed5w73m",
+          "name": "J. Burkardt",
+          "team": "Eintracht Frankfurt",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl6l907wxb867uo",
+          "name": "M. Greenwood",
+          "team": "Marseille",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lie6flbl9076eapn82t",
+          "name": "D. Szoboszlai",
+          "team": "Liverpool",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl5l907nm5lnxsz",
+          "name": "Ferran Torres",
+          "team": "Paris S.G.",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lic6fl4l907afaymoi6",
+          "name": "Z. Tripić",
+          "team": "Viking",
+          "goals": 3,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lif6flql907f18gdreb",
+          "name": "Ousmane Dembele",
+          "team": "Paris S.G.",
+          "goals": 2,
+          "assists": 2,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lif6flul907zb11t15k",
+          "name": "Michael Olise",
+          "team": "Bayern Munich",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lif6flrl907uibcxaos",
+          "name": "Fredrik Kristian",
+          "team": "AGF",
+          "goals": 2,
+          "assists": 1,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lif6flil907fy830kvo",
+          "name": "Bogere James",
+          "team": "AGF",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lif6flhl907z780wcfy",
+          "name": "Barnabas Varga",
+          "team": "AEK Athens",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        },
+        {
+          "id": "cmv327lif6flgl907szg6sfms",
+          "name": "Marc Bartra",
+          "team": "Real Betis",
+          "goals": 2,
+          "assists": 0,
+          "appearances": null,
+          "position": null,
+          "nationality": null
+        }
+      ]
+    }
+  }
+}
