@@ -1,0 +1,98 @@
+/* Broadcast-style kit markers put the club name and colours ahead of a badge shape. */
+.crest {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  isolation: isolate;
+  overflow: hidden;
+  width: 82px;
+  height: 76px;
+  flex: none;
+  border: 0;
+  border-radius: 0;
+  background: #aeb5ad;
+  box-shadow: none;
+  color: #fff;
+  clip-path: polygon(24% 0, 36% 4%, 43% 9%, 57% 9%, 64% 4%, 76% 0, 100% 19%, 87% 43%, 76% 36%, 76% 100%, 24% 100%, 24% 36%, 13% 43%, 0 19%);
+  transform: none;
+  filter: drop-shadow(2px 3px 0 #20251f);
+  transition: transform .18s ease;
+}
+
+.crest::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border: 0;
+  border-radius: 0;
+  clip-path: polygon(24% 0, 36% 4%, 43% 9%, 57% 9%, 64% 4%, 76% 0, 100% 19%, 87% 43%, 76% 36%, 76% 100%, 24% 100%, 24% 36%, 13% 43%, 0 19%);
+  opacity: 1;
+}
+
+.crest-bars::before { background: repeating-linear-gradient(90deg, var(--club) 0 14px, var(--club-secondary) 14px 28px); }
+.crest-tritone::before { background: repeating-linear-gradient(90deg, var(--club-trim) 0 11px, var(--club) 11px 22px, var(--club-secondary) 22px 33px); }
+.crest-slash::before { background: linear-gradient(120deg, var(--club) 0 35%, var(--club-secondary) 36% 52%, var(--club) 53%); }
+.crest-split::before { background: linear-gradient(90deg, var(--club-secondary) 0 25%, var(--club) 25% 75%, var(--club-secondary) 75%); }
+.crest-hoops::before { background: repeating-linear-gradient(0deg, var(--club) 0 15px, var(--club-secondary) 15px 27px); }
+.crest-plain::before { background: var(--club); }
+.crest-gradient::before { background: linear-gradient(180deg, var(--club-secondary), var(--club) 76%); }
+.crest-sash::before { background: linear-gradient(128deg, var(--club) 0 36%, var(--club-secondary) 37% 54%, var(--club) 55%); }
+.crest-center::before { background: linear-gradient(90deg, var(--club) 0 34%, var(--club-trim) 34% 38%, var(--club-secondary) 38% 62%, var(--club-trim) 62% 66%, var(--club) 66%); }
+.crest-chest::before { background: linear-gradient(180deg, var(--club) 0 31%, var(--club-secondary) 31% 56%, var(--club) 56%); }
+.crest-cross::before { background: linear-gradient(90deg, transparent 0 43%, var(--club-secondary) 43% 57%, transparent 57%), linear-gradient(180deg, var(--club) 0 33%, var(--club-secondary) 33% 50%, var(--club) 50%); }
+
+.crest::after {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  top: 6%;
+  bottom: auto;
+  left: 41%;
+  width: 18%;
+  height: 10%;
+  border-radius: 0 0 50% 50%;
+  background: var(--club-trim, #1c211d);
+}
+
+.crest .crest-code {
+  position: relative;
+  z-index: 2;
+  margin-top: 16px;
+  padding: 1px 5px 2px;
+  border: 1px solid #ffffff8c;
+  border-radius: 4px;
+  background: #171c1ddd;
+  color: #fff;
+  font: 900 20px/1 'Barlow Condensed', 'DM Sans', sans-serif;
+  letter-spacing: 1px;
+  transform: none;
+}
+
+.crest-small { width: 58px; height: 55px; border: 0; border-radius: 0; box-shadow: none; }
+.crest-small::before { inset: 1px; border: 0; border-radius: 0; }
+.crest-small::after { top: 6%; bottom: auto; left: 41%; width: 18%; height: 10%; }
+.crest-small .crest-code { margin-top: 11px; padding: 1px 3px; font-size: 14px; letter-spacing: .3px; }
+
+.club-card > .crest { width: 112px; height: 104px; margin-block: 0; }
+.club-card > .crest .crest-code { margin-top: 20px; font-size: 32px; }
+.club-card:hover > .crest { transform: translateY(-4px); }
+.match-pair .crest { width: 98px; height: 90px; }
+.match-pair .crest .crest-code { margin-top: 20px; font-size: 25px; }
+
+.table-club { gap: 16px; font-size: 20px; font-weight: 850; }
+.match-pair strong { font-size: 21px; font-weight: 900; line-height: 1.25; }
+.club-card h2 { font-size: 25px; font-weight: 900; }
+
+@media (max-width: 760px) {
+  .match-pair .crest { width: 76px; height: 70px; }
+  .match-pair .crest .crest-code { margin-top: 15px; font-size: 18px; }
+  .club-card > .crest { width: 90px; height: 84px; }
+  .club-card > .crest .crest-code { margin-top: 16px; font-size: 24px; }
+  .table-club { gap: 12px; font-size: 18px; }
+  .match-pair strong { font-size: 18px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .crest { transition: none; }
+}

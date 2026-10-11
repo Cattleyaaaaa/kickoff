@@ -60,13 +60,6 @@ const tableRows = [
   { pos: 4, team: '阿斯顿维拉', pts: 14, p: 7, w: 4, d: 2, l: 1, gd: '+6', color: '#936249' },
   { pos: 5, team: '热刺', pts: 13, p: 7, w: 4, d: 1, l: 2, gd: '+5', color: '#535e78' },
 ];
-const playerLeaders = [
-  { name: '埃尔林·哈兰德', en: 'Erling Haaland', position: '前锋', enPosition: 'Forward', team: '曼城', enTeam: 'Man City', nationality: '🇳🇴', apps: 7, goals: 8, assists: 2, color: '#54a8dc' },
-  { name: '穆罕默德·萨拉赫', en: 'Mohamed Salah', position: '前锋', enPosition: 'Forward', team: '利物浦', enTeam: 'Liverpool', nationality: '🇪🇬', apps: 7, goals: 6, assists: 4, color: '#c93640' },
-  { name: '布卡约·萨卡', en: 'Bukayo Saka', position: '边锋', enPosition: 'Winger', team: '阿森纳', enTeam: 'Arsenal', nationality: '🏴', apps: 6, goals: 4, assists: 3, color: '#e34448' },
-  { name: '裘德·贝林厄姆', en: 'Jude Bellingham', position: '中场', enPosition: 'Midfielder', team: '皇家马德里', enTeam: 'Real Madrid', nationality: '🏴', apps: 7, goals: 5, assists: 2, color: '#d6b652' },
-];
-
 const discussions = [
   { initials: 'JY', name: 'JellyYellow', team: ['阿森纳球迷', '阿森納球迷', 'Arsenal fan'], color: 'orange', text: ['这场中场的对抗强度会不会是胜负手？我觉得边后卫的站位也很关键。', '這場中場的對抗強度會不會是勝負手？我覺得邊後衛的站位也很關鍵。', 'Could the midfield battle decide this one? The full-back positioning matters too.'], likes: 284, replies: 46, tag: ['英超 · 赛前看点', '英超 · 賽前看點', 'Premier League · Preview'] },
   { initials: 'MK', name: 'Mika_90', team: ['中立观赛', '中立觀賽', 'Neutral fan'], color: 'purple', text: ['把这两队最近五场的射门转化率放一起看，差别还挺明显的。', '把這兩隊最近五場的射門轉化率放一起看，差別還挺明顯的。', 'The gap in shot conversion across their last five games is pretty striking.'], likes: 193, replies: 28, tag: ['数据讨论', '數據討論', 'Data talk'] },
@@ -110,12 +103,88 @@ const leagueNames = {
 };
 const clubNames = {
   '曼城': ['曼城', '曼城', 'Manchester City'], '阿森纳': ['阿森纳', '阿森納', 'Arsenal'],
+  '利物浦': ['利物浦', '利物浦', 'Liverpool'], '皇家马德里': ['皇家马德里', '皇家馬德里', 'Real Madrid'],
+  '巴黎圣日耳曼': ['巴黎圣日耳曼', '巴黎聖日耳門', 'Paris Saint-Germain'],
   '国际米兰': ['国际米兰', '國際米蘭', 'Inter Milan'], 'AC米兰': ['AC米兰', 'AC米蘭', 'AC Milan'],
   '巴塞罗那': ['巴塞罗那', '巴塞隆納', 'Barcelona'], '马德里竞技': ['马德里竞技', '馬德里競技', 'Atlético Madrid'],
   '拜仁慕尼黑': ['拜仁慕尼黑', '拜仁慕尼黑', 'Bayern Munich'], '多特蒙德': ['多特蒙德', '多特蒙德', 'Borussia Dortmund'],
 };
+// Football-Data.org returns most club names in English. Keep display names here
+// so the selected site language applies consistently to API-fed tables/results.
+const apiClubNames = {
+  'Brighton Hove': ['布莱顿', '白禮頓', 'Brighton & Hove Albion'],
+  Brentford: ['布伦特福德', '賓福特', 'Brentford'],
+  'Leeds United': ['利兹联', '列斯聯', 'Leeds United'],
+  Everton: ['埃弗顿', '愛華頓', 'Everton'],
+  'Hull City': ['赫尔城', '侯城', 'Hull City'],
+  Newcastle: ['纽卡斯尔联', '紐卡素', 'Newcastle United'],
+  Chelsea: ['切尔西', '車路士', 'Chelsea'],
+  'Ipswich Town': ['伊普斯维奇', '葉士域治', 'Ipswich Town'],
+  'Man United': ['曼联', '曼聯', 'Manchester United'],
+  Nottingham: ['诺丁汉森林', '諾定咸森林', 'Nottingham Forest'],
+  Sunderland: ['桑德兰', '新特蘭', 'Sunderland'],
+  'Crystal Palace': ['水晶宫', '水晶宮', 'Crystal Palace'],
+  'Aston Villa': ['阿斯顿维拉', '阿士東維拉', 'Aston Villa'],
+  Bournemouth: ['伯恩茅斯', '般尼茅夫', 'Bournemouth'],
+  'Coventry City': ['考文垂', '高雲地利', 'Coventry City'],
+  Fulham: ['富勒姆', '富咸', 'Fulham'],
+  Tottenham: ['托特纳姆热刺', '熱刺', 'Tottenham Hotspur'],
+  Atleti: ['马德里竞技', '馬德里體育會', 'Atlético Madrid'],
+  'Real Betis': ['皇家贝蒂斯', '皇家貝迪斯', 'Real Betis'],
+  'Sevilla FC': ['塞维利亚', '西維爾', 'Sevilla'],
+  Alavés: ['阿拉维斯', '艾拉維斯', 'Alavés'],
+  Deportivo: ['拉科鲁尼亚', '拉科魯尼亞', 'Deportivo La Coruña'],
+  'Real Sociedad': ['皇家社会', '皇家蘇斯達', 'Real Sociedad'],
+  Villarreal: ['比利亚雷亚尔', '維拉利爾', 'Villarreal'],
+  Athletic: ['毕尔巴鄂竞技', '畢爾包', 'Athletic Club'],
+  Espanyol: ['西班牙人', '愛斯賓奴', 'Espanyol'],
+  Getafe: ['赫塔费', '基達菲', 'Getafe'],
+  'Rayo Vallecano': ['巴列卡诺', '華歷簡奴', 'Rayo Vallecano'],
+  Osasuna: ['奥萨苏纳', '奧沙辛拿', 'Osasuna'],
+  Celta: ['塞尔塔', '切爾達', 'Celta Vigo'],
+  Santander: ['桑坦德竞技', '桑坦德競技', 'Racing Santander'],
+  Levante: ['莱万特', '利雲特', 'Levante'],
+  Elche: ['埃尔切', '艾爾切', 'Elche'],
+  Málaga: ['马拉加', '馬拉加', 'Málaga'],
+  Valencia: ['瓦伦西亚', '華倫西亞', 'Valencia'],
+  Roma: ['罗马', '羅馬', 'Roma'], Lazio: ['拉齐奥', '拉素', 'Lazio'],
+  Cagliari: ['卡利亚里', '卡利亞里', 'Cagliari'], Milan: ['AC米兰', 'AC米蘭', 'AC Milan'],
+  Frosinone: ['弗罗西诺内', '弗羅西諾內', 'Frosinone'], Juventus: ['尤文图斯', '祖雲達斯', 'Juventus'],
+  'Como 1907': ['科莫', '科木', 'Como'], Napoli: ['那不勒斯', '拿坡里', 'Napoli'],
+  Sassuolo: ['萨索洛', '薩斯索羅', 'Sassuolo'], Atalanta: ['亚特兰大', '阿特蘭大', 'Atalanta'],
+  Lecce: ['莱切', '萊切', 'Lecce'], Udinese: ['乌迪内斯', '烏甸尼斯', 'Udinese'],
+  Torino: ['都灵', '拖連奴', 'Torino'], Parma: ['帕尔马', '帕爾馬', 'Parma'], Monza: ['蒙扎', '蒙沙', 'Monza'],
+  Fiorentina: ['佛罗伦萨', '費倫天拿', 'Fiorentina'], Bologna: ['博洛尼亚', '博洛尼亞', 'Bologna'],
+  Genoa: ['热那亚', '熱拿亞', 'Genoa'], 'Venezia FC': ['威尼斯', '威尼斯', 'Venezia'],
+  Dortmund: ['多特蒙德', '多蒙特', 'Borussia Dortmund'], Freiburg: ['弗赖堡', '弗賴堡', 'Freiburg'],
+  Bremen: ['云达不来梅', '雲達不來梅', 'Werder Bremen'], Augsburg: ['奥格斯堡', '奧格斯堡', 'Augsburg'],
+  Leverkusen: ['勒沃库森', '利華古遜', 'Bayer Leverkusen'], Mainz: ['美因茨', '緬恩斯', 'Mainz'],
+  Elversberg: ['埃尔弗斯贝格', '艾華斯堡', 'Elversberg'], 'RB Leipzig': ['莱比锡', 'RB萊比錫', 'RB Leipzig'],
+  Frankfurt: ['法兰克福', '法蘭克福', 'Eintracht Frankfurt'], Schalke: ['沙尔克04', '史浩克04', 'Schalke 04'],
+  'SC Paderborn': ['帕德博恩', '柏達邦', 'SC Paderborn'], '1. FC Köln': ['科隆', '科隆', '1. FC Köln'],
+  Hoffenheim: ['霍芬海姆', '賀芬咸', 'Hoffenheim'], Stuttgart: ['斯图加特', '史特加', 'Stuttgart'],
+  HSV: ['汉堡', '漢堡', 'Hamburger SV'], 'Union Berlin': ['柏林联合', '柏林聯', 'Union Berlin'],
+  "M'gladbach": ['门兴格拉德巴赫', '慕遜加柏', 'Borussia Mönchengladbach'],
+  Monaco: ['摩纳哥', '摩納哥', 'Monaco'], 'Olympique Lyon': ['里昂', '里昂', 'Olympique Lyonnais'],
+  'Paris FC': ['巴黎FC', '巴黎FC', 'Paris FC'], Lille: ['里尔', '里爾', 'Lille'],
+  'Stade Rennais': ['雷恩', '雷恩', 'Stade Rennais'], 'RC Lens': ['朗斯', '朗斯', 'Lens'],
+  'Angers SCO': ['昂热', '昂熱', 'Angers'], Strasbourg: ['斯特拉斯堡', '斯特拉斯堡', 'Strasbourg'],
+  'Le Mans': ['勒芒', '勒芒', 'Le Mans'], Auxerre: ['欧塞尔', '歐塞爾', 'Auxerre'],
+  Brest: ['布雷斯特', '比斯特', 'Brest'], Lorient: ['洛里昂', '羅連安特', 'Lorient'],
+  Toulouse: ['图卢兹', '圖盧茲', 'Toulouse'], Nice: ['尼斯', '尼斯', 'Nice'], Troyes: ['特鲁瓦', '特魯瓦', 'Troyes'],
+  Marseille: ['马赛', '馬賽', 'Marseille'], 'Le Havre': ['勒阿弗尔', '勒哈佛爾', 'Le Havre'],
+  'Sporting CP': ['葡萄牙体育', '士砵亭', 'Sporting CP'], 'PAE AEK': ['雅典AEK', 'AEK雅典', 'AEK Athens'],
+  Shaktar: ['顿涅茨克矿工', '薩克達', 'Shakhtar Donetsk'], Fenerbahçe: ['费内巴切', '費倫巴治', 'Fenerbahçe'],
+  PSV: ['埃因霍温', '燕豪芬', 'PSV Eindhoven'], 'Club Brugge': ['布鲁日', '布魯日', 'Club Brugge'],
+  'Slavia Praha': ['布拉格斯拉维亚', '布拉格斯拉維亞', 'Slavia Prague'], LASK: ['林茨', '林茨', 'LASK'],
+  Galatasaray: ['加拉塔萨雷', '加拉塔沙雷', 'Galatasaray'], Viking: ['维京', '維京', 'Viking'],
+  Porto: ['波尔图', '波圖', 'Porto'], Feyenoord: ['费耶诺德', '飛燕諾', 'Feyenoord'],
+  'Sabah FK': ['沙巴足球俱乐部', '沙巴足球會', 'Sabah FK'],
+  'Sl. Bratislava': ['布拉迪斯拉发', '布拉迪斯拉發', 'Slovan Bratislava'],
+  'Bodø/Glimt': ['博德闪耀', '波杜基林特', 'Bodø/Glimt'],
+};
 function localizeLeague(name, locale) { return leagueNames[name]?.[localeIndex[locale]] || name; }
-function localizeClub(name, locale) { return clubNames[name]?.[localeIndex[locale]] || name; }
+function localizeClub(name, locale) { return clubNames[name]?.[localeIndex[locale]] || apiClubNames[name]?.[localeIndex[locale]] || name; }
 function localizeDate(date, locale) {
   if (locale !== 'en') return date;
   const match = date.match(/(\d+)月(\d+)日/);
@@ -139,4 +208,4 @@ function browserLocale(): keyof typeof words {
 }
 
 
-export { teams, articles, extraStories, results, tableRows, playerLeaders, discussions, words, localeIndex, localizeLeague, localizeClub, localizeDate, localizeSource, localizeTime, browserLocale };
+export { teams, articles, extraStories, results, tableRows, discussions, words, localeIndex, localizeLeague, localizeClub, localizeDate, localizeSource, localizeTime, browserLocale };

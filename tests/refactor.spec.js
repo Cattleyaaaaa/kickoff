@@ -34,8 +34,27 @@ test('search result opens its destination and browser back restores the page', a
 });
 
 test('player metric sorts the displayed leaderboard', async ({ page }) => {
+  await page.route('**/data/players.json', route => route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify({
+      source: 'goal-api.com', updatedAt: '2026-10-10T00:00:00Z',
+      leagues: { 英超: { season: '2026/27', players: [
+        { id: 'a', name: 'Player A', team: 'Arsenal', goals: 5, assists: 1, appearances: null, position: null, nationality: null },
+        { id: 'b', name: 'Player B', team: 'Chelsea', goals: 3, assists: 4, appearances: null, position: null, nationality: null },
+      ] } },
+    }),
+  }));
   await page.goto('/players');
-  await page.locator('.table-toolbar').getByRole('button', { name: '助攻', exact: true }).click();
-  await expect(page.locator('.player-highlight').first()).toContainText('萨拉赫');
-  await expect(page.locator('.players-table tbody tr').first()).toContainText('萨拉赫');
+  await expect(page.locator('.player-highlight').first()).toContainText('Player A');
+  await page.locator('.player-metric-tabs').getByRole('button', { name: '助攻', exact: true }).click();
+  await expect(page.locator('.player-highlight').first()).toContainText('Player B');
+  await expect(page.locator('.players-table tbody tr').first()).toContainText('Player B');
+  await expect(page.locator('.players-table tbody tr').first().locator('td').nth(1)).toHaveText('—');
+});
+
+test('player page does not show sample numbers without a verified snapshot', async ({ page }) => {
+  await page.route('**/data/players.json', route => route.fulfill({ status: 404 }));
+  await page.goto('/players');
+  await expect(page.getByText('暂无可验证的球员数据')).toBeVisible();
+  await expect(page.locator('.player-highlight')).toHaveCount(0);
 });

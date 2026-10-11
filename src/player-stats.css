@@ -1,0 +1,25 @@
+.player-toolbar {
+  gap: 16px;
+}
+
+.player-metric-tabs {
+  padding: 15px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+#players .empty-state h3 {
+  color: var(--ink);
+  font-size: 25px;
+  margin: 0;
+}
+
+#players .empty-state p {
+  max-width: 560px;
+  font-size: 17px;
+  line-height: 1.65;
+  margin: 0;
+}
+
+@media (max-width: 760px) {
+  .player-metric-tabs { padding: 13px 15px; }
+}

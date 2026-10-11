@@ -3,7 +3,9 @@ name: Update football data
 on:
   workflow_dispatch:
   schedule:
-    - cron: '17 2 * * *'
+    # 06:00 and 18:00 Asia/Hong_Kong (UTC+8)
+    - cron: '0 22 * * *'
+    - cron: '0 10 * * *'
 
 permissions:
   contents: write
@@ -17,6 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
+      GOAL_API_KEY: ${{ secrets.GOAL_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -30,12 +33,26 @@ jobs:
       - name: Missing API key
         if: env.FOOTBALL_DATA_API_KEY == ''
         run: echo '::notice::Add FOOTBALL_DATA_API_KEY in Settings > Secrets and variables > Actions.'
+      - name: Update player snapshot
+        id: players
+        if: env.GOAL_API_KEY != ''
+        continue-on-error: true
+        run: npm run sync:players
+      - name: Player snapshot unavailable
+        if: steps.players.outcome == 'failure'
+        run: echo '::warning::Player sync failed; football results can still be updated. Inspect the Update player snapshot step.'
+      - name: Missing player API key
+        if: env.GOAL_API_KEY == ''
+        run: echo '::notice::Add GOAL_API_KEY in Settings > Secrets and variables > Actions to enable verified player statistics.'
       - name: Commit changed snapshot
-        if: env.FOOTBALL_DATA_API_KEY != ''
         run: |
-          if git diff --quiet -- public/data/football.json; then exit 0; fi
+          git add public/data/football.json
+          if test -f public/data/players.json; then git add public/data/players.json; fi
+          if git diff --cached --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add public/data/football.json
-          git commit -m 'Update football data snapshot'
+          git commit -m 'Update football and player data snapshots'
           git push
+      - name: Report player sync failure
+        if: steps.players.outcome == 'failure'
+        run: exit 1

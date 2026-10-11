@@ -8,6 +8,7 @@
     "build": "vite build",
     "typecheck": "tsc --noEmit",
     "sync:football": "tsx scripts/sync-football.ts",
+    "sync:players": "tsx scripts/sync-players.ts",
     "test:sync": "tsx --test tests/football-transform.test.ts",
     "preview": "vite preview",
     "test:e2e": "playwright test"
