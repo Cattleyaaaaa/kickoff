@@ -11,13 +11,15 @@ const targets = [
   { label: '英超', name: /^(English )?Premier League$/i, country: 'ENG' },
   { label: '西甲', name: /^(La ?Liga|Primera Divisi[oó]n)$/i, country: 'ESP' },
   { label: '意甲', name: /^Serie A$/i, country: 'ITA' },
-  { label: '德甲', name: /^Bundesliga$/i, country: 'DEU' },
+  { label: '德甲', name: /^(?:1\.\s*)?Bundesliga$/i, country: 'DEU' },
   { label: '法甲', name: /^Ligue 1$/i, country: 'FRA' },
   { label: '欧冠', name: /^(UEFA )?Champions League$/i, country: null },
 ] as const;
 const season = '2026/2027';
 const MAX_CALLS = 25; // catalogue + 6 × (fixtures, team stats, player stats, advanced players)
 let calls = 0;
+const selectedTargets = process.env.VERIFY_ONLY ? targets.filter(target => target.label === process.env.VERIFY_ONLY) : targets;
+if (!selectedTargets.length) throw new Error(`Unknown VERIFY_ONLY competition: ${process.env.VERIFY_ONLY}`);
 
 async function get<T>(path: string): Promise<T> {
   if (calls >= MAX_CALLS) throw new Error(`Safety limit of ${MAX_CALLS} requests reached.`);
@@ -72,12 +74,12 @@ function advancedKeys(value: unknown): string[] {
 }
 
 const report: Array<Record<string, unknown>> = [];
-for (const target of targets) {
+for (const target of selectedTargets) {
   const candidates = list.leagues.filter(league => league.id && league.name && target.name.test(league.name)
     && (!target.country || !league.country_code || league.country_code === target.country));
   const league = candidates.find(item => item.seasons?.includes(season));
   if (!league?.id) {
-    report.push({ competition: target.label, status: 'season unavailable', candidates: candidates.map(item => ({ name: item.name, country: item.country_code, seasons: item.seasons })) });
+    report.push({ competition: target.label, status: 'season unavailable', candidates: candidates.map(item => ({ name: item.name, country: item.country_code, seasons: item.seasons })), similarNames: list.leagues.filter(item => /Bundesliga/i.test(item.name || '')).map(item => ({ name: item.name, country: item.country_code, seasons: item.seasons })) });
     continue;
   }
   try {
