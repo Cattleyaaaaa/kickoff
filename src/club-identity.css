@@ -41,7 +41,54 @@
 .crest-center::before { background: linear-gradient(90deg, var(--club) 0 34%, var(--club-trim) 34% 38%, var(--club-secondary) 38% 62%, var(--club-trim) 62% 66%, var(--club) 66%); }
 .crest-chest::before { background: linear-gradient(180deg, var(--club) 0 31%, var(--club-secondary) 31% 56%, var(--club) 56%); }
 .crest-cross::before { background: linear-gradient(90deg, transparent 0 43%, var(--club-secondary) 43% 57%, transparent 57%), linear-gradient(180deg, var(--club) 0 33%, var(--club-secondary) 33% 50%, var(--club) 50%); }
-
+.crest-pinstripe::before {
+  background: repeating-linear-gradient(90deg, var(--club) 0 10px, color-mix(in srgb, var(--club-secondary) 72%, var(--club)) 10px 12px);
+}
+.crest-shoulders::before {
+  background: linear-gradient(180deg, var(--club-secondary) 0 23%, transparent 23%),
+    linear-gradient(90deg, var(--club-secondary) 0 25%, var(--club) 25% 75%, var(--club-secondary) 75%);
+}
+.crest-chestBand::before {
+  background: linear-gradient(180deg, var(--club) 0 38%, var(--club-secondary) 38% 53%, var(--club) 53%);
+}
+.crest-quarters::before {
+  background: linear-gradient(90deg, var(--club) 0 50%, var(--club-secondary) 50%);
+}
+.crest-diagonal::before {
+  background: linear-gradient(135deg, var(--club) 0 42%, var(--club-secondary) 42% 54%, var(--club) 54%);
+}
+.crest-sidePanels::before {
+  background: linear-gradient(90deg, var(--club-secondary) 0 19%, var(--club) 19% 81%, var(--club-secondary) 81%);
+}
+.crest-alaves::before {
+  background:
+    linear-gradient(180deg, var(--club) 0 21%, transparent 21%),
+    linear-gradient(90deg, var(--club) 0 24%, transparent 24% 76%, var(--club) 76%),
+    repeating-linear-gradient(90deg, #f9f9f5 0 9px, var(--club) 9px 20px);
+}
+.crest-deportivo::before {
+  background:
+    linear-gradient(90deg, var(--club) 0 23%, transparent 23% 77%, var(--club) 77%),
+    repeating-linear-gradient(90deg, var(--club) 0 8px, #fafaf6 8px 16px);
+}
+.crest-sociedad::before {
+  background:
+    linear-gradient(90deg, #f8f8f5 0 23%, transparent 23% 77%, #f8f8f5 77%),
+    repeating-linear-gradient(90deg, var(--club) 0 13px, #f8f8f5 13px 26px);
+}
+.crest-athletic::before {
+  background:
+    linear-gradient(180deg, var(--club) 0 24%, transparent 24%),
+    repeating-linear-gradient(90deg, var(--club) 0 7px, #faf9f4 7px 13px);
+}
+.crest-villarreal::before {
+  background:
+    linear-gradient(90deg, transparent 0 24%, var(--club-secondary) 24% 28%, transparent 28% 72%, var(--club-secondary) 72% 76%, transparent 76%),
+    repeating-linear-gradient(135deg, var(--club) 0 9px, #efd03b 9px 10px);
+}
+.crest-espanyol::before {
+  background: repeating-linear-gradient(90deg, var(--club) 0 9px, #202329 9px 10px, #f9f9f5 10px 18px, #202329 18px 19px);
+}
 .crest::after {
   content: '';
   position: absolute;
@@ -59,26 +106,70 @@
   position: relative;
   z-index: 2;
   margin-top: 16px;
-  padding: 1px 5px 2px;
-  border: 1px solid #ffffff8c;
-  border-radius: 4px;
-  background: #171c1ddd;
+  padding: 1px 4px 2px;
+  border: 1px solid #ffffffa3;
+  border-radius: 3px;
+  background: #171c1dcc;
   color: #fff;
-  font: 900 20px/1 'Barlow Condensed', 'DM Sans', sans-serif;
-  letter-spacing: 1px;
-  transform: none;
+  font: 900 17px/1 'Barlow Condensed', 'DM Sans', sans-serif;
+  letter-spacing: .6px;
+}
+
+.crest-kit .crest-code {
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: auto;
+  bottom: 13%;
+  left: 50%;
+  margin: 0;
+  padding: 1px 3px;
+  border: 1px solid #19211e;
+  border-radius: 2px;
+  background: #fffdf0e8;
+  color: #19211e;
+  font: 900 8px/1 'Barlow Condensed', 'DM Sans', sans-serif;
+  letter-spacing: .2px;
+  transform: translateX(-50%);
 }
 
 .crest-small { width: 58px; height: 55px; border: 0; border-radius: 0; box-shadow: none; }
 .crest-small::before { inset: 1px; border: 0; border-radius: 0; }
 .crest-small::after { top: 6%; bottom: auto; left: 41%; width: 18%; height: 10%; }
-.crest-small .crest-code { margin-top: 11px; padding: 1px 3px; font-size: 14px; letter-spacing: .3px; }
+.crest-small .crest-code { margin-top: 11px; padding: 1px 2px; font-size: 11px; letter-spacing: 0; }
+
+.crest.crest-alaves::after {
+  top: 4%; left: 36%; width: 28%; height: 13%;
+  background: var(--club);
+  border: 1px solid #f9f9f5;
+  border-top: 0;
+  clip-path: polygon(0 0, 50% 50%, 100% 0, 100% 65%, 50% 100%, 0 65%);
+}
+.crest.crest-deportivo::after { background: #fafaf6; }
+.crest.crest-sociedad::after {
+  top: 7%; left: 37%; width: 26%; height: 12%;
+  background: var(--club);
+  clip-path: polygon(0 0, 50% 100%, 100% 0, 72% 0, 50% 50%, 28% 0);
+}
+.crest.crest-athletic::after,
+.crest.crest-espanyol::after { background: #202329; }
+.crest.crest-villarreal::after { background: var(--club-secondary); }
+.crest-deportivo .crest-code { border-color: #d9e0e8; }
+.crest-espanyol .crest-code { border-color: #202329; }
+
+.crest-bayern {
+  background: transparent;
+}
+.crest-bayern::before,
+.crest-bayern::after { display: none; }
+.crest-bayern .bayern-kit { display: block; width: calc(100% - 4px); height: calc(100% - 4px); }
+.crest-small.crest-bayern .bayern-kit { width: calc(100% - 2px); height: calc(100% - 2px); }
 
 .club-card > .crest { width: 112px; height: 104px; margin-block: 0; }
-.club-card > .crest .crest-code { margin-top: 20px; font-size: 32px; }
+.club-card > .crest .crest-code { margin-top: 20px; font-size: 27px; }
 .club-card:hover > .crest { transform: translateY(-4px); }
 .match-pair .crest { width: 98px; height: 90px; }
-.match-pair .crest .crest-code { margin-top: 20px; font-size: 25px; }
+.match-pair .crest .crest-code { margin-top: 20px; font-size: 21px; }
 
 .table-club { gap: 16px; font-size: 20px; font-weight: 850; }
 .match-pair strong { font-size: 21px; font-weight: 900; line-height: 1.25; }

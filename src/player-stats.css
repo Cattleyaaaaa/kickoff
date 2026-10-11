@@ -7,6 +7,9 @@
   border-bottom: 1px solid var(--line);
 }
 
+.players-table { min-width: 820px; }
+.player-highlight .player-stat { font-size: clamp(52px, 6vw, 90px); }
+
 #players .empty-state h3 {
   color: var(--ink);
   font-size: 25px;

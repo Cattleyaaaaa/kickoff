@@ -46,20 +46,6 @@ const extraStories = [
 ];
 articles.push(...extraStories);
 
-const results = [
-  { home: '曼城', away: '阿森纳', hs: 2, as: 1, league: '英超', date: '10月08日', teamHome: 'MCI', teamAway: 'ARS', colors: ['#54a8dc', '#e34448'] },
-  { home: '国际米兰', away: 'AC米兰', hs: 1, as: 1, league: '意甲', date: '10月07日', teamHome: 'INT', teamAway: 'MIL', colors: ['#3279bd', '#bf424c'] },
-  { home: '巴塞罗那', away: '马德里竞技', hs: 3, as: 2, league: '西甲', date: '10月06日', teamHome: 'BAR', teamAway: 'ATM', colors: ['#783e99', '#d4464a'] },
-  { home: '拜仁慕尼黑', away: '多特蒙德', hs: 2, as: 0, league: '德甲', date: '10月05日', teamHome: 'FCB', teamAway: 'BVB', colors: ['#d64545', '#d8ad3d'] },
-];
-
-const tableRows = [
-  { pos: 1, team: '阿森纳', pts: 18, p: 7, w: 6, d: 0, l: 1, gd: '+12', color: '#e34448' },
-  { pos: 2, team: '曼城', pts: 16, p: 7, w: 5, d: 1, l: 1, gd: '+10', color: '#54a8dc' },
-  { pos: 3, team: '利物浦', pts: 15, p: 7, w: 5, d: 0, l: 2, gd: '+8', color: '#c93640' },
-  { pos: 4, team: '阿斯顿维拉', pts: 14, p: 7, w: 4, d: 2, l: 1, gd: '+6', color: '#936249' },
-  { pos: 5, team: '热刺', pts: 13, p: 7, w: 4, d: 1, l: 2, gd: '+5', color: '#535e78' },
-];
 const discussions = [
   { initials: 'JY', name: 'JellyYellow', team: ['阿森纳球迷', '阿森納球迷', 'Arsenal fan'], color: 'orange', text: ['这场中场的对抗强度会不会是胜负手？我觉得边后卫的站位也很关键。', '這場中場的對抗強度會不會是勝負手？我覺得邊後衛的站位也很關鍵。', 'Could the midfield battle decide this one? The full-back positioning matters too.'], likes: 284, replies: 46, tag: ['英超 · 赛前看点', '英超 · 賽前看點', 'Premier League · Preview'] },
   { initials: 'MK', name: 'Mika_90', team: ['中立观赛', '中立觀賽', 'Neutral fan'], color: 'purple', text: ['把这两队最近五场的射门转化率放一起看，差别还挺明显的。', '把這兩隊最近五場的射門轉化率放一起看，差別還挺明顯的。', 'The gap in shot conversion across their last five games is pretty striking.'], likes: 193, replies: 28, tag: ['数据讨论', '數據討論', 'Data talk'] },
@@ -68,7 +54,7 @@ const discussions = [
 
 const words = {
   'zh-CN': {
-    nav: ['首页', '新闻', '比赛', '积分榜', '球队', '球员'], tagline: '为每份热爱，找到同频球迷', sub: '全球赛场 · 每日更新', today: '球迷主场', daily: '每日更新',
+    nav: ['首页', '新闻', '比赛', '积分榜', '球队榜', '球队', '球员'], tagline: '为每份热爱，找到同频球迷', sub: '全球赛场 · 每日更新', today: '球迷主场', daily: '每日更新',
     headline1: '为每份热爱，', headline2: '找到同频球迷', headSub: '最新资讯、赛后赛果、球队故事和球迷观点。无论你支持谁，这里都有同一份热爱。', discover: '看看今天的足球', choose: '选择球队',
     latest: '最新新闻', latestSub: '全球赛场，一手跟进', allNews: '全部新闻', moreStory: '更多足球故事', all: '全部赛事', read: '分钟阅读', results: '近期赛果', resultsSub: '最近 7 天 · 赛后结果', schedule: '赛程与赛果', sevenDays: '最近 7 天',
     dynamics: '球队动态', dynamicsSub: '跟进你关心的每一次出场', noTeams: '暂时没有关注球队', popular: '热门球队正在发生什么', hot: '热门讨论', hotSub: '球迷正在聊什么', pick: '挑选你的主队',
@@ -77,7 +63,7 @@ const words = {
     footer: '好球值得分享。好观点，值得被听见。', local: '关注列表保存在当前设备，之后可随登录功能同步。', scoreAll: '全部赛事', scoreFollowing: '关注球队', searchLabel: '搜索', openSearch: '搜索', close: '关闭', sourceRead: '阅读原文',
   },
   'zh-TW': {
-    nav: ['首頁', '新聞', '賽事', '積分榜', '球隊', '球員'], tagline: '為每份熱愛，找到同頻球迷', sub: '全球賽場 · 每日更新', today: '球迷主場', daily: '每日更新',
+    nav: ['首頁', '新聞', '賽事', '積分榜', '球隊榜', '球隊', '球員'], tagline: '為每份熱愛，找到同頻球迷', sub: '全球賽場 · 每日更新', today: '球迷主場', daily: '每日更新',
     headline1: '為每份熱愛，', headline2: '找到同頻球迷', headSub: '最新資訊、賽後賽果、球隊故事和球迷觀點。無論你支持誰，這裡都有同一份熱愛。', discover: '看看今天的足球', choose: '選擇球隊',
     latest: '最新新聞', latestSub: '全球賽場，第一時間跟進', allNews: '全部新聞', moreStory: '更多足球故事', all: '全部賽事', read: '分鐘閱讀', results: '近期賽果', resultsSub: '最近 7 天 · 賽後結果', schedule: '賽程與賽果', sevenDays: '最近 7 天',
     dynamics: '球隊動態', dynamicsSub: '跟進你關心的每一次出場', noTeams: '暫時沒有關注球隊', popular: '熱門球隊正在發生什麼', hot: '熱門討論', hotSub: '球迷正在聊什麼', pick: '挑選你的主隊',
@@ -86,7 +72,7 @@ const words = {
     footer: '好球值得分享。好觀點，值得被聽見。', local: '關注清單儲存在目前裝置，之後可隨登入功能同步。', scoreAll: '全部賽事', scoreFollowing: '關注球隊', searchLabel: '搜尋', openSearch: '搜尋', close: '關閉', sourceRead: '閱讀原文',
   },
   en: {
-    nav: ['Home', 'News', 'Matches', 'Standings', 'Teams', 'Players'], tagline: 'Find your people through football', sub: 'Global football · Updated daily', today: 'The fans’ home', daily: 'Daily update',
+    nav: ['Home', 'News', 'Matches', 'Standings', 'Team stats', 'Teams', 'Players'], tagline: 'Find your people through football', sub: 'Global football · Updated daily', today: 'The fans’ home', daily: 'Daily update',
     headline1: 'Find your people,', headline2: 'through football.', headSub: 'News, full-time scores, team stories and fan voices. Whoever you support, there’s a place for your passion here.', discover: 'Explore today’s game', choose: 'Choose teams',
     latest: 'Latest stories', latestSub: 'A closer look at the global game', allNews: 'All news', moreStory: 'On the touchline', all: 'All competitions', read: 'min read', results: 'Recent results', resultsSub: 'Last 7 days · Full-time scores', schedule: 'Fixtures & results', sevenDays: 'Last 7 days',
     dynamics: 'Team updates', dynamicsSub: 'Follow every moment that matters', noTeams: 'No teams followed yet', popular: 'Popular teams, latest stories', hot: 'Trending discussions', hotSub: 'What fans are talking about', pick: 'Pick your team',
@@ -185,6 +171,42 @@ const apiClubNames = {
 };
 function localizeLeague(name, locale) { return leagueNames[name]?.[localeIndex[locale]] || name; }
 function localizeClub(name, locale) { return clubNames[name]?.[localeIndex[locale]] || apiClubNames[name]?.[localeIndex[locale]] || name; }
+const knownPlayerNames = {
+  'Erling Haaland': ['埃尔林·哈兰德', '艾寧·夏蘭特', 'Erling Haaland'],
+  'E. Haaland': ['埃尔林·哈兰德', '艾寧·夏蘭特', 'Erling Haaland'],
+  'Alexander Isak': ['亚历山大·伊萨克', '亞歷山大·伊薩克', 'Alexander Isak'],
+  'Pascal Gross': ['帕斯卡尔·格罗斯', '柏斯高·格羅斯', 'Pascal Groß'],
+  'Pedro Joao': ['佩德罗·若昂', '柏度·祖奧', 'Pedro João'],
+  'Rayan Cherki': ['拉扬·谢尔基', '拉揚·謝爾基', 'Rayan Cherki'],
+  'Bruno Fernandes': ['布鲁诺·费尔南德斯', '般奴·費南迪斯', 'Bruno Fernandes'],
+  'Bukayo Saka': ['布卡约·萨卡', '布卡約·沙卡', 'Bukayo Saka'],
+  'Cole Palmer': ['科尔·帕尔默', '高爾·彭馬', 'Cole Palmer'],
+  'R. Lewandowski': ['罗伯特·莱万多夫斯基', '羅伯特·萊萬多夫斯基', 'Robert Lewandowski'],
+  'A. Budimir': ['安特·布迪米尔', '安特·布迪米爾', 'Ante Budimir'],
+  'A. Moleiro': ['阿尔贝托·莫莱罗', '阿爾貝托·莫萊羅', 'Alberto Moleiro'],
+  'Hernandez Cucho': ['库乔·埃尔南德斯', '古祖·靴南迪斯', 'Cucho Hernández'],
+  'Yamal Lamine': ['拉明·亚马尔', '拉明·耶馬', 'Lamine Yamal'],
+  'J. Alvarez': ['胡利安·阿尔瓦雷斯', '祖利安·艾華利斯', 'Julián Álvarez'],
+  'Jude Bellingham': ['裘德·贝林厄姆', '祖迪·比寧咸', 'Jude Bellingham'],
+  'C. Pulisic': ['克里斯蒂安·普利西奇', '基斯甸·普列錫', 'Christian Pulisic'],
+  'K. Yildiz': ['凯南·伊尔迪兹', '堅拿·耶迪斯', 'Kenan Yıldız'],
+  'H. Calhanoglu': ['恰尔汗奥卢', '恰爾汗奧盧', 'Hakan Çalhanoğlu'],
+  'R. Leao': ['拉斐尔·莱奥', '拉斐爾·利亞奧', 'Rafael Leão'],
+  'M. Thuram': ['马库斯·图拉姆', '馬古斯·杜林', 'Marcus Thuram'],
+  'L. Diaz': ['路易斯·迪亚斯', '路爾斯·迪亞斯', 'Luis Díaz'],
+  'H. Kane': ['哈里·凯恩', '哈利·簡尼', 'Harry Kane'],
+  'J. Burkardt': ['乔纳森·布卡特', '莊拿芬·布卡特', 'Jonathan Burkardt'],
+  'S. Gnabry': ['塞尔日·格纳布里', '沙治·拿比', 'Serge Gnabry'],
+  'E. Lepaul': ['埃斯特班·勒保尔', '艾斯特班·勒保爾', 'Estéban Lepaul'],
+  'P. Sulc': ['帕维尔·舒尔茨', '柏華·舒爾斯', 'Pavel Šulc'],
+  'O. Dembele': ['奥斯曼·登贝莱', '奧斯文·丹比利', 'Ousmane Dembélé'],
+  'B. Barcola': ['布拉德利·巴尔科拉', '巴特利·巴高拿', 'Bradley Barcola'],
+  'K. Mbappe': ['基利安·姆巴佩', '基利安·麥巴比', 'Kylian Mbappé'],
+  'V. Osimhen': ['维克托·奥斯梅恩', '域陀·奧森漢', 'Victor Osimhen'],
+  'A. Gordon': ['安东尼·戈登', '安東尼·哥頓', 'Anthony Gordon'],
+  'G. Martinelli': ['加布里埃尔·马丁内利', '加比爾·馬天尼利', 'Gabriel Martinelli'],
+};
+function localizePlayer(name, locale) { return knownPlayerNames[name]?.[localeIndex[locale]] || name; }
 function localizeDate(date, locale) {
   if (locale !== 'en') return date;
   const match = date.match(/(\d+)月(\d+)日/);
@@ -208,4 +230,4 @@ function browserLocale(): keyof typeof words {
 }
 
 
-export { teams, articles, extraStories, results, tableRows, discussions, words, localeIndex, localizeLeague, localizeClub, localizeDate, localizeSource, localizeTime, browserLocale };
+export { teams, articles, extraStories, discussions, words, localeIndex, localizeLeague, localizeClub, localizePlayer, localizeDate, localizeSource, localizeTime, browserLocale };

@@ -11,7 +11,7 @@ export type ApiTeam = { id?: number; name?: string; shortName?: string; tla?: st
 export type ApiMatch = {
   id: number; status: string; utcDate: string;
   homeTeam: ApiTeam; awayTeam: ApiTeam;
-  score?: { fullTime?: { home?: number | null; away?: number | null } };
+  score?: { duration?: string; fullTime?: { home?: number | null; away?: number | null }; penalties?: { home?: number | null; away?: number | null } };
 };
 export type ApiMatchesResponse = { matches: ApiMatch[] };
 export type ApiStandingsResponse = {
@@ -19,20 +19,30 @@ export type ApiStandingsResponse = {
   standings: Array<{ type: string; group?: string; table?: Array<{
     position: number; team: ApiTeam; points: number; playedGames: number;
     won: number; draw: number; lost: number; goalDifference: number;
+    goalsFor?: number | null; goalsAgainst?: number | null;
   }> }>;
 };
 export type MatchResult = {
   id: string; league: string; utcDate: string; home: string; away: string;
   hs: number; as: number; teamHome: string; teamAway: string; colors: [string, string];
+  penalties?: { home: number; away: number };
+};
+export type FixtureResult = {
+  id: string; league: string; utcDate: string; home: string; away: string;
+  teamHome: string; teamAway: string; colors: [string, string];
+  status: string; hs: number | null; as: number | null;
 };
 export type StandingGroup = {
   name: string;
-  rows: Array<{ pos: number; team: string; color: string; pts: number; p: number; w: number; d: number; l: number; gd: string }>;
+  rows: Array<{ id: number | null; sourceName: string; code: string; pos: number; team: string; color: string; pts: number; p: number; w: number; d: number; l: number; gd: string; gf: number | null; ga: number | null }>;
 };
-export type StandingResult = { season: string; groups: StandingGroup[] };
+export type StandingResult = { season: string; startDate?: string; endDate?: string; groups: StandingGroup[] };
 export type FootballSnapshot = {
   source: 'football-data.org'; updatedAt: string;
   range: { from: string; to: string }; matches: MatchResult[];
+  fixtures?: FixtureResult[];
+  teamStatsSource?: { name: string; updatedAt: string };
+  teamStats?: Record<string, Record<string, Partial<Record<'shots' | 'shotsPerGame' | 'shotsOnTarget' | 'possession' | 'passes' | 'passesCompleted' | 'keyPasses' | 'dribblesAttempted' | 'dribblesCompleted' | 'offsides' | 'fouls' | 'yellowCards' | 'redCards' | 'tackles' | 'interceptions' | 'clearances' | 'cleanSheets' | 'saves', number | null>>>>;
   standings: Record<string, StandingResult>;
 };
 
@@ -64,10 +74,37 @@ export function normalizeMatches(payload: ApiMatchesResponse, league: string): M
     if (match.status !== 'FINISHED' || !match.utcDate || !Number.isInteger(homeScore) || !Number.isInteger(awayScore)) return [];
     const home = teamInfo(match.homeTeam);
     const away = teamInfo(match.awayTeam);
+    const shootout = match.score?.duration === 'PENALTY_SHOOTOUT' ? match.score.penalties : undefined;
+    const penaltyHome = shootout?.home;
+    const penaltyAway = shootout?.away;
+    const hasShootout = Number.isInteger(penaltyHome) && Number.isInteger(penaltyAway)
+      && penaltyHome! >= 0 && penaltyAway! >= 0 && homeScore! >= penaltyHome! && awayScore! >= penaltyAway!;
     return [{
       id: String(match.id), league, utcDate: match.utcDate,
-      home: home.name, away: away.name, hs: homeScore, as: awayScore,
+      home: home.name, away: away.name,
+      hs: hasShootout ? homeScore! - penaltyHome! : homeScore!,
+      as: hasShootout ? awayScore! - penaltyAway! : awayScore!,
+      ...(hasShootout ? { penalties: { home: penaltyHome!, away: penaltyAway! } } : {}),
       teamHome: home.code, teamAway: away.code, colors: [home.color, away.color],
+    }];
+  });
+}
+
+export function normalizeFixtures(payload: ApiMatchesResponse, league: string): FixtureResult[] {
+  if (!Array.isArray(payload?.matches)) throw new Error(`${league}: missing fixtures array`);
+  return payload.matches.flatMap(match => {
+    if (!match.utcDate || !match.homeTeam?.name || !match.awayTeam?.name
+      || ['CANCELLED', 'ABANDONED'].includes(match.status)) return [];
+    const home = teamInfo(match.homeTeam);
+    const away = teamInfo(match.awayTeam);
+    return [{
+      id: String(match.id), league, utcDate: match.utcDate,
+      home: home.name, away: away.name,
+      teamHome: home.code, teamAway: away.code,
+      colors: [home.color, away.color] as [string, string],
+      status: match.status,
+      hs: Number.isInteger(match.score?.fullTime?.home) ? match.score!.fullTime!.home! : null,
+      as: Number.isInteger(match.score?.fullTime?.away) ? match.score!.fullTime!.away! : null,
     }];
   });
 }
@@ -81,12 +118,19 @@ export function normalizeStandings(payload: ApiStandingsResponse, league: string
     rows: (group.table || []).map(entry => {
       const team = teamInfo(entry.team);
       return {
-        pos: entry.position, team: team.name, color: team.color,
+        id: entry.team.id ?? null, sourceName: entry.team.name || team.name, code: team.code, pos: entry.position, team: team.name, color: team.color,
         pts: entry.points, p: entry.playedGames, w: entry.won,
         d: entry.draw, l: entry.lost,
         gd: entry.goalDifference > 0 ? `+${entry.goalDifference}` : String(entry.goalDifference ?? 0),
+        gf: Number.isInteger(entry.goalsFor) ? entry.goalsFor! : null,
+        ga: Number.isInteger(entry.goalsAgainst) ? entry.goalsAgainst! : null,
       };
     }),
   })).filter(group => group.rows.length);
-  return { season: seasonStart && seasonEnd ? `${seasonStart} / ${seasonEnd}` : '', groups };
+  return {
+    season: seasonStart && seasonEnd ? `${seasonStart} / ${seasonEnd}` : '',
+    startDate: payload.season?.startDate,
+    endDate: payload.season?.endDate,
+    groups,
+  };
 }

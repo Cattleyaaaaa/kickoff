@@ -1,0 +1,27 @@
+.stats-board { overflow: hidden; }
+.stats-categories, .stats-metrics { padding: 15px 20px; border-bottom: 1px solid var(--line); }
+.stats-metrics { background: var(--soft); }
+.stats-table { width: 100%; border-collapse: collapse; min-width: 920px; }
+.stats-table th, .stats-table td { padding: 17px 18px; text-align: left; border-bottom: 1px solid var(--line); white-space: nowrap; font-size: 15px; }
+.stats-table th { font-size: 13px; color: var(--muted); background: var(--soft); }
+.stats-table tr:last-child td { border-bottom: 0; }
+.stats-table .stats-name { min-width: 185px; white-space: normal; }
+.stats-club-line { display: flex; align-items: center; gap: 11px; }
+.stats-club-copy { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+.stats-club-copy strong { font-size: 17px; }
+.stats-club-copy small { color: var(--muted); font-size: 12px; }
+.stats-club-line .crest { flex: 0 0 50px; width: 50px; height: 48px; }
+.stats-active-cell { font-weight: 850; color: var(--ink); background: color-mix(in srgb, var(--lime) 15%, transparent); }
+.stats-unavailable { margin: 0; padding: 16px 20px; color: var(--muted); font-size: 15px; }
+@media (max-width: 760px) {
+  .stats-categories, .stats-metrics { padding: 12px 15px; }
+  .stats-table { min-width: 0; table-layout: fixed; }
+  .stats-table th, .stats-table td { padding: 13px 9px; font-size: 14px; }
+  .stats-table th:first-child, .stats-table td:first-child { width: 42px; }
+  .stats-table .stats-name { width: 58%; min-width: 0; }
+  .stats-table .stats-extra-column { display: none; }
+  .stats-club-line { gap: 8px; }
+  .stats-club-line .crest { flex-basis: 42px; width: 42px; height: 40px; }
+  .stats-club-copy strong { font-size: 16px; }
+  .stats-club-copy small { font-size: 11px; }
+}

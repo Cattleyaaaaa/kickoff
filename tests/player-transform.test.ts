@@ -14,3 +14,16 @@ test('normalizes API scoring rows without inventing unavailable fields', () => {
     appearances: null, position: null, nationality: null,
   }]);
 });
+
+test('keeps provider-supplied season scorer metrics and leaves missing detail absent', () => {
+  const [player] = normalizeTopScorers([{
+    id: 'two', playerId: 'player-two', playerName: 'Player Two', teamName: 'Club B',
+    goals: 8, assists: 4, penaltyGoals: 2, appearances: 11, shots: 23, shotsOnTarget: 12,
+  }]);
+  assert.equal(player.id, 'player-two');
+  assert.equal(player.penaltyGoals, 2);
+  assert.equal(player.appearances, 11);
+  assert.equal(player.shots, 23);
+  assert.equal(player.shotsOnTarget, 12);
+  assert.equal(player.passes, undefined);
+});

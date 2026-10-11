@@ -20,6 +20,7 @@ jobs:
     env:
       FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
       GOAL_API_KEY: ${{ secrets.GOAL_API_KEY }}
+      DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -44,6 +45,9 @@ jobs:
       - name: Missing player API key
         if: env.GOAL_API_KEY == ''
         run: echo '::notice::Add GOAL_API_KEY in Settings > Secrets and variables > Actions to enable verified player statistics.'
+      - name: Missing player-name translation key
+        if: env.GOAL_API_KEY != '' && env.DEEPSEEK_API_KEY == ''
+        run: echo '::notice::Add DEEPSEEK_API_KEY in Settings > Secrets and variables > Actions to localize player names in Chinese.'
       - name: Commit changed snapshot
         run: |
           git add public/data/football.json

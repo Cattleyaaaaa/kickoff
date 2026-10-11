@@ -1,0 +1,15 @@
+.match-view-tabs{display:flex;gap:10px;padding:18px 20px;border-bottom:1px solid var(--line)}
+.match-view-tabs button{display:flex;align-items:center;gap:10px;padding:10px 16px;border:1px solid var(--line);border-radius:9px;font-weight:800}
+.match-view-tabs button.selected{background:var(--ink);color:var(--card);border-color:var(--ink)}
+.match-view-tabs button span{min-width:25px;padding:1px 6px;border-radius:20px;background:var(--soft);color:var(--ink);font-size:12px;text-align:center}
+.match-filters{display:flex;align-items:end;gap:12px;flex-wrap:wrap;padding:18px 20px;border-bottom:1px solid var(--line)}
+.match-filter{display:flex;flex-direction:column;gap:5px;min-width:160px;color:var(--muted);font-size:12px;font-weight:750}
+.match-filter select,.match-filter input{width:100%;min-height:42px;padding:8px 11px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font-size:15px}
+.match-search{flex:1;min-width:180px}
+.match-follow-filter{min-height:42px;padding:8px 13px;font-size:14px}
+.match-follow-filter.selected{background:var(--lime)}
+.schedule-season-note{padding:16px 20px 0;color:var(--muted);font-size:14px}
+.schedule-tile{display:block;text-align:left;color:var(--ink);cursor:default}
+.schedule-tile .match-bottom{cursor:default}
+.load-more-matches{display:flex;margin:20px auto;background:var(--card)}
+@media(max-width:760px){.match-view-tabs{padding:13px;gap:7px}.match-view-tabs button{flex:1;justify-content:center;padding:9px 7px;font-size:14px}.match-filters{padding:14px;gap:9px}.match-filter{min-width:calc(50% - 6px);flex:1}.match-search{min-width:100%}.match-follow-filter{flex:1}.schedule-season-note{padding:14px 15px 0;font-size:13px}}

@@ -46,8 +46,17 @@ test('search filters matches by result type', async ({ page }) => {
 });
 
 test('results can be filtered to a single date', async ({ page }) => {
+  await page.route('**/data/football.json', route => route.fulfill({
+    contentType: 'application/json',
+    body: JSON.stringify({ source: 'football-data.org', updatedAt: new Date().toISOString(), standings: {},
+      matches: [
+        { id: 'a', league: '英超', utcDate: new Date(Date.now() - 86400000).toISOString(), home: '阿森纳', away: '曼城', hs: 2, as: 1, teamHome: 'ARS', teamAway: 'MCI', colors: ['#e34448', '#54a8dc'] },
+        { id: 'b', league: '英超', utcDate: new Date().toISOString(), home: '利物浦', away: '曼城', hs: 1, as: 1, teamHome: 'LIV', teamAway: 'MCI', colors: ['#c93640', '#54a8dc'] },
+      ],
+    }),
+  }));
   await page.goto('/matches');
-  await page.getByRole('combobox', { name: /Filter results by date|按日期筛选赛果/ }).selectOption('10月08日');
+  await page.getByRole('combobox', { name: /Filter results by date|按日期筛选赛果/ }).selectOption({ index: 1 });
   await expect(page.locator('.result-row')).toHaveCount(1);
 });
 
@@ -66,13 +75,11 @@ test('top navigation opens independent page routes', async ({ page }) => {
   await expect(page.getByRole('heading', { name: /Match center|比赛中心/ })).toBeVisible();
   await expect(page.getByRole('heading', { name: /Latest stories|最新新闻/ })).toBeHidden();
 
-  await nav.getByRole('button', { name: /Standings|积分榜/ }).click();
-  await expect(page).toHaveURL(/\/standings$/);
-  await expect(page.getByRole('heading', { name: /Standings|积分榜/ })).toBeVisible();
-
   await nav.getByRole('button', { name: /Teams|球队/ }).click();
   await expect(page).toHaveURL(/\/teams$/);
   await expect(page.locator('#clubs')).toBeVisible();
+  await expect(page.getByRole('heading', { name: /Team table|球队榜/ })).toBeVisible();
+  await expect(page.locator('.team-board-table')).toBeVisible();
   await expect(page.locator('#players')).toBeHidden();
 
   await nav.getByRole('button', { name: /Players|球员/ }).click();

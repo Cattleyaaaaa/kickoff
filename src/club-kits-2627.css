@@ -1,0 +1,137 @@
+/* Hand-tuned miniature home shirts. Every named club has its own surface;
+   the shared crest patterns in club-identity.css are only a fallback. */
+.crest-kit-MCI::before { background: linear-gradient(180deg,#499aca 0%,#8bd3ed 72%,#a9e3f4 100%); }
+.crest-kit-ARS::before { background: linear-gradient(90deg,#f5f3ed 0 24%,#d8293e 24% 76%,#f5f3ed 76%),repeating-linear-gradient(0deg,transparent 0 8px,#ef4552 8px 9px); }
+.crest-kit-LIV::before { background: repeating-linear-gradient(135deg,#992b3b 0 8px,#b03544 8px 10px,#8e2938 10px 16px); }
+.crest-kit-MUN::before { background: linear-gradient(90deg,#f4f1e8 0 4%,#1b1d20 4% 7%,transparent 7% 93%,#1b1d20 93% 96%,#f4f1e8 96%) top/100% 43% no-repeat,linear-gradient(#d62536,#d62536); }
+.crest-kit-CHE::before { background: radial-gradient(circle at 42% 47%,#3266c5 0 20%,transparent 21%),linear-gradient(110deg,#2053b5,#2a64c5 52%,#1c4baa); }
+.crest-kit-TOT::before { background: linear-gradient(120deg,transparent 0 46%,#293955 47% 50%,transparent 51%) left center/27% 64% no-repeat,linear-gradient(240deg,transparent 0 46%,#293955 47% 50%,transparent 51%) right center/27% 64% no-repeat,repeating-linear-gradient(135deg,#fafaf5 0 9px,#eff0f2 9px 10px); }
+.crest-kit-NEW::before { background: repeating-linear-gradient(90deg,#1b1d21 0 11px,#f7f7f4 11px 23px); }
+.crest-kit-BHA::before { background: linear-gradient(180deg,#f8f8f4 0 12%,transparent 12%),repeating-linear-gradient(90deg,#176ab6 0 10px,#f8f8f4 10px 21px); }
+.crest-kit-BRE::before { background: repeating-linear-gradient(90deg,#d12739 0 12px,#f8f6ec 12px 22px); }
+.crest-kit-LEE::before { background: linear-gradient(90deg,#f8f8f0 0 22%,#e5d25f 22% 25%,#f8f8f0 25% 75%,#e5d25f 75% 78%,#f8f8f0 78%); }
+.crest-kit-EVE::before { background: repeating-linear-gradient(135deg,#1c4aaf 0 11px,#2458b8 11px 13px); }
+.crest-kit-HUL::before { background: repeating-linear-gradient(90deg,#efa83b 0 9px,#27282b 9px 18px); }
+.crest-kit-NFO::before { background: linear-gradient(180deg,#c92037 0 78%,#e5424e 78% 82%,#c92037 82%); }
+.crest-kit-SUN::before { background: repeating-linear-gradient(90deg,#f9f7f0 0 7px,#d32639 7px 16px); }
+.crest-kit-CRY::before { background: repeating-linear-gradient(90deg,#c92b40 0 13px,#1e59ad 13px 27px); }
+.crest-kit-AVL::before { background: linear-gradient(90deg,#88c4dd 0 22%,#78304e 22% 78%,#88c4dd 78%); }
+.crest-kit-BOU::before { background: repeating-linear-gradient(90deg,#1f2226 0 7px,#cf3040 7px 19px); }
+.crest-kit-IPS::before { background: repeating-linear-gradient(90deg,#2354ae 0 13px,#f5f5ed 13px 14px); }
+.crest-kit-COV::before { background: linear-gradient(180deg,#75c7e7 0 32%,#f8f8f2 32% 38%,#75c7e7 38%),repeating-linear-gradient(90deg,transparent 0 9px,#3e9eca 9px 10px); }
+.crest-kit-FUL::before { background: linear-gradient(112deg,transparent 0 14%,#202226 14% 21%,transparent 21% 29%,#202226 29% 36%,transparent 36% 44%,#202226 44% 51%,transparent 51%) left top/36% 32% no-repeat,linear-gradient(68deg,transparent 0 14%,#202226 14% 21%,transparent 21% 29%,#202226 29% 36%,transparent 36% 44%,#202226 44% 51%,transparent 51%) right top/36% 32% no-repeat,#faf9f4; }
+
+/* Spain: club releases, including Alavés/Macron, Dépor, Sociedad, Athletic,
+   Villarreal and Espanyol; see the source notes in clubIdentity.ts. */
+.crest-kit-RMA::before { background: linear-gradient(65deg,transparent 0 41%,#d78aac 42% 45%,transparent 46%) left top/45% 32% no-repeat,linear-gradient(115deg,transparent 0 41%,#d78aac 42% 45%,transparent 46%) right top/45% 32% no-repeat,linear-gradient(90deg,#1d5147 0 5%,#fbfaf5 5% 95%,#1d5147 95%); }
+.crest-kit-BAR::before { background: linear-gradient(90deg,#18377d 0 14%,#8c2747 14% 28%,#285ab0 28% 42%,#a52d46 42% 57%,#285ab0 57% 71%,#8c2747 71% 85%,#18377d 85%),linear-gradient(#18377d,#18377d); }
+.crest-kit-ATM::before { background: repeating-linear-gradient(90deg,#d52c3d 0 8px,#fbf9f3 8px 17px); }
+.crest-kit-BET::before { background: repeating-linear-gradient(135deg,transparent 0 12px,#ffffff38 12px 13px),repeating-linear-gradient(90deg,#f9faf5 0 7px,#17844d 7px 15px); }
+.crest-kit-SEV::before { background: linear-gradient(90deg,#d63a48 0 16%,#fbfaf5 16% 84%,#d63a48 84%); }
+.crest-kit-ATH::before { background: linear-gradient(180deg,#be2336 0 23%,transparent 23%),repeating-linear-gradient(90deg,#be2336 0 7px,#faf9f3 7px 13px); }
+.crest-kit-VIL::before { background: linear-gradient(90deg,transparent 0 24%,#2354a4 24% 27%,transparent 27% 73%,#2354a4 73% 76%,transparent 76%),repeating-linear-gradient(135deg,#f5d437 0 9px,#efd03a 9px 10px); }
+.crest-kit-ALA::before { background: linear-gradient(180deg,#2363a7 0 20%,transparent 20%),linear-gradient(90deg,#2363a7 0 24%,transparent 24% 76%,#2363a7 76%),repeating-linear-gradient(90deg,#f9f9f5 0 9px,#2363a7 9px 20px); }
+.crest-kit-CEL::before { background: linear-gradient(90deg,#f8f8f4 0 20%,#84cbe9 20% 80%,#f8f8f4 80%),repeating-linear-gradient(0deg,transparent 0 12px,#64b5db 12px 13px); }
+.crest-kit-DEP::before { background: linear-gradient(90deg,#2267b4 0 23%,transparent 23% 77%,#2267b4 77%),repeating-linear-gradient(90deg,#2267b4 0 8px,#fafaf6 8px 16px); }
+.crest-kit-ELC::before { background: linear-gradient(180deg,#f8f9f4 0 30%,#2a8b5d 30% 47%,#f8f9f4 47%),linear-gradient(90deg,#f8f9f4,#f8f9f4); }
+.crest-kit-ESP::before { background: repeating-linear-gradient(90deg,#285dac 0 9px,#202329 9px 10px,#f9f9f5 10px 18px,#202329 18px 19px); }
+.crest-kit-GET::before { background: linear-gradient(90deg,#d9dce7 0 13%,#2453a5 13% 87%,#d9dce7 87%),linear-gradient(180deg,#2453a5,#2453a5); }
+.crest-kit-LEV::before { background: repeating-linear-gradient(90deg,#243669 0 11px,#9b354b 11px 22px); }
+.crest-kit-MAL::before { background: repeating-linear-gradient(90deg,#55aed3 0 7px,#fafaf4 7px 15px); }
+.crest-kit-OSA::before { background: linear-gradient(90deg,#b8283d 0 50%,#21345b 50%),linear-gradient(180deg,#b8283d,#b8283d); }
+.crest-kit-RAY::before { background: linear-gradient(125deg,#fcfbf5 0 38%,#d72f40 38% 53%,#fcfbf5 53%); }
+.crest-kit-RSO::before { background: linear-gradient(90deg,#f8f8f5 0 23%,transparent 23% 77%,#f8f8f5 77%),repeating-linear-gradient(90deg,#2368b7 0 13px,#f8f8f5 13px 26px); }
+.crest-kit-RAC::before { background: linear-gradient(180deg,#f9faf4 0 27%,#258558 27% 49%,#f9faf4 49%); }
+.crest-kit-VAL::before { background: linear-gradient(90deg,#202126 0 17%,#f8f8f4 17% 83%,#202126 83%),repeating-linear-gradient(0deg,transparent 0 10px,#e9e9e4 10px 11px); }
+
+/* Serie A: 2026/27 club kits and Lega Serie A's current-colours overview. */
+.crest-kit-INT::before { background: repeating-linear-gradient(90deg,#14212b 0 9px,#1859ad 9px 22px,#101820 22px 24px); }
+.crest-kit-MIL::before { background: repeating-linear-gradient(90deg,#212326 0 10px,#c3263c 10px 19px); }
+.crest-kit-JUV::before { background: repeating-linear-gradient(90deg,#f9f9f2 0 10px,#232529 10px 22px); }
+.crest-kit-NAP::before { background: linear-gradient(90deg,#f7f7f2 0 16%,#3895d1 16% 84%,#f7f7f2 84%),repeating-linear-gradient(0deg,transparent 0 9px,#65add5 9px 10px); }
+.crest-kit-ROM::before { background: linear-gradient(180deg,#8b2939 0 28%,#dfad42 28% 31%,#8b2939 31% 93%,#dfad42 93%); }
+.crest-kit-ATA::before { background: repeating-linear-gradient(90deg,#2158a5 0 9px,#191c22 9px 20px); }
+.crest-kit-BOL::before { background: repeating-linear-gradient(90deg,#273658 0 12px,#bb2d3f 12px 25px); }
+.crest-kit-CAG::before { background: linear-gradient(90deg,#b72c40 0 48%,#253963 48%),linear-gradient(180deg,#b72c40,#b72c40); }
+.crest-kit-COM::before { background: linear-gradient(135deg,#2677b7 0 46%,#4596c5 46% 48%,#2677b7 48%),repeating-linear-gradient(0deg,transparent 0 11px,#83b6ce 11px 12px); }
+.crest-kit-FIO::before { background: linear-gradient(90deg,#f7f6ef 0 12%,#643f9c 12% 88%,#f7f6ef 88%); }
+.crest-kit-FRO::before { background: linear-gradient(90deg,#2756a4 0 15%,#f1d03c 15% 85%,#2756a4 85%),linear-gradient(180deg,#f1d03c,#f1d03c); }
+.crest-kit-GEN::before { background: linear-gradient(90deg,#ae2c41 0 50%,#25365c 50%); }
+.crest-kit-LAZ::before { background: linear-gradient(90deg,#f7f7f2 0 19%,#80c5e4 19% 81%,#f7f7f2 81%); }
+.crest-kit-LEC::before { background: repeating-linear-gradient(90deg,#e0b336 0 8px,#bd3041 8px 18px); }
+.crest-kit-MON::before { background: linear-gradient(90deg,#d13743 0 39%,#f8f8f3 39% 54%,#d13743 54%); }
+.crest-kit-PAR::before { background: linear-gradient(90deg,transparent 0 44%,#25272b 44% 56%,transparent 56%),linear-gradient(180deg,#fbfaf5 0 36%,#25272b 36% 48%,#fbfaf5 48%); }
+.crest-kit-SAS::before { background: repeating-linear-gradient(90deg,#238b5c 0 10px,#25282b 10px 19px); }
+.crest-kit-TOR::before { background: linear-gradient(180deg,#7d3443 0 29%,#f8f6ee 29% 31%,#7d3443 31%); }
+.crest-kit-UDI::before { background: repeating-linear-gradient(90deg,#f8f8f2 0 13px,#242629 13px 20px); }
+.crest-kit-VEN::before { background: linear-gradient(90deg,#2b9164 0 4%,#242629 4% 47%,#e6903f 47% 52%,#242629 52% 96%,#2b9164 96%); }
+
+/* Bundesliga: official 2026/27 kit roundup and linked club stores. */
+.crest-kit-BVB::before { background: linear-gradient(180deg,#22252a 0 23%,transparent 23%),linear-gradient(90deg,#22252a 0 16%,#f2d630 16% 84%,#22252a 84%); }
+.crest-kit-B04::before { background: repeating-linear-gradient(90deg,#22252a 0 11px,#be2b3e 11px 23px); }
+.crest-kit-RBL::before { background: linear-gradient(90deg,#f7f8f3 0 37%,#d13946 37% 42%,#f7f8f3 42% 58%,#d13946 58% 63%,#f7f8f3 63%); }
+.crest-kit-KOE::before { background: repeating-linear-gradient(90deg,#f8f8f3 0 12px,#d73645 12px 14px); }
+.crest-kit-FCA::before { background: repeating-linear-gradient(90deg,#cf3945 0 14px,#288354 14px 25px); }
+.crest-kit-SVW::before { background: linear-gradient(180deg,#23845d 0 38%,#f2f6ed 38% 43%,#23845d 43%); }
+.crest-kit-ELV::before { background: linear-gradient(180deg,#e6cf3e 0 22%,#24282b 22% 100%); }
+.crest-kit-SGE::before { background: repeating-linear-gradient(90deg,#c52d40 0 8px,#222326 8px 16px); }
+.crest-kit-SCF::before { background: linear-gradient(180deg,#c73243 0 38%,#22252a 38% 52%,#c73243 52%); }
+.crest-kit-TSG::before { background: linear-gradient(125deg,#276cb8 0 38%,#f5f8f2 38% 43%,#276cb8 43% 72%,#f5f8f2 72% 75%,#276cb8 75%); }
+.crest-kit-HSV::before { background: linear-gradient(90deg,#f8f8f2 0 22%,#2852a1 22% 25%,#f8f8f2 25% 75%,#2852a1 75% 78%,#f8f8f2 78%); }
+.crest-kit-BMG::before { background: linear-gradient(125deg,#f7f8f2 0 37%,#252729 37% 48%,#278657 48% 53%,#f7f8f2 53%); }
+.crest-kit-M05::before { background: repeating-conic-gradient(#d23643 0 25%,#f8f7f1 0 50%) 0 0/22px 22px; }
+.crest-kit-SCP::before { background: repeating-linear-gradient(90deg,#2861a9 0 13px,#252b36 13px 25px); }
+.crest-kit-S04::before { background: linear-gradient(90deg,#f7f8f2 0 17%,#2554aa 17% 83%,#f7f8f2 83%); }
+.crest-kit-VFB::before { background: linear-gradient(180deg,#f8f8f2 0 32%,#d13c45 32% 50%,#f8f8f2 50%); }
+.crest-kit-FCU::before { background: linear-gradient(180deg,#ca2d3e 0 26%,#f7f7ef 26% 29%,#ca2d3e 29% 91%,#f7f7ef 91%); }
+
+/* Ligue 1: 2026/27 league kit gallery and clubs' home-kit releases. */
+.crest-kit-PSG::before { background: linear-gradient(90deg,#244e98 0 32%,#f8f8f2 32% 35%,#d33746 35% 65%,#f8f8f2 65% 68%,#244e98 68%); }
+.crest-kit-OM::before { background: linear-gradient(90deg,#55b3de 0 12%,#f8f9f4 12% 88%,#55b3de 88%),repeating-linear-gradient(0deg,transparent 0 12px,#dceff4 12px 13px); }
+.crest-kit-OL::before { background: linear-gradient(90deg,#f8f8f3 0 40%,#255fa9 40% 47%,#d13c48 47% 54%,#f8f8f3 54%); }
+.crest-kit-ASM::before { background: linear-gradient(128deg,#d43a47 0 45%,#fbf9f1 45%); }
+.crest-kit-RCL::before { background: repeating-linear-gradient(90deg,#c93640 0 12px,#e7c13d 12px 23px); }
+.crest-kit-ANG::before { background: repeating-linear-gradient(90deg,#f8f8f2 0 11px,#25272a 11px 20px); }
+.crest-kit-AJA::before { background: repeating-linear-gradient(90deg,#f8f8f2 0 14px,#2b5daa 14px 16px); }
+.crest-kit-BRS::before { background: linear-gradient(180deg,#cd3541 0 37%,#f8f7f1 37% 44%,#cd3541 44%); }
+.crest-kit-HAC::before { background: linear-gradient(90deg,#74b9dd 0 49%,#263c6d 49%); }
+.crest-kit-LEM::before { background: linear-gradient(90deg,#d5b143 0 49%,#c33440 49%); }
+.crest-kit-LIL::before { background: linear-gradient(180deg,#c73442 0 34%,#24365e 34% 49%,#c73442 49%); }
+.crest-kit-FCL::before { background: linear-gradient(135deg,#ea883d 0 46%,#222629 46% 51%,#ea883d 51%); }
+.crest-kit-NIC::before { background: repeating-linear-gradient(90deg,#c33142 0 7px,#232528 7px 17px); }
+.crest-kit-PFC::before { background: linear-gradient(120deg,#294c90 0 40%,#69b1db 40% 52%,#294c90 52%); }
+.crest-kit-REN::before { background: linear-gradient(90deg,#c73140 0 50%,#24272b 50%); }
+.crest-kit-RCS::before { background: linear-gradient(180deg,#316ab7 0 35%,#f7f8f3 35% 47%,#316ab7 47%); }
+.crest-kit-TFC::before { background: repeating-linear-gradient(90deg,#6d4a9b 0 14px,#f8f7f0 14px 16px); }
+.crest-kit-EST::before { background: linear-gradient(180deg,#f7f8f2 0 20%,transparent 20%),linear-gradient(90deg,#f7f8f2 0 19%,#2f70b5 19% 81%,#f7f8f2 81%); }
+
+/* Additional Champions League clubs: individually tuned home-colour cues. */
+.crest-kit-BOD::before { background: linear-gradient(90deg,#25272a 0 18%,#e9c938 18% 82%,#25272a 82%); }
+.crest-kit-BRU::before { background: repeating-linear-gradient(90deg,#2866a9 0 13px,#22272b 13px 22px); }
+.crest-kit-FEN::before { background: repeating-linear-gradient(90deg,#e9ca43 0 14px,#26365f 14px 28px); }
+.crest-kit-FEY::before { background: linear-gradient(90deg,#f9f8f1 0 50%,#d13743 50%); }
+.crest-kit-GAL::before { background: linear-gradient(90deg,#e5a537 0 50%,#c52f3e 50%); }
+.crest-kit-LASK::before { background: repeating-linear-gradient(90deg,#f8f8f2 0 8px,#27282a 8px 14px); }
+.crest-kit-AEK::before { background: repeating-linear-gradient(90deg,#d7bd39 0 10px,#25272a 10px 19px); }
+.crest-kit-POR::before { background: repeating-linear-gradient(90deg,#f9f8f3 0 10px,#2867b6 10px 20px); }
+.crest-kit-PSV::before { background: repeating-linear-gradient(90deg,#cf3040 0 8px,#f9f8f2 8px 16px); }
+.crest-kit-SAB::before { background: linear-gradient(130deg,#274b91 0 38%,#e9c844 38% 50%,#274b91 50%); }
+.crest-kit-SHA::before { background: repeating-linear-gradient(90deg,#e28538 0 15px,#252729 15px 22px); }
+.crest-kit-SLO::before { background: repeating-linear-gradient(0deg,#7bbedd 0 12px,#f8f8f3 12px 17px); }
+.crest-kit-SLA::before { background: linear-gradient(90deg,#f8f8f2 0 50%,#cc3543 50%); }
+.crest-kit-SPO::before { background: repeating-linear-gradient(0deg,#258557 0 12px,#f9f9f1 12px 21px); }
+.crest-kit-VIK::before { background: linear-gradient(90deg,#c83441 0 50%,#232629 50%); }
+
+/* Collar and finishing details that remain legible at table size. */
+.crest.crest-kit-RMA::after { background: #1d5147; }
+.crest.crest-kit-BAR::after { background: #172c58; }
+.crest.crest-kit-MUN::after { background: repeating-linear-gradient(90deg,#f6f4ed 0 4px,#191c21 4px 8px,#c92535 8px 11px); }
+.crest.crest-kit-CHE::after { background: #d7b961; }
+.crest.crest-kit-FUL::after { background: #bf3541; }
+.crest.crest-kit-JUV::after { top: 4%;left: 36%;width: 28%;height: 13%;background: #f8f7f1;border: 1px solid #252628;border-top: 0;clip-path: polygon(0 0,50% 50%,100% 0,100% 64%,50% 100%,0 64%); }
+.crest.crest-kit-INT::after { background: #d9b148; }
+.crest.crest-kit-ALA::after { top: 4%;left: 36%;width: 28%;height: 13%;background: #2363a7;border: 1px solid #f9f9f5;border-top: 0;clip-path: polygon(0 0,50% 50%,100% 0,100% 65%,50% 100%,0 65%); }
+.crest.crest-kit-DEP::after { background: #fafaf6; }
+.crest.crest-kit-RSO::after { background: #2368b7;clip-path: polygon(0 0,50% 100%,100% 0,72% 0,50% 50%,28% 0); }
+.crest.crest-kit-ATH::after,.crest.crest-kit-ESP::after { background: #202329; }
+.crest.crest-kit-VIL::after { background: #2451a5; }

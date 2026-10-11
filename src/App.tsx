@@ -1,16 +1,24 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ArrowUpRight, ArrowRight, ArrowDown, Search, Sun, Moon, Globe2, Menu, X, Check, Plus, Trophy, UsersRound, MessageCircle, Heart, SlidersHorizontal, Clock3, ChevronRight, Shield, Zap, MoveUpRight } from 'lucide-react';
-import { teams, articles, extraStories, results, tableRows, discussions, words, localeIndex, localizeLeague, localizeClub, localizeDate, browserLocale } from './data';
+import { teams, articles, extraStories, discussions, words, localeIndex, localizeLeague, localizeClub, localizePlayer, browserLocale } from './data';
 import type { FootballSnapshot } from '../scripts/football-transform';
 import { isPlayerStatsSnapshot } from '../scripts/player-transform';
 import type { PlayerStatsSnapshot } from '../scripts/player-transform';
 import { getClubMark } from './clubIdentity';
+import BayernKit from './BayernKit';
+import StatsBoard from './StatsBoard';
+import TeamStandingsBoard from './TeamStandingsBoard';
+import { playerMetricGroups, playerValues, teamMetricGroups, teamValues } from './metricCatalog';
 import './ui.css';
 import './club-identity.css';
+import './club-kits-2627.css';
 import './player-stats.css';
+import './team-hub.css';
+import './team-picker.css';
+import './matches.css';
 
-const routes = ['home', 'news', 'matches', 'standings', 'teams', 'players'];
+const routes = ['home', 'news', 'matches', 'standings', 'team-stats', 'teams', 'players'];
 const leagues = ['英超', '西甲', '意甲', '德甲', '法甲', '欧冠'];
 const readRoute = () => routes.find(route => '/' + route === location.pathname.replace(/\/$/, '')) || 'home';
 const copy = (locale, simplified, traditional, english) => locale === 'en' ? english : locale === 'zh-TW' ? traditional : simplified;
@@ -30,7 +38,7 @@ function isFootballSnapshot(value: unknown): value is FootballSnapshot {
 
 function Crest({ name, code = undefined, color = '#7377db', small = false }) {
   const mark = getClubMark(name, color, code);
-  return <span className={`crest crest-${mark.pattern}${small ? ' crest-small' : ''}`} style={{ '--club': mark.primary, '--club-secondary': mark.accent, '--club-trim': mark.trim } as React.CSSProperties} aria-hidden="true"><span className="crest-code">{mark.code}</span></span>;
+  return <span className={`crest ${mark.dedicatedKit ? `crest-kit crest-kit-${mark.code}` : `crest-${mark.pattern}`}${mark.pattern === 'bayern' ? ' crest-bayern' : ''}${small ? ' crest-small' : ''}`} style={{ '--club': mark.primary, '--club-secondary': mark.accent, '--club-trim': mark.trim } as React.CSSProperties} aria-hidden="true">{mark.pattern === 'bayern' && <BayernKit />}<span className="crest-code">{mark.code}</span></span>;
 }
 function SectionTitle({ kicker, title, action = null }) {
   return <div className="section-title"><div><span className="eyebrow">{kicker}</span><h2>{title}<span className="title-dot">.</span></h2></div>{action}</div>;
@@ -75,16 +83,6 @@ function Discussion({ locale, onJoin }) {
   const idx = localeIndex[locale];
   return <section id="discussions" className="discussion-block reveal"><SectionTitle kicker="THE STANDS / 看台声音" title={words[locale].hot} action={<span className="sticker small-sticker">FANS FIRST ✳</span>} /><p className="section-desc">{copy(locale, '聊比赛，也聊你的热爱。', '聊比賽，也聊你的熱愛。', 'Big games. Different takes. Same love.')}</p><div className="discussion-grid">{discussions.map((item, i) => <article className={'discussion-card discussion-' + i} key={item.initials}><span className="discussion-topic">{item.tag[idx]}</span><p className="fan-quote">“{item.text[idx]}”</p><div className="fan-person"><span className="avatar">{item.initials}</span><span><b>{item.name}</b><small>{item.team[idx]}</small></span></div><div className="discussion-actions"><button onClick={onJoin} aria-label={copy(locale, '点赞', '點讚', 'Like')}><Heart size={17} />{item.likes}</button><button onClick={onJoin} aria-label={copy(locale, '回复', '回覆', 'Reply')}><MessageCircle size={17} />{item.replies}</button><span>↗</span></div></article>)}</div><div className="discussion-foot"><span>{copy(locale, '评论示例 · 登录上线后开放发言、点赞和回复', '評論示例 · 登入上線後開放發言、點讚和回覆', 'Sample discussions · Posting, likes and replies open with sign-in')}</span><button className="text-link" onClick={onJoin}>{copy(locale, '加入看台', '加入看台', 'Join the stands')}<ArrowRight size={18} /></button></div></section>;
 }
-function MatchBreakdown({ locale }) {
-  const events = [
-    ['23′',copy(locale,'主队进球','主隊進球','Home goal'),'1 – 0'],
-    ['51′',copy(locale,'客队黄牌','客隊黃牌','Away booking'),'🟨'],
-    ['68′',copy(locale,'客队扳平','客隊扳平','Away equaliser'),'1 – 1'],
-    ['82′',copy(locale,'主队换人','主隊換人','Home substitution'),'↔'],
-    ['89′',copy(locale,'主队进球','主隊進球','Home goal'),'2 – 1'],
-  ];
-  return <div className="recap-breakdown"><div><h4>{copy(locale,'比赛事件','比賽事件','Match events')}</h4><div className="event-timeline">{events.map(([minute,label,score])=><div key={minute}><time>{minute}</time><span>{label}</span><b>{score}</b></div>)}</div></div><div><h4>{copy(locale,'比赛统计','比賽統計','Match stats')}</h4>{[[copy(locale,'控球率','控球率','Possession'),'58%','42%',58],[copy(locale,'射门','射門','Shots'),14,9,61],[copy(locale,'角球','角球','Corners'),7,5,58]].map(([label,home,away,percent])=><div className="stat-row" key={label}><div><b>{home}</b><span>{label}</span><b>{away}</b></div><div className="stat-track"><span style={{width:percent+'%'}}/></div></div>)}<p>{copy(locale,'事件与统计均为示例。','事件與統計均為示例。','Events and stats are illustrative.')}</p></div></div>;
-}
 function NewsFeed({ locale, onOpen, home = false, navigate, onJoin, onPick }) {
   const t = words[locale], idx = localeIndex[locale];
   const [league, setLeague] = useState('all');
@@ -101,93 +99,128 @@ function NewsFeed({ locale, onOpen, home = false, navigate, onJoin, onPick }) {
     </section>{home && <Discussion locale={locale} onJoin={onJoin} />}
   </>;
 }
-function Matches({ locale, favorites }) {
-  const t = words[locale];
-  const [date, setDate] = useState('all'), [following, setFollowing] = useState(false), [selected, setSelected] = useState(results[0]);
-  const rows = results.filter(r => (date === 'all' || r.date === date) && (!following || favorites.includes(r.teamHome) || favorites.includes(r.teamAway)));
-  return <><PageTitle title={t.results} description={t.resultsSub} label="FULL TIME" /><section className="results-panel reveal"><div className="results-toolbar"><div className="tabs"><button className={!following ? 'selected' : ''} onClick={() => setFollowing(false)}>{t.scoreAll}</button><button className={following ? 'selected' : ''} onClick={() => setFollowing(true)}>{t.scoreFollowing}</button></div><label className="date-select"><Clock3 size={18} /><select aria-label={copy(locale, '按日期筛选赛果', '按日期篩選賽果', 'Filter results by date')} value={date} onChange={e => setDate(e.target.value)}><option value="all">{t.sevenDays}</option>{results.map(r => <option value={r.date} key={r.date}>{localizeDate(r.date, locale)}</option>)}</select></label></div><div className="match-grid">{rows.map(r => <button className={'result-row match-tile' + (selected === r ? ' active' : '')} key={r.teamHome} onClick={() => setSelected(r)}><div className="match-top"><span>{localizeLeague(r.league, locale)}</span><span>{localizeDate(r.date, locale)}</span><b>FT</b></div><div className="match-pair"><div><Crest name={r.teamHome} color={r.colors[0]} /><strong>{localizeClub(r.home, locale)}</strong></div><b className="score">{r.hs}<i>:</i>{r.as}</b><div><Crest name={r.teamAway} color={r.colors[1]} /><strong>{localizeClub(r.away, locale)}</strong></div></div><div className="match-bottom">{copy(locale, '赛后回顾', '賽後回顧', 'Match recap')}<ArrowUpRight size={18} /></div></button>)}</div>{!rows.length && <div className="empty-state">{copy(locale, '这个筛选条件下暂无赛果。', '這個篩選條件下暫無賽果。', 'No results match these filters.')}</div>}<p className="data-note">{t.demo}</p></section><section id="match-center" className="match-center"><SectionTitle kicker="POST MATCH" title={copy(locale, '比赛中心', '比賽中心', 'Match center')} /><div className="recap-card"><span className="tag">{copy(locale, '示例赛果', '示例賽果', 'Sample result')}</span><h3>{localizeClub(selected.home, locale)} <span>{selected.hs} — {selected.as}</span> {localizeClub(selected.away, locale)}</h3><p>{copy(locale, '完整战报、进球者与比赛事件将在接入数据后展示。', '完整戰報、進球者與比賽事件將在接入數據後展示。', 'Match reports, scorers and events will appear when verified data is connected.')}</p>{selected === results[0] && <MatchBreakdown locale={locale} />}</div></section></>;
-}
-function Standings({ locale }) {
-  const [league, setLeague] = useState('英超');
-  return <section id="standings"><PageTitle title={copy(locale, '积分榜', '積分榜', 'Standings')} description={copy(locale, '每一分，都在改写故事。', '每一分，都在改寫故事。', 'Every point changes the story.')} label="THE TABLE" /><div className="data-card"><div className="table-toolbar"><div className="tabs scroll-tabs">{leagues.map(l => <button className={league === l ? 'selected' : ''} onClick={() => setLeague(l)} key={l}>{localizeLeague(l, locale)}</button>)}</div><span className="season-label">2026 / 27</span></div>{league === '英超' ? <div className="table-scroll"><table className="standings-table"><thead><tr>{['#',copy(locale, '球队', '球隊', 'Club'),copy(locale, '场次', '場次', 'P'),copy(locale, '胜 / 平 / 负', '勝 / 和 / 負', 'W / D / L'),copy(locale, '净胜球', '淨勝球', 'GD'),copy(locale, '积分', '積分', 'PTS')].map(h => <th key={h}>{h}</th>)}</tr></thead><tbody>{tableRows.map(r => <tr key={r.pos}><td><span className={'rank ' + (r.pos <= 3 ? 'top-rank' : '')}>{r.pos}</span></td><td><span className="table-club"><Crest name={r.team} color={r.color} small />{localizeClub(r.team, locale)}</span></td><td>{r.p}</td><td>{r.w} / {r.d} / {r.l}</td><td>{r.gd}</td><td><strong className="points">{r.pts}</strong></td></tr>)}</tbody></table></div> : <div className="empty-state"><Trophy size={35} /><h3>{localizeLeague(league, locale)}</h3><p>{copy(locale, '此赛事数据尚未接入。', '此賽事數據尚未接入。', 'Data for this competition is not connected yet.')}</p></div>}<p className="data-note">{copy(locale, '积分榜为示例数据，当前仅提供英超布局预览。', '積分榜為示例數據，目前僅提供英超版面預覽。', 'Sample standings. Premier League is the available preview.')}</p></div></section>;
+function UnavailableMatches({ locale }: { locale: Locale }) {
+  return <><PageTitle title={words[locale].results} description={words[locale].resultsSub} label="FULL TIME" /><section className="results-panel"><div className="empty-state"><Trophy size={38} /><h2>{copy(locale, '赛果暂不可用', '賽果暫不可用', 'Results unavailable')}</h2><p>{copy(locale, '真实数据尚未同步成功，请稍后刷新。', '真實數據尚未同步成功，請稍後重新整理。', 'Verified data has not synced yet. Please refresh later.')}</p></div></section></>;
 }
 function LiveMatches({ locale, favorites, data }: { locale: Locale; favorites: string[]; data: FootballSnapshot }) {
   const t = words[locale];
+  const isStale = Date.now() - new Date(data.updatedAt).getTime() > 24 * 60 * 60 * 1000;
+  const [view, setView] = useState<'schedule' | 'results'>('schedule');
   const [date, setDate] = useState('all');
+  const [month, setMonth] = useState('all');
+  const [league, setLeague] = useState('all');
   const [following, setFollowing] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [visibleCount, setVisibleCount] = useState(40);
+  const [teamQuery, setTeamQuery] = useState('');
   const cutoff = new Date();
   cutoff.setHours(0, 0, 0, 0);
   cutoff.setDate(cutoff.getDate() - 6);
   const recent = data.matches.filter(match => new Date(match.utcDate) >= cutoff);
   const dates = [...new Set(recent.map(match => localDateKey(match.utcDate)))];
   const rows = recent.filter(match => (date === 'all' || localDateKey(match.utcDate) === date)
+    && (league === 'all' || match.league === league)
+    && (teamQuery === '' || `${match.home} ${match.away}`.toLowerCase().includes(teamQuery.toLowerCase()))
     && (!following || favorites.includes(match.teamHome) || favorites.includes(match.teamAway)));
+  const schedule = [...(data.fixtures || [])].filter(match => (league === 'all' || match.league === league)
+    && (month === 'all' || match.utcDate.slice(0, 7) === month)
+    && (`${match.home} ${match.away}`.toLowerCase().includes(teamQuery.toLowerCase()))
+    && (!following || favorites.includes(match.teamHome) || favorites.includes(match.teamAway)))
+    .sort((a, b) => a.utcDate.localeCompare(b.utcDate));
+  const months = [...new Set((data.fixtures || []).map(match => match.utcDate.slice(0, 7)))].sort();
   const selected = rows.find(match => match.id === selectedId) || rows[0];
-  return <><PageTitle title={t.results} description={t.resultsSub} label="FULL TIME" />
-    <section className="results-panel reveal"><div className="results-toolbar"><div className="tabs">
-      <button className={!following ? 'selected' : ''} onClick={() => setFollowing(false)}>{t.scoreAll}</button>
-      <button className={following ? 'selected' : ''} onClick={() => setFollowing(true)}>{t.scoreFollowing}</button>
-    </div><label className="date-select"><Clock3 size={18} /><select aria-label={copy(locale, '按日期筛选赛果', '按日期篩選賽果', 'Filter results by date')} value={date} onChange={event => setDate(event.target.value)}>
-      <option value="all">{t.sevenDays}</option>{dates.map(day => <option value={day} key={day}>{matchDateLabel(`${day}T12:00:00`, locale)}</option>)}
-    </select></label></div><div className="match-grid">{rows.map(match => <button className={'result-row match-tile' + (selected?.id === match.id ? ' active' : '')} key={match.id} onClick={() => setSelectedId(match.id)}>
-      <div className="match-top"><span>{localizeLeague(match.league, locale)}</span><span>{matchDateLabel(match.utcDate, locale)}</span><b>FT</b></div>
-      <div className="match-pair"><div><Crest name={match.home} code={match.teamHome} color={match.colors[0]} /><strong>{localizeClub(match.home, locale)}</strong></div><b className="score">{match.hs}<i>:</i>{match.as}</b><div><Crest name={match.away} code={match.teamAway} color={match.colors[1]} /><strong>{localizeClub(match.away, locale)}</strong></div></div>
-      <div className="match-bottom">{copy(locale, '查看赛果', '查看賽果', 'View result')}<ArrowUpRight size={18} /></div>
-    </button>)}</div>{!rows.length && <div className="empty-state">{copy(locale, '最近七天没有符合条件的完赛记录。', '最近七天沒有符合條件的完賽紀錄。', 'No finished matches match these filters in the last seven days.')}</div>}
-      <p className="data-note">{copy(locale, '赛后数据 · 上次更新：', '賽後數據 · 上次更新：', 'Post-match data · Updated: ')}{updatedLabel(data.updatedAt, locale)}</p>
-    </section>{selected && <section id="match-center" className="match-center"><SectionTitle kicker="POST MATCH" title={copy(locale, '比赛中心', '比賽中心', 'Match center')} /><div className="recap-card"><span className="tag">{copy(locale, '真实赛果', '真實賽果', 'Verified result')}</span><h3>{localizeClub(selected.home, locale)} <span>{selected.hs} — {selected.as}</span> {localizeClub(selected.away, locale)}</h3><p>{copy(locale, '免费数据源暂不提供完整进球事件与阵容。', '免費數據源暫不提供完整入球事件與陣容。', 'Detailed goal events and lineups are not available on the free data plan.')}</p></div></section>}</>;
+  const statusLabel = (status: string) => status === 'FINISHED' || status === 'FINISHED_AET' || status === 'FINISHED_PEN'
+    ? copy(locale, '完赛', '已完賽', 'FT')
+    : status === 'POSTPONED' ? copy(locale, '延期', '延期', 'Postponed')
+      : status === 'SUSPENDED' ? copy(locale, '暂停', '暫停', 'Suspended')
+        : status === 'IN_PLAY' || status === 'PAUSED' ? copy(locale, '进行中', '進行中', 'Live')
+          : copy(locale, '未开赛', '未開賽', 'Scheduled');
+  const matchDate = (utcDate: string) => new Intl.DateTimeFormat(locale, { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }).format(new Date(utcDate));
+  return <><PageTitle title={copy(locale, '比赛中心', '賽事中心', 'Match center')} description={copy(locale, '查看本赛季完整赛程，也可切换到近期赛果。', '查看本賽季完整賽程，也可切換至近期賽果。', 'Browse this season’s full fixture list and recent results.')} label="FIXTURES / FULL TIME" />
+    <section className="results-panel reveal">{isStale && <p className="stats-unavailable" role="status">{copy(locale, '数据已超过 24 小时未更新，近期赛果可能不完整。', '資料已超過 24 小時未更新，近期賽果可能不完整。', 'Data has not updated for over 24 hours; recent results may be incomplete.')}</p>}
+      <div className="match-view-tabs tabs"><button className={view === 'schedule' ? 'selected' : ''} onClick={() => { setView('schedule'); setVisibleCount(40); }}>{copy(locale, '本赛季赛程', '本賽季賽程', 'Season fixtures')}<span>{data.fixtures?.length ?? 0}</span></button><button className={view === 'results' ? 'selected' : ''} onClick={() => setView('results')}>{copy(locale, '近期赛果', '近期賽果', 'Recent results')}<span>{recent.length}</span></button></div>
+      <div className="match-filters"><label className="match-filter"><span>{copy(locale, '赛事', '賽事', 'Competition')}</span><select value={league} onChange={event => setLeague(event.target.value)}><option value="all">{copy(locale, '全部赛事', '全部賽事', 'All competitions')}</option>{leagues.map(name => <option key={name} value={name}>{localizeLeague(name, locale)}</option>)}</select></label>
+        {view === 'schedule' ? <label className="match-filter"><span>{copy(locale, '月份', '月份', 'Month')}</span><select value={month} onChange={event => { setMonth(event.target.value); setVisibleCount(40); }}><option value="all">{copy(locale, '整个赛季', '整個賽季', 'Full season')}</option>{months.map(value => <option key={value} value={value}>{new Intl.DateTimeFormat(locale, { year: 'numeric', month: 'long' }).format(new Date(`${value}-01T12:00:00`))}</option>)}</select></label>
+          : <label className="match-filter"><span>{copy(locale, '日期', '日期', 'Date')}</span><select value={date} onChange={event => setDate(event.target.value)}><option value="all">{t.sevenDays}</option>{dates.map(day => <option value={day} key={day}>{matchDateLabel(`${day}T12:00:00`, locale)}</option>)}</select></label>}
+        <label className="match-filter match-search"><span>{copy(locale, '球队', '球隊', 'Team')}</span><input value={teamQuery} onChange={event => { setTeamQuery(event.target.value); setVisibleCount(40); }} placeholder={copy(locale, '搜索球队', '搜尋球隊', 'Search teams')} /></label>
+        <button className={'button match-follow-filter' + (following ? ' selected' : '')} onClick={() => setFollowing(!following)}>{following ? <Check size={18} /> : <UsersRound size={18} />}{copy(locale, '关注球队', '關注球隊', 'Followed teams')}</button>
+      </div>
+      {view === 'schedule' ? <><p className="schedule-season-note">{copy(locale, `本赛季共收录 ${schedule.length} 场比赛。选择赛事或月份可缩小范围。`, `本賽季共收錄 ${schedule.length} 場比賽。選擇賽事或月份可縮小範圍。`, `${schedule.length} fixtures in this season view. Filter by competition or month.`)}</p><div className="match-grid">{schedule.slice(0, visibleCount).map(match => <article className="match-tile schedule-tile" key={match.id}><div className="match-top"><span>{localizeLeague(match.league, locale)}</span><span>{matchDate(match.utcDate)}</span><b>{statusLabel(match.status)}</b></div><div className="match-pair"><div><Crest name={match.home} code={match.teamHome} color={match.colors[0]} /><strong>{localizeClub(match.home, locale)}</strong></div><b className="score">{Number.isInteger(match.hs) && Number.isInteger(match.as) ? <>{match.hs}<i>:</i>{match.as}</> : <i>VS</i>}</b><div><Crest name={match.away} code={match.teamAway} color={match.colors[1]} /><strong>{localizeClub(match.away, locale)}</strong></div></div><div className="match-bottom">{statusLabel(match.status)}<ArrowUpRight size={18} /></div></article>)}</div>{!schedule.length && <div className="empty-state">{copy(locale, '当前本地赛程文件为空。同步最新数据后即可查看本赛季完整赛程。', '目前本地賽程檔案為空。同步最新資料後即可查看本賽季完整賽程。', 'The local fixture snapshot is empty. Sync the latest data to view the full season.')}</div>}{schedule.length > visibleCount && <button className="button load-more-matches" onClick={() => setVisibleCount(count => count + 40)}>{copy(locale, `再显示 40 场（剩余 ${schedule.length - visibleCount} 场）`, `再顯示 40 場（剩餘 ${schedule.length - visibleCount} 場）`, `Load 40 more (${schedule.length - visibleCount} left)`)}</button>}</>
+        : <><div className="results-toolbar"><div className="tabs"><button className={!following ? 'selected' : ''} onClick={() => setFollowing(false)}>{t.scoreAll}</button><button className={following ? 'selected' : ''} onClick={() => setFollowing(true)}>{t.scoreFollowing}</button></div></div><div className="match-grid">{rows.map(match => <button className={'result-row match-tile' + (selected?.id === match.id ? ' active' : '')} key={match.id} onClick={() => setSelectedId(match.id)}><div className="match-top"><span>{localizeLeague(match.league, locale)}</span><span>{matchDate(match.utcDate)}</span><b>FT</b></div><div className="match-pair"><div><Crest name={match.home} code={match.teamHome} color={match.colors[0]} /><strong>{localizeClub(match.home, locale)}</strong></div><b className="score">{match.hs}<i>:</i>{match.as}</b><div><Crest name={match.away} code={match.teamAway} color={match.colors[1]} /><strong>{localizeClub(match.away, locale)}</strong></div></div>{match.penalties && <p className="penalty-note">{copy(locale, '点球大战', '十二碼決勝', 'Penalties')} {match.penalties.home}:{match.penalties.away}</p>}<div className="match-bottom">{copy(locale, '查看赛果', '查看賽果', 'View result')}<ArrowUpRight size={18} /></div></button>)}</div>{!rows.length && <div className="empty-state">{copy(locale, '最近七天没有符合条件的完赛记录。', '最近七天沒有符合條件的完賽紀錄。', 'No finished matches match these filters in the last seven days.')}</div>}</>}
+      <p className="data-note">{copy(locale, '数据来源：Football-Data.org · 上次更新：', '資料來源：Football-Data.org · 上次更新：', 'Source: Football-Data.org · Updated: ')}{updatedLabel(data.updatedAt, locale)} · <a href="https://www.football-data.org/" target="_blank" rel="noopener noreferrer">{copy(locale, '查看数据来源', '查看資料來源', 'View source')}</a></p>
+    </section>{view === 'results' && selected && <section id="match-center" className="match-center"><SectionTitle kicker="POST MATCH" title={copy(locale, '比赛中心', '賽事中心', 'Match center')} /><div className="recap-card"><span className="tag">{copy(locale, '真实赛果', '真實賽果', 'Verified result')}</span><h3>{localizeClub(selected.home, locale)} <span>{selected.hs} — {selected.as}</span> {localizeClub(selected.away, locale)}</h3>{selected.penalties && <p>{copy(locale, '点球大战', '十二碼決勝', 'Penalty shootout')} {selected.penalties.home}:{selected.penalties.away}</p>}<p>{copy(locale, '免费数据源暂不提供完整进球事件与阵容。', '免費數據源暫不提供完整入球事件與陣容。', 'Detailed goal events and lineups are not available on the free data plan.')}</p></div></section>}</>;
 }
 
-function LiveStandings({ locale, data }: { locale: Locale; data: FootballSnapshot }) {
-  const [league, setLeague] = useState('英超');
-  const standing = data.standings[league];
-  return <section id="standings"><PageTitle title={copy(locale, '积分榜', '積分榜', 'Standings')} description={copy(locale, '每一分，都在改写故事。', '每一分，都在改寫故事。', 'Every point changes the story.')} label="THE TABLE" />
-    <div className="data-card"><div className="table-toolbar"><div className="tabs scroll-tabs">{leagues.map(name => <button className={league === name ? 'selected' : ''} onClick={() => setLeague(name)} key={name}>{localizeLeague(name, locale)}</button>)}</div><span className="season-label">{standing?.season || '—'}</span></div>
-      {standing?.groups.length ? standing.groups.map((group, index) => <div key={group.name || index}>{standing.groups.length > 1 && <h2 className="standings-group-heading">{group.name.replace('_', ' ')}</h2>}<div className="table-scroll"><table className="standings-table"><thead><tr>{['#', copy(locale, '球队', '球隊', 'Club'), copy(locale, '场次', '場次', 'P'), copy(locale, '胜 / 平 / 负', '勝 / 和 / 負', 'W / D / L'), copy(locale, '净胜球', '淨勝球', 'GD'), copy(locale, '积分', '積分', 'PTS')].map(label => <th key={label}>{label}</th>)}</tr></thead><tbody>{group.rows.map(row => <tr key={row.pos + row.team}><td><span className={'rank ' + (row.pos <= 3 ? 'top-rank' : '')}>{row.pos}</span></td><td><span className="table-club"><Crest name={row.team} color={row.color} small />{localizeClub(row.team, locale)}</span></td><td>{row.p}</td><td>{row.w} / {row.d} / {row.l}</td><td>{row.gd}</td><td><strong className="points">{row.pts}</strong></td></tr>)}</tbody></table></div></div>) : <div className="empty-state"><Trophy size={35} /><h3>{localizeLeague(league, locale)}</h3><p>{copy(locale, '此赛事目前没有可用积分榜。', '此賽事目前沒有可用積分榜。', 'No standings are available for this competition right now.')}</p></div>}
-      <p className="data-note">{copy(locale, '当前赛季积分榜 · 上次更新：', '目前賽季積分榜 · 上次更新：', 'Current season standings · Updated: ')}{updatedLabel(data.updatedAt, locale)}</p>
-    </div></section>;
+function CompetitionTabs({ locale, league, onChange }: { locale: Locale; league: string; onChange: (league: string) => void }) {
+  return <div className="team-league-picker tabs scroll-tabs" aria-label={copy(locale, '选择赛事', '選擇賽事', 'Choose competition')}>{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => onChange(name)}>{localizeLeague(name, locale)}</button>)}</div>;
 }
 
-function Teams({ locale, favorites, toggleFavorite, onPick }) {
-  const [q, setQ] = useState('');
-  const rows = teams.filter(t => (t.name + t.en).toLowerCase().includes(q.toLowerCase()));
-  return <section id="clubs"><PageTitle title={copy(locale, '找到你的主队', '找到你的主隊', 'Find your club')} description={copy(locale, '不同的颜色，同样的热爱。', '不同的顏色，同樣的熱愛。', 'Different colors. The same love.')} label="YOUR COLORS" icon={Shield} /><div className="page-tools"><label className="inline-search"><Search size={19} /><input aria-label={words[locale].choose} value={q} onChange={e => setQ(e.target.value)} placeholder={copy(locale, '搜索球队', '搜尋球隊', 'Search clubs')} /></label><button className="button primary" onClick={onPick}>{words[locale].choose}<Plus size={18} /></button></div><div className="club-grid">{rows.map(t => <article className="club-card" key={t.short} style={{ '--club': t.color } as React.CSSProperties}><div className="club-card-top"><span>{localizeLeague(t.league, locale)}</span><span>{t.short}</span></div><Crest name={t.short} color={t.color} /><h2>{locale === 'en' ? t.en : localizeClub(t.name, locale)}</h2><span className="club-english">{t.en.toUpperCase()}</span><button className={favorites.includes(t.short) ? 'club-follow followed' : 'club-follow'} aria-pressed={favorites.includes(t.short)} onClick={() => toggleFavorite(t.short)}>{favorites.includes(t.short) ? <Check size={19} /> : <Plus size={19} />}{favorites.includes(t.short) ? copy(locale, '已关注', '已關注', 'Following') : copy(locale, '关注球队', '關注球隊', 'Follow club')}</button></article>)}</div>{!rows.length && <div className="empty-state">{words[locale].noSearch}</div>}</section>;
-}
-function Players({ locale, snapshot }: { locale: Locale; snapshot: PlayerStatsSnapshot | null }) {
-  const [metric, setMetric] = useState<'goals' | 'assists'>('goals');
+function StandingsPage({ locale, data }: { locale: Locale; data: FootballSnapshot | null }) {
   const [league, setLeague] = useState('英超');
-  useEffect(() => {
-    if (snapshot && !snapshot.leagues[league]) setLeague(Object.keys(snapshot.leagues)[0] || league);
-  }, [snapshot]);
-  const labels = {
-    goals: copy(locale, '进球', '進球', 'Goals'),
-    assists: copy(locale, '助攻', '助攻', 'Assists'),
-    apps: copy(locale, '出场', '出場', 'Apps'),
-  };
-  const selected = snapshot?.leagues[league];
-  const rows = [...(selected?.players || [])].sort((a, b) => (b[metric] ?? -1) - (a[metric] ?? -1) || b.goals - a.goals);
-  const format = (value: number | null) => value === null ? '—' : value;
-  return <section id="players">
-    <PageTitle title={copy(locale, '球员数据', '球員數據', 'Player stats')} description={copy(locale, '真实赛季数字，按赛事查看。', '真實賽季數字，按賽事查看。', 'Verified season numbers by competition.')} label="GAME CHANGERS" icon={Zap} />
-    {rows.length > 0 && <div className="player-podium">{rows.slice(0, 3).map((player, index) => <article className="player-highlight" key={player.id} style={{ '--club': getClubMark(player.team).primary } as React.CSSProperties}>
-      <span className="player-position">0{index + 1} / {labels[metric]}</span><div className="player-initial" aria-hidden="true">{player.name.split(/\s+/).map(part => part[0]).slice(0, 2).join('')}</div>
-      <strong className="player-stat">{format(player[metric])}</strong><h2>{player.name}</h2><p>{localizeClub(player.team, locale)} · {localizeLeague(league, locale)}</p>
-    </article>)}</div>}
-    <div className="data-card"><div className="table-toolbar player-toolbar"><div className="tabs scroll-tabs">{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => setLeague(name)}>{localizeLeague(name, locale)}</button>)}</div><span className="season-label">{selected?.season || '—'}</span></div>
-      {rows.length ? <><div className="player-metric-tabs tabs">{(['goals', 'assists'] as const).map(key => <button key={key} className={metric === key ? 'selected' : ''} onClick={() => setMetric(key)}>{labels[key]}</button>)}</div><div className="table-scroll"><table className="players-table"><thead><tr><th>{copy(locale, '球员', '球員', 'Player')}</th><th>{labels.apps}</th><th>{labels.goals}</th><th>{labels.assists}</th></tr></thead><tbody>{rows.map(player => <tr key={player.id}><td><div className="table-club"><Crest name={player.team} small /><span><b>{player.name}</b><small>{localizeClub(player.team, locale)}</small></span></div></td><td>{format(player.appearances)}</td><td>{player.goals}</td><td>{format(player.assists)}</td></tr>)}</tbody></table></div></>
-        : <div className="empty-state"><Zap size={35} /><h3>{copy(locale, '暂无可验证的球员数据', '暫無可驗證的球員數據', 'No verified player stats yet')}</h3><p>{copy(locale, '已移除演示数字。配置球员数据 API 后，这里会显示当前赛季统计。', '已移除示例數字。設定球員數據 API 後，這裡會顯示目前賽季統計。', 'Sample numbers have been removed. Current-season statistics will appear after the player API is connected.')}</p></div>}
-      <p className="data-note">{snapshot ? <>{copy(locale, '数据来源：GOAL API · 更新时间：', '資料來源：GOAL API · 更新時間：', 'Source: GOAL API · Updated: ')}{updatedLabel(snapshot.updatedAt, locale)}{copy(locale, '。数据源未提供出场、位置和国籍；缺失的出场数据以“—”显示。', '。資料源未提供出場、位置和國籍；缺少的出場數據以「—」顯示。', '. The source does not provide appearances, position or nationality; unavailable appearances are shown as “—”.')}</> : copy(locale, '当前页面不会展示未经核实的球员统计。', '目前頁面不會顯示未經核實的球員統計。', 'Unverified player statistics are not displayed.')}</p>
-    </div>
+  return <section className="standings-page">
+    <PageTitle title={copy(locale, '联赛积分榜', '聯賽積分榜', 'League standings')} description={copy(locale, '查看各项赛事排名、积分和晋级区间。', '查看各項賽事排名、積分和晉級區間。', 'Standings, points and qualification zones by competition.')} label="LEAGUE TABLE" icon={Trophy} />
+    <CompetitionTabs locale={locale} league={league} onChange={setLeague} />
+    <TeamStandingsBoard key={league} locale={locale} league={league} data={data} />
   </section>;
 }
 
+function TeamStatsPage({ locale, data }: { locale: Locale; data: FootballSnapshot | null }) {
+  const [league, setLeague] = useState('英超');
+  const standing = data?.standings[league];
+  const entries = (standing?.groups.flatMap(group => group.rows) || []).map(row => {
+    const advanced = data?.teamStatsSource && row.id !== null ? data.teamStats?.[league]?.[String(row.id)] : undefined;
+    return { id: String(row.id ?? row.team), position: row.pos, name: localizeClub(row.team, locale), sub: `${row.p} ${copy(locale, '场', '場', 'played')}`, crest: <Crest name={row.team} color={row.color} small />, values: teamValues(row, advanced) };
+  });
+  const source = data
+    ? `${copy(locale, '积分榜基础数据：', '積分榜基礎資料：', 'Standings base: ')}Football-Data.org · ${updatedLabel(data.updatedAt, locale)}${data.teamStatsSource ? ` | GOAL API · ${updatedLabel(data.teamStatsSource.updatedAt, locale)}` : ''}`
+    : copy(locale, '等待数据同步', '等待資料同步', 'Waiting for data sync');
+  return <section className="team-stats-page">
+    <PageTitle title={copy(locale, '球队榜', '球隊榜', 'Team stats')} description={copy(locale, '比较各队进攻、传控、防守和纪律表现。', '比較各隊進攻、傳控、防守和紀律表現。', 'Compare team attack, passing, defence and discipline.')} label="CLUB NUMBERS" icon={Shield} />
+    <CompetitionTabs locale={locale} league={league} onChange={setLeague} />
+    <StatsBoard key={league} locale={locale} entries={entries} groups={teamMetricGroups} source={source} />
+  </section>;
+}
+
+function Teams({ locale, favorites, toggleFavorite, onPick, clubs }: { locale: Locale; favorites: string[]; toggleFavorite: (code: string) => void; onPick: () => void; clubs: Array<{ name: string; en: string; short: string; color: string; league: string }> }) {
+  const [q, setQ] = useState('');
+  const [league, setLeague] = useState('英超');
+  const rows = clubs.filter(t => t.league === league && (t.name + t.en + t.short).toLowerCase().includes(q.toLowerCase()));
+  return <section id="clubs" className="team-hub">
+    <PageTitle title={copy(locale, '球队中心', '球隊中心', 'Club center')} description={copy(locale, '浏览球队资料，找到并关注你的主队。', '瀏覽球隊資料，找到並關注你的主隊。', 'Explore clubs and follow the teams you support.')} label="YOUR COLORS" icon={Shield} />
+    <div className="team-league-picker tabs scroll-tabs" aria-label={copy(locale, '选择赛事', '選擇賽事', 'Choose competition')}>{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => setLeague(name)}>{localizeLeague(name, locale)}</button>)}</div>
+    <section className="team-hub-section"><SectionTitle kicker="YOUR COLORS" title={copy(locale, '找到你的主队', '找到你的主隊', 'Find your club')} /><div className="page-tools"><label className="inline-search"><Search size={19} /><input aria-label={words[locale].choose} value={q} onChange={e => setQ(e.target.value)} placeholder={copy(locale, '搜索球队', '搜尋球隊', 'Search clubs')} /></label><button className="button primary" onClick={onPick}>{words[locale].choose}<Plus size={18} /></button></div><div className="club-grid">{rows.map(t => <article className="club-card" key={t.short} style={{ '--club': t.color } as React.CSSProperties}><div className="club-card-top"><span>{localizeLeague(t.league, locale)}</span><span>{t.short}</span></div><Crest name={t.short} color={t.color} /><h2>{locale === 'en' ? t.en : localizeClub(t.name, locale)}</h2><span className="club-english">{t.en.toUpperCase()}</span><button className={favorites.includes(t.short) ? 'club-follow followed' : 'club-follow'} aria-pressed={favorites.includes(t.short)} onClick={() => toggleFavorite(t.short)}>{favorites.includes(t.short) ? <Check size={19} /> : <Plus size={19} />}{favorites.includes(t.short) ? copy(locale, '已关注', '已關注', 'Following') : copy(locale, '关注球队', '關注球隊', 'Follow club')}</button></article>)}</div>{!rows.length && <div className="empty-state">{words[locale].noSearch}</div>}</section>
+  </section>;
+}
+function Players({ locale, snapshot }: { locale: Locale; snapshot: PlayerStatsSnapshot | null }) {
+  const [league, setLeague] = useState('英超');
+  const selected = snapshot?.leagues[league];
+  const entries = (selected?.players || []).map(player => ({
+    id: player.id,
+    name: player.localizedNames?.[locale] || localizePlayer(player.name, locale),
+    sub: [localizeClub(player.team, locale), player.position, player.nationality].filter(Boolean).join(' · '),
+    values: playerValues(player),
+  }));
+  return <section id="players">
+    <PageTitle title={copy(locale, '球员数据', '球員數據', 'Player stats')} description={copy(locale, '按赛事查看赛季进攻、传控、防守与纪律数据。', '按賽事查看賽季進攻、傳控、防守與紀律數據。', 'Season attack, passing, defensive and discipline statistics by competition.')} label="GAME CHANGERS" icon={Zap} />
+    <div className="data-card player-league-card"><div className="table-toolbar player-toolbar"><div className="tabs scroll-tabs">{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => setLeague(name)}>{localizeLeague(name, locale)}</button>)}</div><span className="season-label">{selected?.season || '—'}</span></div></div>
+    <StatsBoard key={league} locale={locale} entries={entries} groups={playerMetricGroups} source={selected ? `GOAL API · ${updatedLabel(snapshot!.updatedAt, locale)}` : copy(locale, '球员赛季与球队归属仍需核实', '球員賽季與球隊歸屬仍需核實', 'Player season and club assignments are still being verified')} />
+  </section>;
+}
 export default function App() {
   const [page,setPage]=useState(readRoute), [locale,setLocale]=useState(browserLocale), [theme,setTheme]=useState(localStorage.getItem('kickoff-theme')||'light');
-  const [favorites,setFavorites]=useState(()=>readSaved('kickoff-teams',[])), [draft,setDraft]=useState([]), [modal,setModal]=useState(null), [article,setArticle]=useState(null), [menu,setMenu]=useState(false);
+  const [favorites,setFavorites]=useState(()=>readSaved('kickoff-teams',[])), [draft,setDraft]=useState([]), [modal,setModal]=useState(null), [article,setArticle]=useState(null), [menu,setMenu]=useState(false), [pickerQuery,setPickerQuery]=useState('');
   const [query,setQuery]=useState(''), [searchFilter,setSearchFilter]=useState(0);
   const root=useRef(null); const t=words[locale]; const idx=localeIndex[locale]; const [snapshot,setSnapshot]=useState<FootballSnapshot | null>(null);
   const [playerStats,setPlayerStats]=useState<PlayerStatsSnapshot | null>(null);
+  const clubOptions = (() => {
+    if (!snapshot) return teams;
+    const byCode = new Map<string, { name: string; en: string; short: string; color: string; league: string }>();
+    for (const league of leagues) for (const group of snapshot.standings[league]?.groups || []) for (const row of group.rows) {
+      const mark = getClubMark(row.team, row.color);
+      if (!byCode.has(mark.code)) byCode.set(mark.code, { name: row.team, en: row.team, short: mark.code, color: row.color || mark.primary, league });
+    }
+    return [...byCode.values()];
+  })();
   useEffect(()=>{ document.documentElement.lang=locale; localStorage.setItem('kickoff-locale',locale); },[locale]);
   useEffect(()=>{ const controller=new AbortController(); fetch('/data/football.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isFootballSnapshot(data))setSnapshot(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
   useEffect(()=>{ const controller=new AbortController(); fetch('/data/players.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isPlayerStatsSnapshot(data))setPlayerStats(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
@@ -199,15 +232,15 @@ export default function App() {
   const navigate=route=>{history.pushState({},'',route==='home'?'/':'/'+route);setPage(route);setMenu(false);setModal(null);window.scrollTo({top:0,behavior:'instant'});};
   const persist=next=>{setFavorites(next);localStorage.setItem('kickoff-teams',JSON.stringify(next));};
   const toggleFavorite=code=>persist(favorites.includes(code)?favorites.filter(v=>v!==code):[...favorites,code]);
-  const openPicker=()=>{setDraft([...favorites]);setModal('teams');};
+  const openPicker=()=>{setDraft([...favorites]);setPickerQuery('');setModal('teams');};
   const closeModal=()=>{if(modal==='teams')localStorage.setItem('kickoff-onboarded','1');setModal(null);};
   const openArticle=a=>{setArticle(a);setModal('article');};
-  const items: Array<{ kind: number; title: string; meta: string; article?: (typeof articles)[number]; route?: string }> = [...articles.map(a=>({kind:1,title:a.title[idx],meta:localizeLeague(a.league.split(' · ')[0],locale),article:a})),...teams.map(v=>({kind:2,title:locale==='en'?v.en:v.name,meta:localizeLeague(v.league,locale),route:'teams'})),...Object.values(playerStats?.leagues || {}).flatMap(group=>group.players.map(player=>({kind:3,title:player.name,meta:localizeClub(player.team,locale),route:'players'}))),...(snapshot?.matches || results).map(v=>({kind:4,title:`${localizeClub(v.home,locale)} ${v.hs} — ${v.as} ${localizeClub(v.away,locale)}`,meta:localizeLeague(v.league,locale),route:'matches'}))];
+  const items: Array<{ kind: number; title: string; meta: string; article?: (typeof articles)[number]; route?: string }> = [...articles.map(a=>({kind:1,title:a.title[idx],meta:localizeLeague(a.league.split(' · ')[0],locale),article:a})),...clubOptions.map(v=>({kind:2,title:locale==='en'?v.en:localizeClub(v.name,locale),meta:localizeLeague(v.league,locale),route:'teams'})),...Object.values(playerStats?.leagues || {}).flatMap(group=>group.players.map(player=>({kind:3,title:player.localizedNames?.[locale] || localizePlayer(player.name,locale),meta:localizeClub(player.team,locale),route:'players'}))),...(snapshot?.matches || []).map(v=>({kind:4,title:`${localizeClub(v.home,locale)} ${v.hs} — ${v.as} ${localizeClub(v.away,locale)}`,meta:localizeLeague(v.league,locale),route:'matches'}))];
   const searchResults=items.filter(v=>(!searchFilter||v.kind===searchFilter)&&(v.title+' '+v.meta).toLowerCase().includes(query.trim().toLowerCase()));
   return <div className="app-shell" data-page={page} ref={root}><div className="announcement"><span>THE GAME IS OURS.</span><span>{t.tagline} <span aria-hidden="true">✳</span> EST. 2026</span></div><header className="site-header"><div className="header-inner"><button className="brand" onClick={()=>navigate('home')} aria-label="Kickoff home"><span className="logo-mark">K<span>↗</span></span><b>kickoff<span>.</span></b></button><nav className={menu?'primary-nav nav-open':'primary-nav'} aria-label="主导航">{routes.map((r,i)=><button key={r} className={page===r?'active':''} aria-current={page===r?'page':undefined} onClick={()=>navigate(r)}>{t.nav[i]}</button>)}</nav><div className="header-actions"><button className="header-search" aria-label={t.openSearch} onClick={()=>setModal('search')}><Search size={20}/><span>{copy(locale,'搜点什么','搜點甚麼','Search')}</span><kbd>⌘ K</kbd></button><select aria-label={t.language} value={locale} onChange={e=>setLocale(e.target.value as Locale)}><option value="zh-CN">简</option><option value="zh-TW">繁</option><option value="en">EN</option></select><button className="icon-button" aria-label={t.theme} title={theme} onClick={()=>setTheme(theme==='light'?'dark':theme==='dark'?'system':'light')}>{theme==='dark'?<Moon size={20}/>:theme==='system'?<Globe2 size={20}/>:<Sun size={20}/>}</button><button className="menu-button icon-button" aria-label="Menu" aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div></div></header>
-  <main className="page-container" key={page}>{page==='home'||page==='news'?<NewsFeed locale={locale} onOpen={openArticle} home={page==='home'} navigate={navigate} onJoin={()=>setModal('join')} onPick={openPicker}/>:page==='matches'?(snapshot?<LiveMatches locale={locale} favorites={favorites} data={snapshot}/>:<Matches locale={locale} favorites={favorites}/>):page==='standings'?(snapshot?<LiveStandings locale={locale} data={snapshot}/>:<Standings locale={locale}/>):page==='teams'?<Teams locale={locale} favorites={favorites} toggleFavorite={toggleFavorite} onPick={openPicker}/>:<Players locale={locale} snapshot={playerStats}/>}</main>
-  <footer className="site-footer"><div><b>kickoff<span>↗</span></b><p>{t.footer}</p></div><div className="footer-right"><span>© 2026 KICKOFF</span><span>FOOTBALL NEVER ENDS.</span>{snapshot&&<a href="https://www.football-data.org/" target="_blank" rel="noopener noreferrer">Football data provided by the Football-Data.org API</a>}{playerStats&&<a href="https://goal-api.com/" target="_blank" rel="noopener noreferrer">Player stats provided by GOAL API</a>}</div></footer>
-  {modal==='teams'&&<Modal title={t.chooseTitle} onClose={closeModal}><p className="modal-description">{t.chooseNote}</p><div className="team-picker-grid">{teams.map(v=><button className={'team-choice'+(draft.includes(v.short)?' chosen':'')} key={v.short} onClick={()=>setDraft(draft.includes(v.short)?draft.filter(a=>a!==v.short):[...draft,v.short])} aria-pressed={draft.includes(v.short)}><Crest name={v.short} color={v.color} small/><span><b>{locale==='en'?v.en:localizeClub(v.name,locale)}</b><small>{localizeLeague(v.league,locale)}</small></span>{draft.includes(v.short)?<Check size={21}/>:<Plus size={21}/>}</button>)}</div><div className="modal-actions"><button className="text-link" onClick={closeModal}>{t.skip}</button><button className="button primary" onClick={()=>{persist(draft);closeModal();}}>{t.save}<ArrowRight size={19}/></button></div><p className="data-note">{t.local}</p></Modal>}
+  <main className="page-container" key={page}>{page==='home'||page==='news'?<NewsFeed locale={locale} onOpen={openArticle} home={page==='home'} navigate={navigate} onJoin={()=>setModal('join')} onPick={openPicker}/>:page==='matches'?(snapshot?<LiveMatches locale={locale} favorites={favorites} data={snapshot}/>:<UnavailableMatches locale={locale}/>):page==='standings'?<StandingsPage locale={locale} data={snapshot}/>:page==='team-stats'?<TeamStatsPage locale={locale} data={snapshot}/>:page==='teams'?<Teams locale={locale} favorites={favorites} toggleFavorite={toggleFavorite} onPick={openPicker} clubs={clubOptions}/>:<Players locale={locale} snapshot={playerStats}/>}</main>
+  <footer className="site-footer"><div><b>kickoff<span>↗</span></b><p>{t.footer}</p></div><div className="footer-right"><span>© 2026 KICKOFF</span><span>FOOTBALL NEVER ENDS.</span>{snapshot&&<a href="https://www.football-data.org/" target="_blank" rel="noopener noreferrer">Football data provided by the Football-Data.org API</a>}{playerStats && Object.keys(playerStats.leagues).length > 0 && <a href="https://goal-api.com/" target="_blank" rel="noopener noreferrer">Player stats provided by GOAL API</a>}</div></footer>
+  {modal==='teams'&&<Modal title={t.chooseTitle} onClose={closeModal}><p className="modal-description">{t.chooseNote}</p><label className="team-picker-search"><Search size={19}/><input autoFocus value={pickerQuery} onChange={e=>setPickerQuery(e.target.value)} placeholder={copy(locale,'搜索球队名称或缩写','搜尋球隊名稱或縮寫','Search clubs or abbreviations')}/></label><div className="team-picker-grid">{clubOptions.filter(v=>(v.name+v.en+v.short+v.league).toLowerCase().includes(pickerQuery.trim().toLowerCase())).map(v=><button className={'team-choice'+(draft.includes(v.short)?' chosen':'')} key={v.short} onClick={()=>setDraft(draft.includes(v.short)?draft.filter(a=>a!==v.short):[...draft,v.short])} aria-pressed={draft.includes(v.short)}><Crest name={v.short} color={v.color} small/><span><b>{locale==='en'?v.en:localizeClub(v.name,locale)}</b><small>{localizeLeague(v.league,locale)}</small></span>{draft.includes(v.short)?<Check size={21}/>:<Plus size={21}/>}</button>)}</div><div className="modal-actions"><button className="text-link" onClick={closeModal}>{t.skip}</button><button className="button primary" onClick={()=>{persist(draft);closeModal();}}>{t.save}<ArrowRight size={19}/></button></div><p className="data-note">{t.local}</p></Modal>}
   {modal==='search'&&<Modal title={t.searchTitle} onClose={closeModal} wide><label className="search-input"><Search size={24}/><input autoFocus aria-label={t.search} value={query} placeholder={t.search} onChange={e=>setQuery(e.target.value)}/></label><div className="tabs search-filters">{t.filters.map((v,i)=><button className={searchFilter===i?'selected':''} key={v} onClick={()=>setSearchFilter(i)}>{v}</button>)}</div><div className="search-results">{query.trim()?searchResults.length?searchResults.map((v,i)=><button className="search-result" key={i} onClick={()=>v.article?openArticle(v.article):navigate(v.route)}><span className="tag">{t.filters[v.kind]}</span><span><b>{v.title}</b><small>{v.meta}</small></span><ArrowUpRight size={22}/></button>):<p className="empty-state">{t.noSearch}</p>:<p className="search-hint"><Zap size={21}/>{t.searchTip}</p>}</div></Modal>}
   {modal==='article'&&article&&<Modal title={article.title[idx]} onClose={closeModal} wide><div className="story-meta"><span className="tag">{localizeLeague(article.league.split(' · ')[0],locale)}</span><span>{copy(locale,'示例摘要','示例摘要','Sample summary')}</span></div><p className="article-summary">{article.summary[idx]}</p><p className="data-note">{copy(locale,'这是版式预览内容。真实新闻上线后会提供媒体来源和原文链接。','這是版面預覽內容。真實新聞上線後會提供媒體來源和原文連結。','This is sample editorial content. Published news will include its source and original link.')}</p><div className="article-comments"><MessageCircle size={23}/><h3>{copy(locale,'这球，你怎么看？','這球，你怎麼看？','What’s your take?')}</h3><p>{copy(locale,'登录功能上线后，即可在新闻下评论。','登入功能上線後，即可在新聞下評論。','Comments will open when sign-in launches.')}</p></div></Modal>}
   {modal==='join'&&<Modal title={copy(locale,'看台为你留了位置','看台為你留了位置','Your place in the stands')} onClose={closeModal}><div className="join-art" aria-hidden="true">✳</div><p className="modal-description">{copy(locale,'评论、点赞和回复会在登录功能上线后开放。现在可以先关注主队。','評論、點讚和回覆會在登入功能上線後開放。現在可以先關注主隊。','Comments, likes and replies will open with sign-in. You can choose your clubs now.')}</p><button className="button primary" onClick={openPicker}>{t.choose}<ArrowRight size={19}/></button></Modal>}

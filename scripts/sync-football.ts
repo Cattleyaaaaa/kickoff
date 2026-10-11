@@ -1,7 +1,7 @@
 import { mkdir, rename, writeFile } from 'node:fs/promises';
 import { dirname, resolve } from 'node:path';
-import { competitions, normalizeMatches, normalizeStandings } from './football-transform.ts';
-import type { ApiMatchesResponse, ApiStandingsResponse, FootballSnapshot, MatchResult, StandingResult } from './football-transform.ts';
+import { competitions, normalizeFixtures, normalizeMatches, normalizeStandings } from './football-transform.ts';
+import type { ApiMatchesResponse, ApiStandingsResponse, FixtureResult, FootballSnapshot, MatchResult, StandingResult } from './football-transform.ts';
 
 const token = process.env.FOOTBALL_DATA_API_KEY?.trim();
 if (!token) throw new Error('Set FOOTBALL_DATA_API_KEY in the server environment or GitHub Actions secret.');
@@ -35,6 +35,7 @@ const now = new Date();
 const from = new Date(now.getTime() - 8 * 86400000).toISOString().slice(0, 10);
 const to = now.toISOString().slice(0, 10);
 const matches: MatchResult[] = [];
+const fixtures: FixtureResult[] = [];
 const standings: Record<string, StandingResult> = {};
 
 for (const { code, name } of competitions) {
@@ -43,13 +44,20 @@ for (const { code, name } of competitions) {
   matches.push(...normalizeMatches(matchPayload, name));
   const tablePayload = await get<ApiStandingsResponse>(`/competitions/${code}/standings`, code === 'CL');
   standings[name] = tablePayload ? normalizeStandings(tablePayload, name) : { season: '', groups: [] };
-  console.log(`${name}: ${matches.filter(match => match.league === name).length} finished matches, ${standings[name].groups.length} standings groups`);
+  const defaultStartYear = now.getMonth() >= 6 ? now.getFullYear() : now.getFullYear() - 1;
+  const seasonFrom = standings[name].startDate || `${defaultStartYear}-07-01`;
+  const seasonTo = standings[name].endDate || `${defaultStartYear + 1}-06-30`;
+  const fixturePayload = await get<ApiMatchesResponse>(`/competitions/${code}/matches?dateFrom=${seasonFrom}&dateTo=${seasonTo}`);
+  if (!fixturePayload) throw new Error(`${code}: season fixture response is missing`);
+  fixtures.push(...normalizeFixtures(fixturePayload, name));
+  console.log(`${name}: ${fixtures.filter(fixture => fixture.league === name).length} season matches, ${standings[name].groups.length} standings groups`);
 }
 
 matches.sort((a, b) => b.utcDate.localeCompare(a.utcDate));
+fixtures.sort((a, b) => a.utcDate.localeCompare(b.utcDate));
 const snapshot: FootballSnapshot = {
   source: 'football-data.org', updatedAt: now.toISOString(),
-  range: { from, to }, matches, standings,
+  range: { from, to }, matches, fixtures, standings,
 };
 await mkdir(dirname(output), { recursive: true });
 const temporary = `${output}.tmp`;
