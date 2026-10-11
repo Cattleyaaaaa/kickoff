@@ -2,9 +2,6 @@ name: Verify PitchAPI coverage
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - .github/workflows/verify-pitchapi.yml
 
 permissions:
   contents: read
