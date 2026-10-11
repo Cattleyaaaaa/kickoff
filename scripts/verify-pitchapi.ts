@@ -11,7 +11,7 @@ const targets = [
   { label: '英超', name: /^(English )?Premier League$/i, country: 'ENG' },
   { label: '西甲', name: /^(La ?Liga|Primera Divisi[oó]n)$/i, country: 'ESP' },
   { label: '意甲', name: /^Serie A$/i, country: 'ITA' },
-  { label: '德甲', name: /^(?:1\.\s*)?Bundesliga$/i, country: 'DEU' },
+  { label: '德甲', name: /^(?:1\.\s*)?Bundesliga$/i, country: 'GER' },
   { label: '法甲', name: /^Ligue 1$/i, country: 'FRA' },
   { label: '欧冠', name: /^(UEFA )?Champions League$/i, country: null },
 ] as const;
