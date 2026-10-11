@@ -7,10 +7,7 @@ const token = process.env.GOAL_API_KEY?.trim();
 if (!token) throw new Error('Set GOAL_API_KEY in the server environment or GitHub Actions secret.');
 
 type ApiLeague = { id?: string; name?: string; countryName?: string; season?: string; isActive?: boolean };
-type ApiList<T> = { success: boolean; data?: T[] };
-type ApiTeam = { id?: string; name?: string; shortName?: string; tla?: string };
-type TeamStatKey = 'shotsPerGame' | 'possession' | 'cleanSheets';
-type TeamStats = Partial<Record<TeamStatKey, number>>;
+type ApiList<T> = { success: boolean; data?: T[]; pagination?: { hasMore?: boolean; total?: number } };
 const targets = [
   { label: '英超', search: 'Premier League', name: /^(English )?Premier League$/i, country: /England/i },
   { label: '西甲', search: 'La Liga', name: /^(La ?Liga|Primera Divisi[oó]n)( .*)?$/i, country: /Spain/i },
@@ -24,15 +21,21 @@ const now = new Date();
 const seasonStart = now.getUTCMonth() >= 6 ? now.getUTCFullYear() : now.getUTCFullYear() - 1;
 const seasonEnd = seasonStart + 1;
 const seasonPattern = new RegExp(`^${seasonStart}\\s*[/–-]\\s*(?:${String(seasonEnd).slice(-2)}|${seasonEnd})$`);
-const seasonQuery = `${seasonStart}-${seasonEnd}`;
+// Two scheduled runs share the free plan's daily allowance. This sync normally
+// needs fewer than 60 calls; the cap protects the user's allowance if a provider
+// starts returning unexpected pagination or rate-limit responses.
+const MAX_REQUESTS_PER_RUN = 450;
+let requestCount = 0;
 
 const pause = (ms: number) => new Promise<void>(resolvePause => setTimeout(resolvePause, ms));
 let lastRequestAt = 0;
 async function get<T>(path: string): Promise<T> {
   for (let attempt = 0; attempt < 2; attempt++) {
+    if (requestCount >= MAX_REQUESTS_PER_RUN) throw new Error(`GOAL API safety cap reached (${MAX_REQUESTS_PER_RUN} requests); refusing to publish an incomplete snapshot.`);
     const wait = 6500 - (Date.now() - lastRequestAt);
     if (wait > 0) await pause(wait);
     lastRequestAt = Date.now();
+    requestCount++;
     const response = await fetch(`https://api.goal-api.com/v1${path}`, {
       headers: { Authorization: `Bearer ${token}` },
       signal: AbortSignal.timeout(30000),
@@ -51,64 +54,6 @@ async function get<T>(path: string): Promise<T> {
 }
 
 const snapshot: PlayerStatsSnapshot = { schemaVersion: 2, source: 'goal-api.com', updatedAt: new Date().toISOString(), leagues: {} };
-const footballPath = resolve('public/data/football.json');
-const footballText = await readFile(footballPath, 'utf8').catch(() => '');
-const footballSnapshot = footballText ? JSON.parse(footballText) as {
-  source?: string; standings?: Record<string, { groups?: Array<{ rows?: Array<{ id: number | null; code: string; sourceName: string }> }> }>;
-  teamStats?: Record<string, Record<string, TeamStats>>;
-  teamStatsSource?: { name: string; updatedAt: string };
-} : null;
-const teamStatsByLeague: Record<string, Record<string, TeamStats>> = { ...(footballSnapshot?.teamStats || {}) };
-let freshTeamStatsCount = 0;
-
-function teamKey(value: string): string {
-  return value.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
-    .replace(/\b(football club|football|club|fc|afc|cf|sc|ssc|ac|as|sv|vfl|1\.)\b/g, '')
-    .replace(/[^a-z0-9]/g, '');
-}
-function scalar(value: unknown): number | null {
-  if (typeof value === 'number') return Number.isFinite(value) && value >= 0 ? value : null;
-  if (typeof value !== 'string') return null;
-  const parsed = Number(value.replace(/%$/, '').trim());
-  return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
-}
-function collectStats(value: unknown, result: TeamStats): void {
-  const assign = (name: string, number: number) => {
-    if (['averagepossession', 'avgpossession', 'possession', 'possessionpercentage', 'averageballpossession', 'ballpossession'].includes(name)) result.possession = number;
-    if (['averageshotspergame', 'avgshotspergame', 'shotspergame', 'averageshots', 'avgshots', 'averageshotspermatch'].includes(name)) result.shotsPerGame = number;
-    if (['cleansheets', 'cleansheet', 'totalcleansheets'].includes(name)) result.cleanSheets = number;
-  };
-  if (Array.isArray(value)) {
-    for (const item of value) {
-      if (item && typeof item === 'object') {
-        const row = item as Record<string, unknown>;
-        const name = String(row.type ?? row.name ?? row.key ?? '').toLowerCase().replace(/[^a-z]/g, '');
-        const statValue = scalar(row.value ?? row.average ?? row.total);
-        if (statValue !== null) assign(name, statValue);
-        collectStats(item, result);
-      }
-    }
-    return;
-  }
-  if (!value || typeof value !== 'object') return;
-  for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
-    const normalized = key.toLowerCase().replace(/[^a-z]/g, '');
-    const number = scalar(child);
-    if (number !== null) assign(normalized, number);
-    if (child && typeof child === 'object') collectStats(child, result);
-  }
-}
-function responseKeys(value: unknown): string {
-  if (!value || typeof value !== 'object') return typeof value;
-  const top = Object.keys(value);
-  const data = (value as Record<string, unknown>).data;
-  const inner = data && typeof data === 'object' ? Object.keys(data) : [];
-  const nested = data && typeof data === 'object'
-    ? Object.entries(data).filter(([, child]) => child && typeof child === 'object')
-      .slice(0, 4).map(([key, child]) => `${key}:[${Object.keys(Array.isArray(child) ? child[0] || {} : child).slice(0, 30).join(',')}]`)
-    : [];
-  return `top=[${top.join(',')}], data=[${inner.slice(0, 40).join(',')}], nested=[${nested.join(';')}]`;
-}
 
 for (const target of targets) {
   const leagues = await get<ApiList<ApiLeague>>(`/leagues?search=${encodeURIComponent(target.search)}&limit=100`);
@@ -116,84 +61,32 @@ for (const target of targets) {
     && target.country.test(item.countryName || '')
     && seasonPattern.test(item.season || ''));
   if (!league?.id) {
-    console.warn(`${target.label}: no verified ${seasonStart}/${seasonEnd} league found; leaving this league unavailable`);
-    continue;
+    throw new Error(`${target.label}: no verified ${seasonStart}/${seasonEnd} league found; stopping before more API calls.`);
   }
-  const payload = await get<ApiList<ApiTopScorer>>(`/leagues/${encodeURIComponent(league.id)}/top-scorers?season=${seasonQuery}&limit=100`);
+  const scorerRows: ApiTopScorer[] = [];
+  for (let offset = 0; ; offset += 100) {
+    const payload = await get<ApiList<ApiTopScorer>>(`/leagues/${encodeURIComponent(league.id)}/top-scorers?limit=100&offset=${offset}`);
+    if (!Array.isArray(payload.data)) throw new Error(`${target.label}: top-scorer response is missing its data array.`);
+    scorerRows.push(...payload.data);
+    if (payload.pagination?.hasMore === true && payload.data.length < 100) {
+      throw new Error(`${target.label}: inconsistent scorer pagination; refusing a partial snapshot.`);
+    }
+    if (payload.pagination?.hasMore === false || payload.data.length < 100) break;
+    if (offset >= 1900) throw new Error(`${target.label}: scorer pagination exceeded 2,000 rows; refusing a partial snapshot.`);
+  }
   // The endpoint is explicitly scoped to a league and season. Check row scope when present,
   // but do not reject valid scoped rows just because the provider omits duplicate metadata.
-  const scopedRows = (payload.data || []).filter(row => (!row.season || seasonPattern.test(row.season))
+  const scopedRows = scorerRows.filter(row => (!row.season || seasonPattern.test(row.season))
     && (!row.leagueId || row.leagueId === league.id));
   const players = normalizeTopScorers(scopedRows);
-  if (!players.length) {
-    console.warn(`${target.label}: no verified top-scorer rows; leaving this league unavailable`);
-  } else {
-    snapshot.leagues[target.label] = { season: league.season || `${seasonStart}/${seasonEnd}`, players };
-    console.log(`${target.label}: ${players.length} verified scorer rows`);
-    try {
-      const playerSample = await get<unknown>(`/players/${encodeURIComponent(players[0].id)}/statistics?season=${seasonQuery}`);
-      console.log(`${target.label}: player season statistics fields ${responseKeys(playerSample)}`);
-    } catch (error) {
-      console.warn(`${target.label}: player season statistics unavailable (${String(error)})`);
-    }
-  }
-
-  // GOAL API exposes team season aggregates separately. Map its team identifiers back
-  // to the football-data.org table by short code first, then normalized source name.
-  try {
-    let leagueTeams: ApiList<ApiTeam>;
-    try {
-      leagueTeams = await get<ApiList<ApiTeam>>(`/leagues/${encodeURIComponent(league.id)}/teams?season=${seasonQuery}&limit=100`);
-    } catch (error) {
-      console.warn(`${target.label}: league-team list unavailable; trying the team filter (${String(error)})`);
-      leagueTeams = { success: true, data: [] };
-    }
-    // Both team-list routes are documented. Some competitions expose an empty
-    // season list on the league route while the team filter still has rows.
-    const teams = leagueTeams.data?.length ? leagueTeams.data
-      : (await get<ApiList<ApiTeam>>(`/teams?leagueId=${encodeURIComponent(league.id)}&limit=100`)).data || [];
-    if (teams[0]?.id) {
-      try {
-        const rosterSample = await get<unknown>(`/teams/${encodeURIComponent(teams[0].id)}/players?limit=3`);
-        console.log(`${target.label}: team roster fields ${responseKeys(rosterSample)}`);
-      } catch (error) {
-        console.warn(`${target.label}: team roster unavailable (${String(error)})`);
-      }
-    }
-    const rows = footballSnapshot?.standings?.[target.label]?.groups?.flatMap(group => group.rows || []) || [];
-    const targetStats: Record<string, TeamStats> = { ...(teamStatsByLeague[target.label] || {}) };
-    let matched = 0;
-    let returned = 0;
-    let firstUnrecognizedShape = '';
-    for (const goalTeam of teams) {
-      if (!goalTeam.id || !goalTeam.name) continue;
-      const tableRow = rows.find(row => goalTeam.tla && row.code.toLowerCase() === goalTeam.tla.toLowerCase())
-        || rows.find(row => teamKey(row.sourceName) === teamKey(goalTeam.name!) || teamKey(row.sourceName) === teamKey(goalTeam.shortName || ''));
-      if (!tableRow?.id) continue;
-      matched++;
-      try {
-        const response = await get<unknown>(`/teams/${encodeURIComponent(goalTeam.id)}/statistics?season=${seasonQuery}`);
-        returned++;
-        const stats: TeamStats = {};
-        collectStats(response, stats);
-        if (Object.keys(stats).length) {
-          targetStats[String(tableRow.id)] = stats;
-          freshTeamStatsCount++;
-        } else if (!firstUnrecognizedShape) firstUnrecognizedShape = responseKeys(response);
-      } catch (error) {
-        console.warn(`${target.label}/${goalTeam.name}: team statistics unavailable (${String(error)})`);
-      }
-    }
-    teamStatsByLeague[target.label] = targetStats;
-    console.log(`${target.label}: ${teams.length} provider teams, ${rows.length} table teams, ${matched} matched, ${returned} statistics responses, ${Object.keys(targetStats).length} teams with recognized season statistics`);
-    if (teams.length && !matched) console.warn(`${target.label}: team names/codes did not match the standings; check provider aliases before publishing team metrics.`);
-    if (returned && !Object.keys(targetStats).length) console.warn(`${target.label}: statistics responses contained no recognized metrics (${firstUnrecognizedShape}).`);
-  } catch (error) {
-    console.warn(`${target.label}: team statistics sync unavailable (${String(error)})`);
-  }
+  if (!players.length) throw new Error(`${target.label}: no current-season scorer rows; keeping the previous complete snapshot.`);
+  snapshot.leagues[target.label] = { season: league.season || `${seasonStart}/${seasonEnd}`, players };
+  console.log(`${target.label}: ${players.length} verified scorer rows across ${Math.ceil(scorerRows.length / 100)} page(s)`);
 }
 
-if (!Object.keys(snapshot.leagues).length) console.warn('No scorer leaderboards passed season validation; publishing an empty snapshot instead of stale statistics.');
+if (Object.keys(snapshot.leagues).length !== targets.length) {
+  throw new Error(`Only ${Object.keys(snapshot.leagues).length}/${targets.length} competitions were available; refusing to overwrite the last complete snapshot.`);
+}
 const output = resolve('public/data/players.json');
 const previousText = await readFile(output, 'utf8').catch(() => '');
 const previous = previousText ? JSON.parse(previousText) as PlayerStatsSnapshot : null;
@@ -250,20 +143,14 @@ for (const player of allPlayers) {
   const localizedNames = previousTranslations.get(player.name);
   if (localizedNames) player.localizedNames = localizedNames;
 }
+if (translationKey) {
+  const missing = allPlayers.filter(player => !player.localizedNames?.['zh-CN'] || !player.localizedNames?.['zh-TW']);
+  if (missing.length) throw new Error(`DeepSeek left ${missing.length} player names untranslated; keeping the previous snapshot.`);
+}
 
 await mkdir(dirname(output), { recursive: true });
 const temporary = `${output}.tmp`;
 await writeFile(temporary, `${JSON.stringify(snapshot, null, 2)}\n`, 'utf8');
 await rename(temporary, output);
 console.log(`Saved player statistics to ${output}`);
-
-if (footballSnapshot?.source === 'football-data.org') {
-  footballSnapshot.teamStats = teamStatsByLeague;
-  if (freshTeamStatsCount > 0) {
-    footballSnapshot.teamStatsSource = { name: 'GOAL API', updatedAt: snapshot.updatedAt };
-  }
-  const footballTemporary = `${footballPath}.tmp`;
-  await writeFile(footballTemporary, `${JSON.stringify(footballSnapshot, null, 2)}\n`, 'utf8');
-  await rename(footballTemporary, footballPath);
-  console.log(`Updated verified team aggregates in ${footballPath}`);
-}
+console.log(`GOAL API requests used: ${requestCount}/${MAX_REQUESTS_PER_RUN}. Team and player advanced metrics remain unavailable from the current-season leaderboard.`);
