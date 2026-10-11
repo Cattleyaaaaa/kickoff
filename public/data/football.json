@@ -1,9 +1,9 @@
 {
   "source" : "football-data.org",
-  "updatedAt" : "2026-10-11T15:56:41.627517472Z",
+  "updatedAt" : "2026-10-11T16:11:03.918764551Z",
   "range" : {
-    "to" : "2026-10-11",
-    "from" : "2026-10-03"
+    "from" : "2026-10-03",
+    "to" : "2026-10-11"
   },
   "matches" : [ {
     "id" : "565814",
@@ -3967,7 +3967,7 @@
     "colors" : [ "#7377db", "#7377db" ],
     "status" : "IN_PLAY",
     "hs" : 1,
-    "as" : 0
+    "as" : 1
   }, {
     "id" : "558580",
     "league" : "意甲",
@@ -3977,9 +3977,9 @@
     "teamHome" : "SAS",
     "teamAway" : "MIL",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "IN_PLAY",
+    "hs" : 0,
+    "as" : 0
   }, {
     "id" : "564701",
     "league" : "西甲",
@@ -23043,7 +23043,6 @@
       "startDate" : "2026-08-21",
       "endDate" : "2027-05-30",
       "groups" : [ {
-        "name" : "Matchday",
         "rows" : [ {
           "id" : 65,
           "sourceName" : "Manchester City FC",
@@ -23344,7 +23343,8 @@
           "gd" : "-4",
           "gf" : 6,
           "ga" : 10
-        } ]
+        } ],
+        "name" : "Matchday"
       } ]
     },
     "西甲" : {
@@ -23352,7 +23352,6 @@
       "startDate" : "2026-08-16",
       "endDate" : "2027-05-30",
       "groups" : [ {
-        "name" : "Matchday",
         "rows" : [ {
           "id" : 81,
           "sourceName" : "FC Barcelona",
@@ -23653,7 +23652,8 @@
           "gd" : "-9",
           "gf" : 4,
           "ga" : 13
-        } ]
+        } ],
+        "name" : "Matchday"
       } ]
     },
     "意甲" : {
@@ -23661,7 +23661,6 @@
       "startDate" : "2026-08-23",
       "endDate" : "2027-05-30",
       "groups" : [ {
-        "name" : "Matchday",
         "rows" : [ {
           "id" : 108,
           "sourceName" : "FC Internazionale Milano",
@@ -23708,10 +23707,25 @@
           "gf" : 14,
           "ga" : 3
         }, {
+          "id" : 98,
+          "sourceName" : "AC Milan",
+          "code" : "MIL",
+          "pos" : 4,
+          "team" : "Milan",
+          "color" : "#7377db",
+          "pts" : 12,
+          "p" : 6,
+          "w" : 3,
+          "d" : 3,
+          "l" : 0,
+          "gd" : "+6",
+          "gf" : 10,
+          "ga" : 4
+        }, {
           "id" : 104,
           "sourceName" : "Cagliari Calcio",
           "code" : "CAG",
-          "pos" : 4,
+          "pos" : 5,
           "team" : "Cagliari",
           "color" : "#7377db",
           "pts" : 12,
@@ -23722,21 +23736,6 @@
           "gd" : "+3",
           "gf" : 5,
           "ga" : 2
-        }, {
-          "id" : 98,
-          "sourceName" : "AC Milan",
-          "code" : "MIL",
-          "pos" : 5,
-          "team" : "Milan",
-          "color" : "#7377db",
-          "pts" : 11,
-          "p" : 5,
-          "w" : 3,
-          "d" : 2,
-          "l" : 0,
-          "gd" : "+6",
-          "gf" : 10,
-          "ga" : 4
         }, {
           "id" : 7397,
           "sourceName" : "Como 1907",
@@ -23804,10 +23803,10 @@
           "pos" : 10,
           "team" : "Sassuolo",
           "color" : "#7377db",
-          "pts" : 7,
-          "p" : 5,
+          "pts" : 8,
+          "p" : 6,
           "w" : 2,
-          "d" : 1,
+          "d" : 2,
           "l" : 2,
           "gd" : "0",
           "gf" : 9,
@@ -23962,7 +23961,8 @@
           "gd" : "-9",
           "gf" : 4,
           "ga" : 13
-        } ]
+        } ],
+        "name" : "Matchday"
       } ]
     },
     "德甲" : {
@@ -23970,27 +23970,11 @@
       "startDate" : "2026-08-28",
       "endDate" : "2027-05-22",
       "groups" : [ {
-        "name" : "Matchday",
         "rows" : [ {
-          "id" : 17,
-          "sourceName" : "SC Freiburg",
-          "code" : "SCF",
-          "pos" : 1,
-          "team" : "Freiburg",
-          "color" : "#7377db",
-          "pts" : 13,
-          "p" : 5,
-          "w" : 4,
-          "d" : 1,
-          "l" : 0,
-          "gd" : "+10",
-          "gf" : 13,
-          "ga" : 3
-        }, {
           "id" : 4,
           "sourceName" : "Borussia Dortmund",
           "code" : "BVB",
-          "pos" : 2,
+          "pos" : 1,
           "team" : "Dortmund",
           "color" : "#7377db",
           "pts" : 13,
@@ -24005,7 +23989,7 @@
           "id" : 5,
           "sourceName" : "FC Bayern München",
           "code" : "FCB",
-          "pos" : 3,
+          "pos" : 2,
           "team" : "拜仁慕尼黑",
           "color" : "#d64545",
           "pts" : 11,
@@ -24015,6 +23999,21 @@
           "l" : 0,
           "gd" : "+12",
           "gf" : 16,
+          "ga" : 4
+        }, {
+          "id" : 17,
+          "sourceName" : "SC Freiburg",
+          "code" : "SCF",
+          "pos" : 3,
+          "team" : "Freiburg",
+          "color" : "#7377db",
+          "pts" : 11,
+          "p" : 5,
+          "w" : 3,
+          "d" : 2,
+          "l" : 0,
+          "gd" : "+9",
+          "gf" : 13,
           "ga" : 4
         }, {
           "id" : 3,
@@ -24137,10 +24136,25 @@
           "gf" : 8,
           "ga" : 9
         }, {
+          "id" : 6,
+          "sourceName" : "FC Schalke 04",
+          "code" : "S04",
+          "pos" : 12,
+          "team" : "Schalke",
+          "color" : "#7377db",
+          "pts" : 6,
+          "p" : 5,
+          "w" : 1,
+          "d" : 3,
+          "l" : 1,
+          "gd" : "-1",
+          "gf" : 4,
+          "ga" : 5
+        }, {
           "id" : 7,
           "sourceName" : "Hamburger SV",
           "code" : "HSV",
-          "pos" : 12,
+          "pos" : 13,
           "team" : "HSV",
           "color" : "#7377db",
           "pts" : 6,
@@ -24151,21 +24165,6 @@
           "gd" : "-10",
           "gf" : 5,
           "ga" : 15
-        }, {
-          "id" : 6,
-          "sourceName" : "FC Schalke 04",
-          "code" : "S04",
-          "pos" : 13,
-          "team" : "Schalke",
-          "color" : "#7377db",
-          "pts" : 5,
-          "p" : 5,
-          "w" : 1,
-          "d" : 2,
-          "l" : 2,
-          "gd" : "-2",
-          "gf" : 3,
-          "ga" : 5
         }, {
           "id" : 19,
           "sourceName" : "Eintracht Frankfurt",
@@ -24241,7 +24240,8 @@
           "gd" : "-11",
           "gf" : 7,
           "ga" : 18
-        } ]
+        } ],
+        "name" : "Matchday"
       } ]
     },
     "法甲" : {
@@ -24249,7 +24249,6 @@
       "startDate" : "2026-08-22",
       "endDate" : "2027-05-29",
       "groups" : [ {
-        "name" : "Matchday",
         "rows" : [ {
           "id" : 548,
           "sourceName" : "AS Monaco FC",
@@ -24520,7 +24519,8 @@
           "gd" : "-4",
           "gf" : 4,
           "ga" : 8
-        } ]
+        } ],
+        "name" : "Matchday"
       } ]
     },
     "欧冠" : {
@@ -24528,7 +24528,6 @@
       "startDate" : "2026-09-08",
       "endDate" : "2027-01-27",
       "groups" : [ {
-        "name" : "League phase",
         "rows" : [ {
           "id" : 524,
           "sourceName" : "Paris Saint-Germain FC",
@@ -25069,7 +25068,8 @@
           "gd" : "-5",
           "gf" : 0,
           "ga" : 5
-        } ]
+        } ],
+        "name" : "League phase"
       } ]
     }
   }
