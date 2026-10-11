@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "sync:football": "tsx scripts/sync-football.ts",
     "sync:players": "tsx scripts/sync-players.ts",
+    "verify:api-football": "tsx scripts/verify-api-football.ts",
     "test:sync": "tsx --test tests/football-transform.test.ts tests/player-transform.test.ts",
     "preview": "vite preview",
     "test:e2e": "playwright test"

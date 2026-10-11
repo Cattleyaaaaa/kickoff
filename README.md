@@ -46,6 +46,10 @@ Remove-Item Env:FOOTBALL_DATA_API_KEY
 
 ## 启用真实球员数据
 
+### 核对 API-Football 的 2026/27 赛季覆盖
+
+仓库另有手动工作流 **Verify API-Football coverage**。在 GitHub Actions 仓库密钥中新增 `API_FOOTBALL_KEY` 后运行一次，它只读取六项赛事的赛季覆盖标志、球员统计第一页和最近一场已结束比赛的球队/球员统计样本。最多使用 24 次 API-Football 请求，不修改数据快照或网站。日志中的 `coverage` 与 `playerSample.populatedFields` 用于判定哪些指标有实际值；一场比赛的样本不能证明整季每场都有这些指标。
+
 Football-Data.org 免费档只提供赛果、赛程和积分榜，不提供球员统计。球员页因此使用独立的 [GOAL API](https://goal-api.com/documentation) 免费 Key：
 
 1. 在 GOAL API 注册免费账号并生成 API Key；在 DeepSeek API 控制台获取用于球员姓名本地化的 API Key。
