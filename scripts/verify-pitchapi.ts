@@ -79,7 +79,7 @@ for (const target of selectedTargets) {
     && (!target.country || !league.country_code || league.country_code === target.country));
   const league = candidates.find(item => item.seasons?.includes(season));
   if (!league?.id) {
-    report.push({ competition: target.label, status: 'season unavailable', candidates: candidates.map(item => ({ name: item.name, country: item.country_code, seasons: item.seasons })), similarNames: list.leagues.filter(item => /Bundesliga/i.test(item.name || '')).map(item => ({ name: item.name, country: item.country_code, seasons: item.seasons })) });
+    report.push({ competition: target.label, status: 'season unavailable', candidates: candidates.map(item => ({ name: item.name, country: item.country_code, seasons: item.seasons })), similarNames: list.leagues.filter(item => target.name.test(item.name || '')).map(item => ({ name: item.name, country: item.country_code, seasons: item.seasons })) });
     continue;
   }
   try {

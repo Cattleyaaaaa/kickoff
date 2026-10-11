@@ -2,10 +2,6 @@ name: Verify PitchAPI coverage
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - .github/workflows/verify-pitchapi.yml
-      - scripts/verify-pitchapi.ts
 
 permissions:
   contents: read
@@ -15,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
-      VERIFY_ONLY: 德甲
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
