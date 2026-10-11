@@ -73,17 +73,18 @@ function scalar(value: unknown): number | null {
   return Number.isFinite(parsed) && parsed >= 0 ? parsed : null;
 }
 function collectStats(value: unknown, result: TeamStats): void {
+  const assign = (name: string, number: number) => {
+    if (['averagepossession', 'avgpossession', 'possession', 'possessionpercentage', 'averageballpossession', 'ballpossession'].includes(name)) result.possession = number;
+    if (['averageshotspergame', 'avgshotspergame', 'shotspergame', 'averageshots', 'avgshots', 'averageshotspermatch'].includes(name)) result.shotsPerGame = number;
+    if (['cleansheets', 'cleansheet', 'totalcleansheets'].includes(name)) result.cleanSheets = number;
+  };
   if (Array.isArray(value)) {
     for (const item of value) {
       if (item && typeof item === 'object') {
         const row = item as Record<string, unknown>;
         const name = String(row.type ?? row.name ?? row.key ?? '').toLowerCase().replace(/[^a-z]/g, '');
         const statValue = scalar(row.value ?? row.average ?? row.total);
-        if (statValue !== null) {
-          if (['averagepossession', 'possession', 'possessionpercentage'].includes(name)) result.possession = statValue;
-          if (['averageshotspergame', 'shotspergame', 'averageshots'].includes(name)) result.shotsPerGame = statValue;
-          if (['cleansheets', 'cleansheet'].includes(name)) result.cleanSheets = statValue;
-        }
+        if (statValue !== null) assign(name, statValue);
         collectStats(item, result);
       }
     }
@@ -93,13 +94,20 @@ function collectStats(value: unknown, result: TeamStats): void {
   for (const [key, child] of Object.entries(value as Record<string, unknown>)) {
     const normalized = key.toLowerCase().replace(/[^a-z]/g, '');
     const number = scalar(child);
-    if (number !== null) {
-      if (['averagepossession', 'possession', 'possessionpercentage'].includes(normalized)) result.possession = number;
-      if (['averageshotspergame', 'shotspergame', 'averageshots'].includes(normalized)) result.shotsPerGame = number;
-      if (['cleansheets', 'cleansheet'].includes(normalized)) result.cleanSheets = number;
-    }
+    if (number !== null) assign(normalized, number);
     if (child && typeof child === 'object') collectStats(child, result);
   }
+}
+function responseKeys(value: unknown): string {
+  if (!value || typeof value !== 'object') return typeof value;
+  const top = Object.keys(value);
+  const data = (value as Record<string, unknown>).data;
+  const inner = data && typeof data === 'object' ? Object.keys(data) : [];
+  const nested = data && typeof data === 'object'
+    ? Object.entries(data).filter(([, child]) => child && typeof child === 'object')
+      .slice(0, 4).map(([key, child]) => `${key}:[${Object.keys(Array.isArray(child) ? child[0] || {} : child).slice(0, 30).join(',')}]`)
+    : [];
+  return `top=[${top.join(',')}], data=[${inner.slice(0, 40).join(',')}], nested=[${nested.join(';')}]`;
 }
 
 for (const target of targets) {
@@ -111,7 +119,7 @@ for (const target of targets) {
     console.warn(`${target.label}: no verified ${seasonStart}/${seasonEnd} league found; leaving this league unavailable`);
     continue;
   }
-  const payload = await get<ApiList<ApiTopScorer>>(`/leagues/${encodeURIComponent(league.id)}/top-scorers?season=${seasonQuery}&limit=30`);
+  const payload = await get<ApiList<ApiTopScorer>>(`/leagues/${encodeURIComponent(league.id)}/top-scorers?season=${seasonQuery}&limit=100`);
   // The endpoint is explicitly scoped to a league and season. Check row scope when present,
   // but do not reject valid scoped rows just because the provider omits duplicate metadata.
   const scopedRows = (payload.data || []).filter(row => (!row.season || seasonPattern.test(row.season))
@@ -122,33 +130,64 @@ for (const target of targets) {
   } else {
     snapshot.leagues[target.label] = { season: league.season || `${seasonStart}/${seasonEnd}`, players };
     console.log(`${target.label}: ${players.length} verified scorer rows`);
+    try {
+      const playerSample = await get<unknown>(`/players/${encodeURIComponent(players[0].id)}/statistics?season=${seasonQuery}`);
+      console.log(`${target.label}: player season statistics fields ${responseKeys(playerSample)}`);
+    } catch (error) {
+      console.warn(`${target.label}: player season statistics unavailable (${String(error)})`);
+    }
   }
 
   // GOAL API exposes team season aggregates separately. Map its team identifiers back
   // to the football-data.org table by short code first, then normalized source name.
   try {
-    const teams = await get<ApiList<ApiTeam>>(`/leagues/${encodeURIComponent(league.id)}/teams?season=${seasonQuery}&limit=100`);
+    let leagueTeams: ApiList<ApiTeam>;
+    try {
+      leagueTeams = await get<ApiList<ApiTeam>>(`/leagues/${encodeURIComponent(league.id)}/teams?season=${seasonQuery}&limit=100`);
+    } catch (error) {
+      console.warn(`${target.label}: league-team list unavailable; trying the team filter (${String(error)})`);
+      leagueTeams = { success: true, data: [] };
+    }
+    // Both team-list routes are documented. Some competitions expose an empty
+    // season list on the league route while the team filter still has rows.
+    const teams = leagueTeams.data?.length ? leagueTeams.data
+      : (await get<ApiList<ApiTeam>>(`/teams?leagueId=${encodeURIComponent(league.id)}&limit=100`)).data || [];
+    if (teams[0]?.id) {
+      try {
+        const rosterSample = await get<unknown>(`/teams/${encodeURIComponent(teams[0].id)}/players?limit=3`);
+        console.log(`${target.label}: team roster fields ${responseKeys(rosterSample)}`);
+      } catch (error) {
+        console.warn(`${target.label}: team roster unavailable (${String(error)})`);
+      }
+    }
     const rows = footballSnapshot?.standings?.[target.label]?.groups?.flatMap(group => group.rows || []) || [];
     const targetStats: Record<string, TeamStats> = { ...(teamStatsByLeague[target.label] || {}) };
-    for (const goalTeam of teams.data || []) {
+    let matched = 0;
+    let returned = 0;
+    let firstUnrecognizedShape = '';
+    for (const goalTeam of teams) {
       if (!goalTeam.id || !goalTeam.name) continue;
       const tableRow = rows.find(row => goalTeam.tla && row.code.toLowerCase() === goalTeam.tla.toLowerCase())
         || rows.find(row => teamKey(row.sourceName) === teamKey(goalTeam.name!) || teamKey(row.sourceName) === teamKey(goalTeam.shortName || ''));
       if (!tableRow?.id) continue;
+      matched++;
       try {
         const response = await get<unknown>(`/teams/${encodeURIComponent(goalTeam.id)}/statistics?season=${seasonQuery}`);
+        returned++;
         const stats: TeamStats = {};
         collectStats(response, stats);
         if (Object.keys(stats).length) {
           targetStats[String(tableRow.id)] = stats;
           freshTeamStatsCount++;
-        }
+        } else if (!firstUnrecognizedShape) firstUnrecognizedShape = responseKeys(response);
       } catch (error) {
         console.warn(`${target.label}/${goalTeam.name}: team statistics unavailable (${String(error)})`);
       }
     }
     teamStatsByLeague[target.label] = targetStats;
-    console.log(`${target.label}: mapped season aggregates for ${Object.keys(targetStats).length} teams`);
+    console.log(`${target.label}: ${teams.length} provider teams, ${rows.length} table teams, ${matched} matched, ${returned} statistics responses, ${Object.keys(targetStats).length} teams with recognized season statistics`);
+    if (teams.length && !matched) console.warn(`${target.label}: team names/codes did not match the standings; check provider aliases before publishing team metrics.`);
+    if (returned && !Object.keys(targetStats).length) console.warn(`${target.label}: statistics responses contained no recognized metrics (${firstUnrecognizedShape}).`);
   } catch (error) {
     console.warn(`${target.label}: team statistics sync unavailable (${String(error)})`);
   }
@@ -171,35 +210,38 @@ const allPlayers = Object.values(snapshot.leagues).flatMap(group => group.player
 const untranslated = [...new Set(allPlayers.map(player => player.name).filter(name => !previousTranslations.has(name)))];
 const translationKey = process.env.DEEPSEEK_API_KEY?.trim();
 if (translationKey && untranslated.length) {
-  try {
-    const response = await fetch('https://api.deepseek.com/chat/completions', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${translationKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'deepseek-chat',
-        temperature: 0.1,
-        max_tokens: 7000,
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: 'Translate football player names into their commonly used official Simplified Chinese and Traditional Chinese sports-media names. These are proper names: identify the real player where possible, use standard transliterations, preserve initials when identity is uncertain, and never invent a different person. Return only valid JSON with shape {"translations":[{"source":"exact input","zh-CN":"...","zh-TW":"..."}]}. Include every input exactly once.' },
-          { role: 'user', content: `Return JSON translations for these exact names: ${JSON.stringify(untranslated)}` },
-        ],
-      }),
-      signal: AbortSignal.timeout(90000),
-    });
-    if (!response.ok) throw new Error(`HTTP ${response.status} ${await response.text()}`);
-    const completion = await response.json() as { choices?: Array<{ message?: { content?: string } }> };
-    const content = completion.choices?.[0]?.message?.content;
-    if (!content) throw new Error('DeepSeek returned an empty response.');
-    const parsed = JSON.parse(content) as { translations?: Array<{ source?: string; 'zh-CN'?: string; 'zh-TW'?: string }> };
-    for (const item of parsed.translations || []) {
-      if (item.source && untranslated.includes(item.source) && item['zh-CN']?.trim() && item['zh-TW']?.trim()) {
-        previousTranslations.set(item.source, { 'zh-CN': item['zh-CN'].trim(), 'zh-TW': item['zh-TW'].trim(), en: item.source });
+  for (let start = 0; start < untranslated.length; start += 30) {
+    const batch = untranslated.slice(start, start + 30);
+    try {
+      const response = await fetch('https://api.deepseek.com/chat/completions', {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${translationKey}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'deepseek-chat',
+          temperature: 0.1,
+          max_tokens: 3000,
+          response_format: { type: 'json_object' },
+          messages: [
+            { role: 'system', content: 'Translate football player names into their commonly used official Simplified Chinese and Traditional Chinese sports-media names. These are proper names: identify the real player where possible, use standard transliterations, preserve initials when identity is uncertain, and never invent a different person. Return only valid JSON with shape {"translations":[{"source":"exact input","zh-CN":"...","zh-TW":"..."}]}. Include every input exactly once.' },
+            { role: 'user', content: `Return JSON translations for these exact names: ${JSON.stringify(batch)}` },
+          ],
+        }),
+        signal: AbortSignal.timeout(90000),
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status} ${await response.text()}`);
+      const completion = await response.json() as { choices?: Array<{ message?: { content?: string } }> };
+      const content = completion.choices?.[0]?.message?.content;
+      if (!content) throw new Error('DeepSeek returned an empty response.');
+      const parsed = JSON.parse(content) as { translations?: Array<{ source?: string; 'zh-CN'?: string; 'zh-TW'?: string }> };
+      for (const item of parsed.translations || []) {
+        if (item.source && batch.includes(item.source) && item['zh-CN']?.trim() && item['zh-TW']?.trim()) {
+          previousTranslations.set(item.source, { 'zh-CN': item['zh-CN'].trim(), 'zh-TW': item['zh-TW'].trim(), en: item.source });
+        }
       }
+      console.log(`Translated ${batch.filter(name => previousTranslations.has(name)).length}/${batch.length} player names in batch ${Math.floor(start / 30) + 1}.`);
+    } catch (error) {
+      console.warn(`Player-name translation batch ${Math.floor(start / 30) + 1} failed; keeping source names. ${String(error)}`);
     }
-    console.log(`Translated ${previousTranslations.size} player names into Chinese.`);
-  } catch (error) {
-    console.warn(`Player-name translation failed; using source names for untranslated players. ${String(error)}`);
   }
 } else if (!translationKey && untranslated.length) {
   console.warn(`DEEPSEEK_API_KEY is not configured; ${untranslated.length} new player names will remain in the provider language.`);

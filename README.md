@@ -50,7 +50,9 @@ Football-Data.org 免费档只提供赛果、赛程和积分榜，不提供球�
 
 1. 在 GOAL API 注册免费账号并生成 API Key；在 DeepSeek API 控制台获取用于球员姓名本地化的 API Key。
 2. 在 GitHub 仓库 **Settings → Secrets and variables → Actions → New repository secret** 中添加 `GOAL_API_KEY` 和 `DEEPSEEK_API_KEY`。不要把密钥写入前端代码或仓库。
-3. 在 **Actions → Update football data → Run workflow** 手动运行一次。任务每天运行两次并更新 `public/data/players.json`；射手榜请求明确指定当前赛季，行记录若自带赛季或赛事 ID，也会核对是否匹配。任务还会同步球队赛季统计并将其写入 `public/data/football.json`。
+3. 在 **Actions → Update football data → Run workflow** 手动运行一次。任务每天运行两次并更新 `public/data/players.json`；射手榜请求明确指定当前赛季，行记录若自带赛季或赛事 ID，也会核对是否匹配。任务会尝试同步球队赛季统计并将可识别的数据写入 `public/data/football.json`。
+
+当前球员列表来自射手榜端点，单项赛事最多取 100 条射手记录，不等于完整球队名单。同步日志会报告球队列表数量、与 Football-Data.org 积分榜匹配的球队数量、统计响应数量和已识别统计的数量；如果显示 0，就表示球队进阶数据尚未接入成功，不能把 workflow 的绿色状态视为该数据已齐全。脚本还会打印一次球员赛季统计与球队名单响应的字段名，供后续按实际结构扩展完整球员统计，日志不包含 API Key。
 
 本地可在 PowerShell 中运行：
 
