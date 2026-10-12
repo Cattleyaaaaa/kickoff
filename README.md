@@ -97,8 +97,6 @@ Remove-Item Env:DEEPSEEK_API_KEY
 
 球队、球员的进攻、传控、突破、防守、纪律栏目已搭好；只展示核实来源返回的数字。射正率、射门转化率、传球成功率和过人成功率只在原始分子和分母都可用时计算。一次运行可以完成现有可靠数据的同步，但免费档与当前端点不能保证一次补齐六项赛事所有球队和球员的进阶统计。工作流成功只表示已验证的数据同步成功，不表示空白指标已获得。
 
-2026 年 10 月 10 日奥格斯堡 2:2 拜仁慕尼黑的快照比分已与[拜仁官网战报](https://fcbayern.com/en/news/matchreports/2026/10/match-report-fc-augsburg-v-fc-bayern-101026)核对。其他比赛不能据此推断全部准确；发现具体错误时应按比赛 ID 对照赛事或俱乐部官方结果，并修正同步快照。Football-Data.org 的 `fullTime` 在点球大战结束时可能包含点球数，程序已将点球从比赛比分中分离并单独标示，依据其[比分说明](https://docs.football-data.org/general/v4/overtime.html)。
-
 ## 图片来源
 
 头条配图是 AngusConnaltyPhotos 拍摄的[真实足球比赛照片](https://commons.wikimedia.org/wiki/File:Soccer_match.jpg)，按 [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) 授权使用。页面通过 CSS 裁切显示，并在图片所在卡片中署名。该照片仅作新闻示意图，并非演示新闻对应比赛的现场照片。
