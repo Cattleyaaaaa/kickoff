@@ -1,11 +1,110 @@
 {
   "source" : "football-data.org",
-  "updatedAt" : "2026-10-11T16:11:03.918764551Z",
+  "updatedAt" : "2026-10-12T01:09:09.805910908Z",
   "range" : {
-    "from" : "2026-10-03",
-    "to" : "2026-10-11"
+    "to" : "2026-10-12",
+    "from" : "2026-10-04"
   },
   "matches" : [ {
+    "id" : "564705",
+    "league" : "西甲",
+    "utcDate" : "2026-10-11T19:00:00Z",
+    "home" : "Santander",
+    "away" : "Valencia",
+    "hs" : 2,
+    "as" : 2,
+    "teamHome" : "SAN",
+    "teamAway" : "VAL",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
+    "id" : "558584",
+    "league" : "意甲",
+    "utcDate" : "2026-10-11T18:45:00Z",
+    "home" : "Cagliari",
+    "away" : "Juventus",
+    "hs" : 1,
+    "as" : 1,
+    "teamHome" : "CAG",
+    "teamAway" : "JUV",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
+    "id" : "559671",
+    "league" : "法甲",
+    "utcDate" : "2026-10-11T18:45:00Z",
+    "home" : "Troyes",
+    "away" : "Marseille",
+    "hs" : 0,
+    "as" : 2,
+    "teamHome" : "ETR",
+    "teamAway" : "MAR",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
+    "id" : "564701",
+    "league" : "西甲",
+    "utcDate" : "2026-10-11T16:30:00Z",
+    "home" : "Real Betis",
+    "away" : "Osasuna",
+    "hs" : 5,
+    "as" : 2,
+    "teamHome" : "BET",
+    "teamAway" : "OSA",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
+    "id" : "558580",
+    "league" : "意甲",
+    "utcDate" : "2026-10-11T16:00:00Z",
+    "home" : "Sassuolo",
+    "away" : "Milan",
+    "hs" : 1,
+    "as" : 1,
+    "teamHome" : "SAS",
+    "teamAway" : "MIL",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
+    "id" : "560598",
+    "league" : "英超",
+    "utcDate" : "2026-10-11T15:30:00Z",
+    "home" : "利物浦",
+    "away" : "曼城",
+    "hs" : 0,
+    "as" : 3,
+    "teamHome" : "LIV",
+    "teamAway" : "MCI",
+    "colors" : [ "#c93640", "#54a8dc" ]
+  }, {
+    "id" : "565816",
+    "league" : "德甲",
+    "utcDate" : "2026-10-11T15:30:00Z",
+    "home" : "Freiburg",
+    "away" : "Schalke",
+    "hs" : 2,
+    "as" : 1,
+    "teamHome" : "SCF",
+    "teamAway" : "S04",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
+    "id" : "559667",
+    "league" : "法甲",
+    "utcDate" : "2026-10-11T15:15:00Z",
+    "home" : "Stade Rennais",
+    "away" : "Auxerre",
+    "hs" : 4,
+    "as" : 1,
+    "teamHome" : "REN",
+    "teamAway" : "AJA",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
+    "id" : "564707",
+    "league" : "西甲",
+    "utcDate" : "2026-10-11T14:15:00Z",
+    "home" : "Real Sociedad",
+    "away" : "Deportivo",
+    "hs" : 3,
+    "as" : 2,
+    "teamHome" : "RSO",
+    "teamAway" : "DEP",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
     "id" : "565814",
     "league" : "德甲",
     "utcDate" : "2026-10-11T13:30:00Z",
@@ -3929,7 +4028,7 @@
     "teamHome" : "RSO",
     "teamAway" : "DEP",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "IN_PLAY",
+    "status" : "FINISHED",
     "hs" : 3,
     "as" : 2
   }, {
@@ -3941,8 +4040,8 @@
     "teamHome" : "REN",
     "teamAway" : "AJA",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "IN_PLAY",
-    "hs" : 1,
+    "status" : "FINISHED",
+    "hs" : 4,
     "as" : 1
   }, {
     "id" : "560598",
@@ -3953,9 +4052,9 @@
     "teamHome" : "LIV",
     "teamAway" : "MCI",
     "colors" : [ "#c93640", "#54a8dc" ],
-    "status" : "IN_PLAY",
+    "status" : "FINISHED",
     "hs" : 0,
-    "as" : 0
+    "as" : 3
   }, {
     "id" : "565816",
     "league" : "德甲",
@@ -3965,8 +4064,8 @@
     "teamHome" : "SCF",
     "teamAway" : "S04",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "IN_PLAY",
-    "hs" : 1,
+    "status" : "FINISHED",
+    "hs" : 2,
     "as" : 1
   }, {
     "id" : "558580",
@@ -3977,9 +4076,9 @@
     "teamHome" : "SAS",
     "teamAway" : "MIL",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "IN_PLAY",
-    "hs" : 0,
-    "as" : 0
+    "status" : "FINISHED",
+    "hs" : 1,
+    "as" : 1
   }, {
     "id" : "564701",
     "league" : "西甲",
@@ -3989,9 +4088,9 @@
     "teamHome" : "BET",
     "teamAway" : "OSA",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 5,
+    "as" : 2
   }, {
     "id" : "558584",
     "league" : "意甲",
@@ -4001,9 +4100,9 @@
     "teamHome" : "CAG",
     "teamAway" : "JUV",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 1,
+    "as" : 1
   }, {
     "id" : "559671",
     "league" : "法甲",
@@ -4013,9 +4112,9 @@
     "teamHome" : "ETR",
     "teamAway" : "MAR",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 0,
+    "as" : 2
   }, {
     "id" : "564705",
     "league" : "西甲",
@@ -4025,9 +4124,9 @@
     "teamHome" : "SAN",
     "teamAway" : "VAL",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 2,
+    "as" : 2
   }, {
     "id" : "558579",
     "league" : "意甲",
@@ -23043,6 +23142,7 @@
       "startDate" : "2026-08-21",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 65,
           "sourceName" : "Manchester City FC",
@@ -23050,13 +23150,13 @@
           "pos" : 1,
           "team" : "曼城",
           "color" : "#54a8dc",
-          "pts" : 16,
+          "pts" : 18,
           "p" : 6,
-          "w" : 5,
-          "d" : 1,
+          "w" : 6,
+          "d" : 0,
           "l" : 0,
-          "gd" : "+8",
-          "gf" : 13,
+          "gd" : "+11",
+          "gf" : 16,
           "ga" : 5
         }, {
           "id" : 57,
@@ -23119,25 +23219,10 @@
           "gf" : 8,
           "ga" : 5
         }, {
-          "id" : 64,
-          "sourceName" : "Liverpool FC",
-          "code" : "LIV",
-          "pos" : 6,
-          "team" : "利物浦",
-          "color" : "#c93640",
-          "pts" : 10,
-          "p" : 6,
-          "w" : 2,
-          "d" : 4,
-          "l" : 0,
-          "gd" : "+3",
-          "gf" : 7,
-          "ga" : 4
-        }, {
           "id" : 61,
           "sourceName" : "Chelsea FC",
           "code" : "CHE",
-          "pos" : 7,
+          "pos" : 6,
           "team" : "Chelsea",
           "color" : "#7377db",
           "pts" : 10,
@@ -23152,7 +23237,7 @@
           "id" : 341,
           "sourceName" : "Leeds United FC",
           "code" : "LEE",
-          "pos" : 8,
+          "pos" : 7,
           "team" : "Leeds United",
           "color" : "#7377db",
           "pts" : 9,
@@ -23167,7 +23252,7 @@
           "id" : 322,
           "sourceName" : "Hull City AFC",
           "code" : "HUL",
-          "pos" : 9,
+          "pos" : 8,
           "team" : "Hull City",
           "color" : "#7377db",
           "pts" : 9,
@@ -23178,6 +23263,21 @@
           "gd" : "+2",
           "gf" : 8,
           "ga" : 6
+        }, {
+          "id" : 64,
+          "sourceName" : "Liverpool FC",
+          "code" : "LIV",
+          "pos" : 9,
+          "team" : "利物浦",
+          "color" : "#c93640",
+          "pts" : 9,
+          "p" : 6,
+          "w" : 2,
+          "d" : 3,
+          "l" : 1,
+          "gd" : "0",
+          "gf" : 7,
+          "ga" : 7
         }, {
           "id" : 349,
           "sourceName" : "Ipswich Town FC",
@@ -23343,8 +23443,7 @@
           "gd" : "-4",
           "gf" : 6,
           "ga" : 10
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "西甲" : {
@@ -23352,6 +23451,7 @@
       "startDate" : "2026-08-16",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 81,
           "sourceName" : "FC Barcelona",
@@ -23383,10 +23483,25 @@
           "gf" : 18,
           "ga" : 8
         }, {
+          "id" : 90,
+          "sourceName" : "Real Betis Balompié",
+          "code" : "BET",
+          "pos" : 3,
+          "team" : "Real Betis",
+          "color" : "#7377db",
+          "pts" : 19,
+          "p" : 8,
+          "w" : 6,
+          "d" : 1,
+          "l" : 1,
+          "gd" : "+5",
+          "gf" : 14,
+          "ga" : 9
+        }, {
           "id" : 86,
           "sourceName" : "Real Madrid CF",
           "code" : "RMA",
-          "pos" : 3,
+          "pos" : 4,
           "team" : "皇家马德里",
           "color" : "#d6b652",
           "pts" : 18,
@@ -23397,21 +23512,6 @@
           "gd" : "+11",
           "gf" : 19,
           "ga" : 8
-        }, {
-          "id" : 90,
-          "sourceName" : "Real Betis Balompié",
-          "code" : "BET",
-          "pos" : 4,
-          "team" : "Real Betis",
-          "color" : "#7377db",
-          "pts" : 16,
-          "p" : 7,
-          "w" : 5,
-          "d" : 1,
-          "l" : 1,
-          "gd" : "+2",
-          "gf" : 9,
-          "ga" : 7
         }, {
           "id" : 559,
           "sourceName" : "Sevilla FC",
@@ -23563,35 +23663,35 @@
           "gf" : 4,
           "ga" : 10
         }, {
-          "id" : 79,
-          "sourceName" : "CA Osasuna",
-          "code" : "OSA",
-          "pos" : 15,
-          "team" : "Osasuna",
-          "color" : "#7377db",
-          "pts" : 8,
-          "p" : 7,
-          "w" : 2,
-          "d" : 2,
-          "l" : 3,
-          "gd" : "-7",
-          "gf" : 6,
-          "ga" : 13
-        }, {
           "id" : 5335,
           "sourceName" : "Real Racing Club de Santander",
           "code" : "SAN",
-          "pos" : 16,
+          "pos" : 15,
           "team" : "Santander",
           "color" : "#7377db",
-          "pts" : 7,
-          "p" : 7,
+          "pts" : 8,
+          "p" : 8,
           "w" : 2,
-          "d" : 1,
+          "d" : 2,
           "l" : 4,
           "gd" : "-10",
-          "gf" : 11,
-          "ga" : 21
+          "gf" : 13,
+          "ga" : 23
+        }, {
+          "id" : 79,
+          "sourceName" : "CA Osasuna",
+          "code" : "OSA",
+          "pos" : 16,
+          "team" : "Osasuna",
+          "color" : "#7377db",
+          "pts" : 8,
+          "p" : 8,
+          "w" : 2,
+          "d" : 2,
+          "l" : 4,
+          "gd" : "-10",
+          "gf" : 8,
+          "ga" : 18
         }, {
           "id" : 285,
           "sourceName" : "Elche CF",
@@ -23623,10 +23723,25 @@
           "gf" : 8,
           "ga" : 12
         }, {
+          "id" : 95,
+          "sourceName" : "Valencia CF",
+          "code" : "VAL",
+          "pos" : 19,
+          "team" : "Valencia",
+          "color" : "#7377db",
+          "pts" : 5,
+          "p" : 8,
+          "w" : 1,
+          "d" : 2,
+          "l" : 5,
+          "gd" : "-9",
+          "gf" : 6,
+          "ga" : 15
+        }, {
           "id" : 84,
           "sourceName" : "Málaga CF",
           "code" : "MAL",
-          "pos" : 19,
+          "pos" : 20,
           "team" : "Málaga",
           "color" : "#7377db",
           "pts" : 4,
@@ -23637,23 +23752,7 @@
           "gd" : "-9",
           "gf" : 4,
           "ga" : 13
-        }, {
-          "id" : 95,
-          "sourceName" : "Valencia CF",
-          "code" : "VAL",
-          "pos" : 19,
-          "team" : "Valencia",
-          "color" : "#7377db",
-          "pts" : 4,
-          "p" : 7,
-          "w" : 1,
-          "d" : 1,
-          "l" : 5,
-          "gd" : "-9",
-          "gf" : 4,
-          "ga" : 13
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "意甲" : {
@@ -23661,6 +23760,7 @@
       "startDate" : "2026-08-23",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 108,
           "sourceName" : "FC Internazionale Milano",
@@ -23707,10 +23807,25 @@
           "gf" : 14,
           "ga" : 3
         }, {
+          "id" : 104,
+          "sourceName" : "Cagliari Calcio",
+          "code" : "CAG",
+          "pos" : 4,
+          "team" : "Cagliari",
+          "color" : "#7377db",
+          "pts" : 13,
+          "p" : 6,
+          "w" : 4,
+          "d" : 1,
+          "l" : 1,
+          "gd" : "+3",
+          "gf" : 6,
+          "ga" : 3
+        }, {
           "id" : 98,
           "sourceName" : "AC Milan",
           "code" : "MIL",
-          "pos" : 4,
+          "pos" : 5,
           "team" : "Milan",
           "color" : "#7377db",
           "pts" : 12,
@@ -23719,28 +23834,28 @@
           "d" : 3,
           "l" : 0,
           "gd" : "+6",
-          "gf" : 10,
-          "ga" : 4
+          "gf" : 11,
+          "ga" : 5
         }, {
-          "id" : 104,
-          "sourceName" : "Cagliari Calcio",
-          "code" : "CAG",
-          "pos" : 5,
-          "team" : "Cagliari",
+          "id" : 109,
+          "sourceName" : "Juventus FC",
+          "code" : "JUV",
+          "pos" : 6,
+          "team" : "Juventus",
           "color" : "#7377db",
-          "pts" : 12,
-          "p" : 5,
-          "w" : 4,
-          "d" : 0,
+          "pts" : 11,
+          "p" : 6,
+          "w" : 3,
+          "d" : 2,
           "l" : 1,
-          "gd" : "+3",
-          "gf" : 5,
-          "ga" : 2
+          "gd" : "+4",
+          "gf" : 9,
+          "ga" : 5
         }, {
           "id" : 7397,
           "sourceName" : "Como 1907",
           "code" : "COM",
-          "pos" : 6,
+          "pos" : 7,
           "team" : "Como 1907",
           "color" : "#7377db",
           "pts" : 11,
@@ -23755,7 +23870,7 @@
           "id" : 113,
           "sourceName" : "SSC Napoli",
           "code" : "NAP",
-          "pos" : 7,
+          "pos" : 8,
           "team" : "Napoli",
           "color" : "#7377db",
           "pts" : 10,
@@ -23766,21 +23881,6 @@
           "gd" : "+4",
           "gf" : 10,
           "ga" : 6
-        }, {
-          "id" : 109,
-          "sourceName" : "Juventus FC",
-          "code" : "JUV",
-          "pos" : 8,
-          "team" : "Juventus",
-          "color" : "#7377db",
-          "pts" : 10,
-          "p" : 5,
-          "w" : 3,
-          "d" : 1,
-          "l" : 1,
-          "gd" : "+4",
-          "gf" : 8,
-          "ga" : 4
         }, {
           "id" : 470,
           "sourceName" : "Frosinone Calcio",
@@ -23809,8 +23909,8 @@
           "d" : 2,
           "l" : 2,
           "gd" : "0",
-          "gf" : 9,
-          "ga" : 9
+          "gf" : 10,
+          "ga" : 10
         }, {
           "id" : 102,
           "sourceName" : "Atalanta BC",
@@ -23961,8 +24061,7 @@
           "gd" : "-9",
           "gf" : 4,
           "ga" : 13
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "德甲" : {
@@ -23970,11 +24069,27 @@
       "startDate" : "2026-08-28",
       "endDate" : "2027-05-22",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
+          "id" : 17,
+          "sourceName" : "SC Freiburg",
+          "code" : "SCF",
+          "pos" : 1,
+          "team" : "Freiburg",
+          "color" : "#7377db",
+          "pts" : 13,
+          "p" : 5,
+          "w" : 4,
+          "d" : 1,
+          "l" : 0,
+          "gd" : "+10",
+          "gf" : 14,
+          "ga" : 4
+        }, {
           "id" : 4,
           "sourceName" : "Borussia Dortmund",
           "code" : "BVB",
-          "pos" : 1,
+          "pos" : 2,
           "team" : "Dortmund",
           "color" : "#7377db",
           "pts" : 13,
@@ -23989,7 +24104,7 @@
           "id" : 5,
           "sourceName" : "FC Bayern München",
           "code" : "FCB",
-          "pos" : 2,
+          "pos" : 3,
           "team" : "拜仁慕尼黑",
           "color" : "#d64545",
           "pts" : 11,
@@ -23999,21 +24114,6 @@
           "l" : 0,
           "gd" : "+12",
           "gf" : 16,
-          "ga" : 4
-        }, {
-          "id" : 17,
-          "sourceName" : "SC Freiburg",
-          "code" : "SCF",
-          "pos" : 3,
-          "team" : "Freiburg",
-          "color" : "#7377db",
-          "pts" : 11,
-          "p" : 5,
-          "w" : 3,
-          "d" : 2,
-          "l" : 0,
-          "gd" : "+9",
-          "gf" : 13,
           "ga" : 4
         }, {
           "id" : 3,
@@ -24136,25 +24236,10 @@
           "gf" : 8,
           "ga" : 9
         }, {
-          "id" : 6,
-          "sourceName" : "FC Schalke 04",
-          "code" : "S04",
-          "pos" : 12,
-          "team" : "Schalke",
-          "color" : "#7377db",
-          "pts" : 6,
-          "p" : 5,
-          "w" : 1,
-          "d" : 3,
-          "l" : 1,
-          "gd" : "-1",
-          "gf" : 4,
-          "ga" : 5
-        }, {
           "id" : 7,
           "sourceName" : "Hamburger SV",
           "code" : "HSV",
-          "pos" : 13,
+          "pos" : 12,
           "team" : "HSV",
           "color" : "#7377db",
           "pts" : 6,
@@ -24165,6 +24250,21 @@
           "gd" : "-10",
           "gf" : 5,
           "ga" : 15
+        }, {
+          "id" : 6,
+          "sourceName" : "FC Schalke 04",
+          "code" : "S04",
+          "pos" : 13,
+          "team" : "Schalke",
+          "color" : "#7377db",
+          "pts" : 5,
+          "p" : 5,
+          "w" : 1,
+          "d" : 2,
+          "l" : 2,
+          "gd" : "-2",
+          "gf" : 4,
+          "ga" : 6
         }, {
           "id" : 19,
           "sourceName" : "Eintracht Frankfurt",
@@ -24240,8 +24340,7 @@
           "gd" : "-11",
           "gf" : 7,
           "ga" : 18
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "法甲" : {
@@ -24249,6 +24348,7 @@
       "startDate" : "2026-08-22",
       "endDate" : "2027-05-29",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 548,
           "sourceName" : "AS Monaco FC",
@@ -24280,10 +24380,25 @@
           "gf" : 9,
           "ga" : 4
         }, {
+          "id" : 529,
+          "sourceName" : "Stade Rennais FC 1901",
+          "code" : "REN",
+          "pos" : 3,
+          "team" : "Stade Rennais",
+          "color" : "#7377db",
+          "pts" : 13,
+          "p" : 6,
+          "w" : 4,
+          "d" : 1,
+          "l" : 1,
+          "gd" : "+2",
+          "gf" : 12,
+          "ga" : 10
+        }, {
           "id" : 523,
           "sourceName" : "Olympique Lyonnais",
           "code" : "LYO",
-          "pos" : 3,
+          "pos" : 4,
           "team" : "Olympique Lyon",
           "color" : "#7377db",
           "pts" : 11,
@@ -24298,7 +24413,7 @@
           "id" : 1045,
           "sourceName" : "Paris FC",
           "code" : "PFC",
-          "pos" : 4,
+          "pos" : 5,
           "team" : "Paris FC",
           "color" : "#7377db",
           "pts" : 11,
@@ -24313,7 +24428,7 @@
           "id" : 524,
           "sourceName" : "Paris Saint-Germain FC",
           "code" : "PSG",
-          "pos" : 5,
+          "pos" : 6,
           "team" : "巴黎圣日耳曼",
           "color" : "#4b67b2",
           "pts" : 11,
@@ -24324,21 +24439,6 @@
           "gd" : "+3",
           "gf" : 11,
           "ga" : 8
-        }, {
-          "id" : 529,
-          "sourceName" : "Stade Rennais FC 1901",
-          "code" : "REN",
-          "pos" : 6,
-          "team" : "Stade Rennais",
-          "color" : "#7377db",
-          "pts" : 11,
-          "p" : 6,
-          "w" : 3,
-          "d" : 2,
-          "l" : 1,
-          "gd" : "-1",
-          "gf" : 9,
-          "ga" : 10
         }, {
           "id" : 512,
           "sourceName" : "Stade Brestois 29",
@@ -24430,20 +24530,20 @@
           "gf" : 7,
           "ga" : 10
         }, {
-          "id" : 519,
-          "sourceName" : "AJ Auxerre",
-          "code" : "AJA",
+          "id" : 516,
+          "sourceName" : "Olympique de Marseille",
+          "code" : "MAR",
           "pos" : 13,
-          "team" : "Auxerre",
+          "team" : "Marseille",
           "color" : "#7377db",
-          "pts" : 7,
+          "pts" : 6,
           "p" : 6,
           "w" : 2,
-          "d" : 1,
-          "l" : 3,
-          "gd" : "-5",
-          "gf" : 8,
-          "ga" : 13
+          "d" : 0,
+          "l" : 4,
+          "gd" : "+1",
+          "gf" : 9,
+          "ga" : 8
         }, {
           "id" : 535,
           "sourceName" : "Le Mans FC",
@@ -24475,35 +24575,35 @@
           "gf" : 9,
           "ga" : 11
         }, {
+          "id" : 519,
+          "sourceName" : "AJ Auxerre",
+          "code" : "AJA",
+          "pos" : 16,
+          "team" : "Auxerre",
+          "color" : "#7377db",
+          "pts" : 6,
+          "p" : 6,
+          "w" : 2,
+          "d" : 0,
+          "l" : 4,
+          "gd" : "-8",
+          "gf" : 8,
+          "ga" : 16
+        }, {
           "id" : 531,
           "sourceName" : "ES Troyes AC",
           "code" : "ETR",
-          "pos" : 16,
+          "pos" : 17,
           "team" : "Troyes",
           "color" : "#7377db",
           "pts" : 4,
-          "p" : 5,
+          "p" : 6,
           "w" : 1,
           "d" : 1,
-          "l" : 3,
-          "gd" : "-7",
-          "gf" : 4,
-          "ga" : 11
-        }, {
-          "id" : 516,
-          "sourceName" : "Olympique de Marseille",
-          "code" : "MAR",
-          "pos" : 17,
-          "team" : "Marseille",
-          "color" : "#7377db",
-          "pts" : 3,
-          "p" : 5,
-          "w" : 1,
-          "d" : 0,
           "l" : 4,
-          "gd" : "-1",
-          "gf" : 7,
-          "ga" : 8
+          "gd" : "-9",
+          "gf" : 4,
+          "ga" : 13
         }, {
           "id" : 533,
           "sourceName" : "Le Havre AC",
@@ -24519,8 +24619,7 @@
           "gd" : "-4",
           "gf" : 4,
           "ga" : 8
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "欧冠" : {
@@ -24528,6 +24627,7 @@
       "startDate" : "2026-09-08",
       "endDate" : "2027-01-27",
       "groups" : [ {
+        "name" : "League phase",
         "rows" : [ {
           "id" : 524,
           "sourceName" : "Paris Saint-Germain FC",
@@ -25068,8 +25168,7 @@
           "gd" : "-5",
           "gf" : 0,
           "ga" : 5
-        } ],
-        "name" : "League phase"
+        } ]
       } ]
     }
   }
