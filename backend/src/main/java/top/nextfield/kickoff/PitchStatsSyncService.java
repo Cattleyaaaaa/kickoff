@@ -124,14 +124,14 @@ public class PitchStatsSyncService {
                 }
             }
             if (finished == 0) throw new IOException(target.label + ": no finished match in " + season + ".");
+            int discardedPairs = teams.values().stream().mapToInt(Aggregate::discardInconsistentPairs).sum()
+                    + players.values().stream().mapToInt(Aggregate::discardInconsistentPairs).sum();
             List<Map<String, Object>> teamRows = teams.values().stream().map(TeamAggregate::toMap)
                     .sorted(Comparator.comparing(row -> String.valueOf(row.get("name")))).toList();
             List<Map<String, Object>> playerRows = players.values().stream().map(PlayerAggregate::toMap)
                     .sorted(Comparator.comparing(row -> String.valueOf(row.get("name")))).toList();
             if (teamRows.isEmpty() || playerRows.isEmpty())
                 throw new IOException(target.label + ": provider returned no team or player rows; previous preview preserved.");
-            for (TeamAggregate team : teams.values()) team.validate(target.label);
-            for (PlayerAggregate player : players.values()) player.validate(target.label);
             Map<String, Object> league = new LinkedHashMap<>();
             league.put("season", season);
             league.put("finishedMatches", finished);
@@ -139,12 +139,13 @@ public class PitchStatsSyncService {
             league.put("playerStatsMatches", playerCovered);
             league.put("advancedTeamMatches", advancedTeamCovered);
             league.put("advancedPlayerMatches", advancedPlayerCovered);
+            league.put("discardedInconsistentMetricPairs", discardedPairs);
             league.put("teams", teamRows);
             league.put("players", playerRows);
             leagueResults.put(target.label, league);
-            System.out.printf("%s: %d finished; team %d/%d, player %d/%d, advanced team %d/%d, advanced player %d/%d%n",
+            System.out.printf("%s: %d finished; team %d/%d, player %d/%d, advanced team %d/%d, advanced player %d/%d, discarded metric pairs %d%n",
                     target.label, finished, teamCovered, finished, playerCovered, finished,
-                    advancedTeamCovered, finished, advancedPlayerCovered, finished);
+                    advancedTeamCovered, finished, advancedPlayerCovered, finished, discardedPairs);
         }
         result.put("requestCount", requestCount);
         Files.createDirectories(output.toAbsolutePath().getParent());
@@ -276,6 +277,8 @@ public class PitchStatsSyncService {
     private static class Aggregate {
         final Map<String, Double> totals = new LinkedHashMap<>();
         final Map<String, Integer> counts = new LinkedHashMap<>();
+        double passAccuracyWeightedTotal;
+        double passAccuracyWeight;
         void add(String key, Double value) {
             if (value == null || !Double.isFinite(value) || value < 0) return;
             totals.merge(key, value, Double::sum);
@@ -285,20 +288,37 @@ public class PitchStatsSyncService {
             JsonNode value = row.path(group).path(field);
             if (value.isNumber()) add(key, value.asDouble());
         }
+        void addPassStats(JsonNode row) {
+            JsonNode passes = row.path("passing").path("passes");
+            JsonNode accuracy = row.path("passing").path("pass_accuracy");
+            if (!passes.isNumber() || passes.asDouble() < 0) return;
+            double attempts = passes.asDouble();
+            add("passes", attempts);
+            if (attempts > 0 && accuracy.isNumber() && accuracy.asDouble() >= 0 && accuracy.asDouble() <= 100) {
+                passAccuracyWeightedTotal += attempts * accuracy.asDouble();
+                passAccuracyWeight += attempts;
+            }
+        }
         Map<String, Object> values() {
             Map<String, Object> values = new LinkedHashMap<>();
             for (var entry : totals.entrySet()) values.put(entry.getKey(), Math.round(entry.getValue() * 10.0) / 10.0);
+            if (passAccuracyWeight > 0)
+                values.put("passAccuracy", Math.round(passAccuracyWeightedTotal / passAccuracyWeight * 10.0) / 10.0);
             return values;
         }
-        void validate(String league) throws IOException {
-            checkPair(league, "passesCompleted", "passes");
-            checkPair(league, "shotsOnTarget", "shots");
-            checkPair(league, "dribblesCompleted", "dribblesAttempted");
+        int discardInconsistentPairs() {
+            return discardPair("passesCompleted", "passes")
+                    + discardPair("shotsOnTarget", "shots")
+                    + discardPair("dribblesCompleted", "dribblesAttempted");
         }
-        private void checkPair(String league, String numerator, String denominator) throws IOException {
+        private int discardPair(String numerator, String denominator) {
             Double a = totals.get(numerator), b = totals.get(denominator);
-            if (a != null && b != null && a > b)
-                throw new IOException(league + ": inconsistent " + numerator + "=" + a + " > " + denominator + "=" + b);
+            if (a == null || b == null || a <= b) return 0;
+            totals.remove(numerator);
+            totals.remove(denominator);
+            counts.remove(numerator);
+            counts.remove(denominator);
+            return 1;
         }
     }
 
@@ -313,7 +333,6 @@ public class PitchStatsSyncService {
         void recordBasic(String key, Double value) {
             String mapped = switch (key) {
                 case "total_shots" -> "shots"; case "ShotsOnTarget" -> "shotsOnTarget";
-                case "accurate_passes" -> "passesCompleted"; case "passes" -> "passes";
                 case "Offsides" -> "offsides"; case "fouls" -> "fouls";
                 case "yellow_cards" -> "yellowCards"; case "red_cards" -> "redCards";
                 case "keeper_saves" -> "saves";
@@ -322,6 +341,7 @@ public class PitchStatsSyncService {
             if (mapped != null) add(mapped, value);
         }
         void recordAdvanced(JsonNode row) {
+            addPassStats(row);
             addPath("keyPasses", row, "passing", "key_passes");
             addPath("dribblesAttempted", row, "carrying", "take_ons");
             addPath("dribblesCompleted", row, "carrying", "take_ons_won");
@@ -354,7 +374,7 @@ public class PitchStatsSyncService {
         void recordBasic(String key, Double value) {
             String mapped = switch (key) {
                 case "goals" -> "goals"; case "assists" -> "assists"; case "total_shots" -> "shots";
-                case "ShotsOnTarget" -> "shotsOnTarget"; case "accurate_passes" -> "passesCompleted";
+                case "ShotsOnTarget" -> "shotsOnTarget";
                 case "Offsides" -> "offsides"; case "fouls" -> "fouls";
                 case "yellow_cards" -> "yellowCards"; case "red_cards" -> "redCards";
                 case "saves" -> "saves";
@@ -363,7 +383,7 @@ public class PitchStatsSyncService {
             if (mapped != null) add(mapped, value);
         }
         void recordAdvanced(JsonNode row) {
-            addPath("passes", row, "passing", "passes");
+            addPassStats(row);
             addPath("keyPasses", row, "passing", "key_passes");
             addPath("dribblesAttempted", row, "carrying", "take_ons");
             addPath("dribblesCompleted", row, "carrying", "take_ons_won");

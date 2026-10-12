@@ -32,6 +32,6 @@ export default function StatsBoard({ locale, entries, groups, source }: {
     {ordered.length ? <div className="table-scroll"><table className="stats-table"><thead><tr><th>#</th><th>{locale === 'en' ? 'Name' : '名称'}</th>{keys.map(key => <th key={key} className={key === activeKey ? 'stats-selected-column' : 'stats-extra-column'}>{metricLabels[key][index(locale)]}</th>)}</tr></thead>
       <tbody>{ordered.map((entry, i) => <tr key={entry.id}><td>{available && metricValue(entry.values, activeKey) !== null ? i + 1 : entry.position ?? '—'}</td><td className="stats-name"><div className="stats-club-line">{entry.crest}<span className="stats-club-copy"><strong>{entry.name}</strong>{entry.sub && <small>{entry.sub}</small>}</span></div></td>{keys.map(key => <td key={key} className={`${key === activeKey ? 'stats-active-cell stats-selected-column' : 'stats-extra-column'}`}>{format(entry, key)}</td>)}</tr>)}</tbody></table></div>
       : <div className="empty-state">{locale === 'en' ? 'No verified season rows are available.' : locale === 'zh-TW' ? '暫無可核實的賽季資料。' : '暂无可核实的赛季数据。'}</div>}
-    <p className="data-note">{source} · {locale === 'en' ? '— means unavailable, not zero. Rates use recorded totals only.' : locale === 'zh-TW' ? '「—」表示資料缺失，並非 0；比率僅用已核實的分子與分母計算。' : '“—”表示数据缺失，不是 0；比率仅用已核实的分子和分母计算。'}</p>
+    <p className="data-note">{source} · {locale === 'en' ? '— means unavailable, not zero. Rates come from the provider or recorded totals.' : locale === 'zh-TW' ? '「—」表示資料缺失，並非 0；比率由資料來源提供或根據已記錄總量計算。' : '“—”表示数据缺失，不是 0；比率由数据来源提供或根据已记录总量计算。'}</p>
   </div>;
 }

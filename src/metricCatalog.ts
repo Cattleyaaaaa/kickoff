@@ -55,7 +55,10 @@ export function rate(numerator: unknown, denominator: unknown): number | null {
 export function metricValue(values: MetricValues, key: MetricKey): number | null {
   if (key === 'shotAccuracy') return rate(values.shotsOnTarget, values.shots);
   if (key === 'goalConversion') return rate(values.goals, values.shots);
-  if (key === 'passAccuracy') return rate(values.passesCompleted, values.passes);
+  if (key === 'passAccuracy') {
+    const providerRate = validMetric(values.passAccuracy);
+    return providerRate !== null && providerRate <= 100 ? providerRate : rate(values.passesCompleted, values.passes);
+  }
   if (key === 'dribbleSuccessRate') return rate(values.dribblesCompleted, values.dribblesAttempted);
   return validMetric(values[key]);
 }
