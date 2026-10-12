@@ -5,6 +5,8 @@ import { teams, articles, extraStories, discussions, words, localeIndex, localiz
 import type { FootballSnapshot } from '../scripts/football-transform';
 import { isPublishablePlayerStatsSnapshot } from '../scripts/player-transform';
 import type { PlayerStatsSnapshot } from '../scripts/player-transform';
+import { isAdvancedStatsSnapshot } from './advancedSnapshot';
+import type { AdvancedStatsSnapshot } from './advancedSnapshot';
 import { getClubMark } from './clubIdentity';
 import BayernKit from './BayernKit';
 import StatsBoard from './StatsBoard';
@@ -164,14 +166,22 @@ function StandingsPage({ locale, data }: { locale: Locale; data: FootballSnapsho
   </section>;
 }
 
-function TeamStatsPage({ locale, data }: { locale: Locale; data: FootballSnapshot | null }) {
+function TeamStatsPage({ locale, data, advanced }: { locale: Locale; data: FootballSnapshot | null; advanced: AdvancedStatsSnapshot | null }) {
   const [league, setLeague] = useState('英超');
   const standing = data?.standings[league];
-  const entries = (standing?.groups.flatMap(group => group.rows) || []).map(row => {
+  const preview = advanced?.leagues[league];
+  const baseEntries = (standing?.groups.flatMap(group => group.rows) || []).map(row => {
     const advanced = data?.teamStatsSource && row.id !== null ? data.teamStats?.[league]?.[String(row.id)] : undefined;
     return { id: String(row.id ?? row.team), position: row.pos, name: localizeClub(row.team, locale), sub: `${row.p} ${copy(locale, '场', '場', 'played')}`, crest: <Crest name={row.team} color={row.color} small />, values: teamValues(row, advanced) };
   });
-  const source = data
+  const entries = preview?.teams.length ? preview.teams.map(team => ({
+    id: team.id, name: localizeClub(team.name, locale),
+    sub: `${team.games} ${copy(locale, '场', '場', 'played')}`,
+    crest: <Crest name={team.name} small />, values: team.values,
+  })) : baseEntries;
+  const source = preview?.teams.length
+    ? `PitchAPI · ${updatedLabel(advanced!.updatedAt, locale)} · ${copy(locale, '球队统计覆盖', '球隊統計涵蓋', 'Team stats cover')} ${preview.teamStatsMatches}/${preview.finishedMatches} ${copy(locale, '场完赛', '場完賽', 'finished matches')}`
+    : data
     ? `${copy(locale, '积分榜基础数据：', '積分榜基礎資料：', 'Standings base: ')}Football-Data.org · ${updatedLabel(data.updatedAt, locale)}${data.teamStatsSource ? ` | GOAL API · ${updatedLabel(data.teamStatsSource.updatedAt, locale)}` : ''}`
     : copy(locale, '等待数据同步', '等待資料同步', 'Waiting for data sync');
   return <section className="team-stats-page">
@@ -191,20 +201,26 @@ function Teams({ locale, favorites, toggleFavorite, onPick, clubs }: { locale: L
     <section className="team-hub-section"><SectionTitle kicker="YOUR COLORS" title={copy(locale, '找到你的主队', '找到你的主隊', 'Find your club')} /><div className="page-tools"><label className="inline-search"><Search size={19} /><input aria-label={words[locale].choose} value={q} onChange={e => setQ(e.target.value)} placeholder={copy(locale, '搜索球队', '搜尋球隊', 'Search clubs')} /></label><button className="button primary" onClick={onPick}>{words[locale].choose}<Plus size={18} /></button></div><div className="club-grid">{rows.map(t => <article className="club-card" key={t.short} style={{ '--club': t.color } as React.CSSProperties}><div className="club-card-top"><span>{localizeLeague(t.league, locale)}</span><span>{t.short}</span></div><Crest name={t.short} color={t.color} /><h2>{locale === 'en' ? t.en : localizeClub(t.name, locale)}</h2><span className="club-english">{t.en.toUpperCase()}</span><button className={favorites.includes(t.short) ? 'club-follow followed' : 'club-follow'} aria-pressed={favorites.includes(t.short)} onClick={() => toggleFavorite(t.short)}>{favorites.includes(t.short) ? <Check size={19} /> : <Plus size={19} />}{favorites.includes(t.short) ? copy(locale, '已关注', '已關注', 'Following') : copy(locale, '关注球队', '關注球隊', 'Follow club')}</button></article>)}</div>{!rows.length && <div className="empty-state">{words[locale].noSearch}</div>}</section>
   </section>;
 }
-function Players({ locale, snapshot }: { locale: Locale; snapshot: PlayerStatsSnapshot | null }) {
+function Players({ locale, snapshot, advanced }: { locale: Locale; snapshot: PlayerStatsSnapshot | null; advanced: AdvancedStatsSnapshot | null }) {
   const [league, setLeague] = useState('英超');
   const selected = snapshot?.leagues[league];
-  const entries = (selected?.players || []).map(player => ({
+  const preview = advanced?.leagues[league];
+  const legacyEntries = (selected?.players || []).map(player => ({
     id: player.id,
     name: player.localizedNames?.[locale] || localizePlayer(player.name, locale),
     sub: [localizeClub(player.team, locale), player.position, player.nationality].filter(Boolean).join(' · '),
     values: playerValues(player),
   }));
+  const entries = preview?.players.length ? preview.players.map(player => ({
+    id: player.id, name: localizePlayer(player.name, locale),
+    sub: [localizeClub(player.team, locale), player.position].filter(Boolean).join(' · '),
+    values: player.values,
+  })) : legacyEntries;
   return <section id="players">
     <PageTitle title={copy(locale, '球员数据', '球員數據', 'Player stats')} description={copy(locale, '按赛事查看已核实的赛季球员数据。', '按賽事查看已核實的賽季球員資料。', 'Verified season player statistics by competition.')} label="GAME CHANGERS" icon={Zap} />
-    {!snapshot && <p className="stats-unavailable" role="status">{copy(locale, '现有数据只覆盖部分射手，且与官方记录存在差异。球员榜暂停展示，待找到并核实可靠的当赛季数据源后恢复。', '現有資料只涵蓋部分射手，且與官方紀錄存在差異。球員榜暫停展示，待找到並核實可靠的當賽季資料來源後恢復。', 'The current feed covers only selected scorers and differs from official records. Player rankings are paused until a reliable current-season source is verified.')}</p>}
-    <div className="data-card player-league-card"><div className="table-toolbar player-toolbar"><div className="tabs scroll-tabs">{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => setLeague(name)}>{localizeLeague(name, locale)}</button>)}</div><span className="season-label">{selected?.season || '—'}</span></div></div>
-    <StatsBoard key={league} locale={locale} entries={entries} groups={playerMetricGroups} source={selected ? `GOAL API · ${updatedLabel(snapshot!.updatedAt, locale)}` : copy(locale, '球员赛季与球队归属仍需核实', '球員賽季與球隊歸屬仍需核實', 'Player season and club assignments are still being verified')} />
+    {!preview && !snapshot && <p className="stats-unavailable" role="status">{copy(locale, '尚未导入完整的本赛季球员统计快照。', '尚未匯入完整的本賽季球員統計快照。', 'No current-season player statistics snapshot has been imported yet.')}</p>}
+    <div className="data-card player-league-card"><div className="table-toolbar player-toolbar"><div className="tabs scroll-tabs">{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => setLeague(name)}>{localizeLeague(name, locale)}</button>)}</div><span className="season-label">{preview?.season || selected?.season || '—'}</span></div></div>
+    <StatsBoard key={league} locale={locale} entries={entries} groups={playerMetricGroups} source={preview ? `PitchAPI · ${updatedLabel(advanced!.updatedAt, locale)} · ${copy(locale, '球员统计覆盖', '球員統計涵蓋', 'Player stats cover')} ${preview.playerStatsMatches}/${preview.finishedMatches} ${copy(locale, '场完赛', '場完賽', 'finished matches')}` : selected ? `GOAL API · ${updatedLabel(snapshot!.updatedAt, locale)}` : copy(locale, '等待本赛季球员统计快照', '等待本賽季球員統計快照', 'Waiting for current-season player stats')} />
   </section>;
 }
 export default function App() {
@@ -213,6 +229,7 @@ export default function App() {
   const [query,setQuery]=useState(''), [searchFilter,setSearchFilter]=useState(0);
   const root=useRef(null); const t=words[locale]; const idx=localeIndex[locale]; const [snapshot,setSnapshot]=useState<FootballSnapshot | null>(null);
   const [playerStats,setPlayerStats]=useState<PlayerStatsSnapshot | null>(null);
+  const [advancedStats,setAdvancedStats]=useState<AdvancedStatsSnapshot | null>(null);
   const clubOptions = (() => {
     if (!snapshot) return teams;
     const byCode = new Map<string, { name: string; en: string; short: string; color: string; league: string }>();
@@ -225,6 +242,7 @@ export default function App() {
   useEffect(()=>{ document.documentElement.lang=locale; localStorage.setItem('kickoff-locale',locale); },[locale]);
   useEffect(()=>{ const controller=new AbortController(); (async()=>{ for(const url of ['/api/v1/football','/data/football.json']) { try { const response=await fetch(url,{signal:controller.signal,cache:'no-store'}); if(!response.ok)continue; const data=await response.json(); if(isFootballSnapshot(data)){setSnapshot(data);break;} } catch { if(controller.signal.aborted)break; } } })(); return ()=>controller.abort(); },[]);
   useEffect(()=>{ const controller=new AbortController(); fetch('/data/players.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isPublishablePlayerStatsSnapshot(data))setPlayerStats(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
+  useEffect(()=>{ const controller=new AbortController(); fetch('/data/advanced.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isAdvancedStatsSnapshot(data))setAdvancedStats(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
   useEffect(()=>{ const media=matchMedia('(prefers-color-scheme: dark)'); const apply=()=>document.documentElement.dataset.theme=theme==='system'?(media.matches?'dark':'light'):theme; apply();localStorage.setItem('kickoff-theme',theme);media.addEventListener('change',apply);return()=>media.removeEventListener('change',apply); },[theme]);
   useEffect(()=>{const onPop=()=>{setPage(readRoute());setMenu(false);window.scrollTo(0,0);};window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[]);
   useEffect(()=>{const key=e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setModal('search');}};document.addEventListener('keydown',key);return()=>document.removeEventListener('keydown',key);},[]);
@@ -239,7 +257,7 @@ export default function App() {
   const items: Array<{ kind: number; title: string; meta: string; article?: (typeof articles)[number]; route?: string }> = [...articles.map(a=>({kind:1,title:a.title[idx],meta:localizeLeague(a.league.split(' · ')[0],locale),article:a})),...clubOptions.map(v=>({kind:2,title:locale==='en'?v.en:localizeClub(v.name,locale),meta:localizeLeague(v.league,locale),route:'teams'})),...Object.values(playerStats?.leagues || {}).flatMap(group=>group.players.map(player=>({kind:3,title:player.localizedNames?.[locale] || localizePlayer(player.name,locale),meta:localizeClub(player.team,locale),route:'players'}))),...(snapshot?.matches || []).map(v=>({kind:4,title:`${localizeClub(v.home,locale)} ${v.hs} — ${v.as} ${localizeClub(v.away,locale)}`,meta:localizeLeague(v.league,locale),route:'matches'}))];
   const searchResults=items.filter(v=>(!searchFilter||v.kind===searchFilter)&&(v.title+' '+v.meta).toLowerCase().includes(query.trim().toLowerCase()));
   return <div className="app-shell" data-page={page} ref={root}><div className="announcement"><span>THE GAME IS OURS.</span><span>{t.tagline} <span aria-hidden="true">✳</span> EST. 2026</span></div><header className="site-header"><div className="header-inner"><button className="brand" onClick={()=>navigate('home')} aria-label="Kickoff home"><span className="logo-mark">K<span>↗</span></span><b>kickoff<span>.</span></b></button><nav className={menu?'primary-nav nav-open':'primary-nav'} aria-label="主导航">{routes.map((r,i)=><button key={r} className={page===r?'active':''} aria-current={page===r?'page':undefined} onClick={()=>navigate(r)}>{t.nav[i]}</button>)}</nav><div className="header-actions"><button className="header-search" aria-label={t.openSearch} onClick={()=>setModal('search')}><Search size={20}/><span>{copy(locale,'搜点什么','搜點甚麼','Search')}</span><kbd>⌘ K</kbd></button><select aria-label={t.language} value={locale} onChange={e=>setLocale(e.target.value as Locale)}><option value="zh-CN">简</option><option value="zh-TW">繁</option><option value="en">EN</option></select><button className="icon-button" aria-label={t.theme} title={theme} onClick={()=>setTheme(theme==='light'?'dark':theme==='dark'?'system':'light')}>{theme==='dark'?<Moon size={20}/>:theme==='system'?<Globe2 size={20}/>:<Sun size={20}/>}</button><button className="menu-button icon-button" aria-label="Menu" aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div></div></header>
-  <main className="page-container" key={page}>{page==='home'||page==='news'?<NewsFeed locale={locale} onOpen={openArticle} home={page==='home'} navigate={navigate} onJoin={()=>setModal('join')} onPick={openPicker}/>:page==='matches'?(snapshot?<LiveMatches locale={locale} favorites={favorites} data={snapshot}/>:<UnavailableMatches locale={locale}/>):page==='standings'?<StandingsPage locale={locale} data={snapshot}/>:page==='team-stats'?<TeamStatsPage locale={locale} data={snapshot}/>:page==='teams'?<Teams locale={locale} favorites={favorites} toggleFavorite={toggleFavorite} onPick={openPicker} clubs={clubOptions}/>:<Players locale={locale} snapshot={playerStats}/>}</main>
+  <main className="page-container" key={page}>{page==='home'||page==='news'?<NewsFeed locale={locale} onOpen={openArticle} home={page==='home'} navigate={navigate} onJoin={()=>setModal('join')} onPick={openPicker}/>:page==='matches'?(snapshot?<LiveMatches locale={locale} favorites={favorites} data={snapshot}/>:<UnavailableMatches locale={locale}/>):page==='standings'?<StandingsPage locale={locale} data={snapshot}/>:page==='team-stats'?<TeamStatsPage locale={locale} data={snapshot} advanced={advancedStats}/>:page==='teams'?<Teams locale={locale} favorites={favorites} toggleFavorite={toggleFavorite} onPick={openPicker} clubs={clubOptions}/>:<Players locale={locale} snapshot={playerStats} advanced={advancedStats}/>}</main>
   <footer className="site-footer"><div><b>kickoff<span>↗</span></b><p>{t.footer}</p></div><div className="footer-right"><span>© 2026 KICKOFF</span><span>FOOTBALL NEVER ENDS.</span>{snapshot&&<a href="https://www.football-data.org/" target="_blank" rel="noopener noreferrer">Football data provided by the Football-Data.org API</a>}{playerStats && Object.keys(playerStats.leagues).length > 0 && <a href="https://goal-api.com/" target="_blank" rel="noopener noreferrer">Player stats provided by GOAL API</a>}</div></footer>
   {modal==='teams'&&<Modal title={t.chooseTitle} onClose={closeModal}><p className="modal-description">{t.chooseNote}</p><label className="team-picker-search"><Search size={19}/><input autoFocus value={pickerQuery} onChange={e=>setPickerQuery(e.target.value)} placeholder={copy(locale,'搜索球队名称或缩写','搜尋球隊名稱或縮寫','Search clubs or abbreviations')}/></label><div className="team-picker-grid">{clubOptions.filter(v=>(v.name+v.en+v.short+v.league).toLowerCase().includes(pickerQuery.trim().toLowerCase())).map(v=><button className={'team-choice'+(draft.includes(v.short)?' chosen':'')} key={v.short} onClick={()=>setDraft(draft.includes(v.short)?draft.filter(a=>a!==v.short):[...draft,v.short])} aria-pressed={draft.includes(v.short)}><Crest name={v.short} color={v.color} small/><span><b>{locale==='en'?v.en:localizeClub(v.name,locale)}</b><small>{localizeLeague(v.league,locale)}</small></span>{draft.includes(v.short)?<Check size={21}/>:<Plus size={21}/>}</button>)}</div><div className="modal-actions"><button className="text-link" onClick={closeModal}>{t.skip}</button><button className="button primary" onClick={()=>{persist(draft);closeModal();}}>{t.save}<ArrowRight size={19}/></button></div><p className="data-note">{t.local}</p></Modal>}
   {modal==='search'&&<Modal title={t.searchTitle} onClose={closeModal} wide><label className="search-input"><Search size={24}/><input autoFocus aria-label={t.search} value={query} placeholder={t.search} onChange={e=>setQuery(e.target.value)}/></label><div className="tabs search-filters">{t.filters.map((v,i)=><button className={searchFilter===i?'selected':''} key={v} onClick={()=>setSearchFilter(i)}>{v}</button>)}</div><div className="search-results">{query.trim()?searchResults.length?searchResults.map((v,i)=><button className="search-result" key={i} onClick={()=>v.article?openArticle(v.article):navigate(v.route)}><span className="tag">{t.filters[v.kind]}</span><span><b>{v.title}</b><small>{v.meta}</small></span><ArrowUpRight size={22}/></button>):<p className="empty-state">{t.noSearch}</p>:<p className="search-hint"><Zap size={21}/>{t.searchTip}</p>}</div></Modal>}

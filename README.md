@@ -22,9 +22,24 @@ mvn '-Dmaven.repo.local=.m2' spring-boot:run
 
 默认端口为 `8080`，快照目录为项目的 `public/data`。如果从其他工作目录启动后端，请用 `KICKOFF_SNAPSHOT_DIR` 环境变量指定快照目录。Vite 开发服务器会把 `/api` 请求转发给 Java；后端未运行时，前端继续读取原有静态 JSON。生产环境部署 Java 后端时，应将同域名的 `/api` 路径转发到后端。当前 GitHub Actions 仍负责生成 Football-Data.org 快照；PitchAPI 的公开展示许可和整季完整性确认前，不会把它的数据发布到球队榜或球员榜。
 
+### 在本地预览球队和球员进阶统计
+
+PitchAPI 的覆盖核验工作流只抽查数据，不会生成网站榜单。Java 后端现在提供完整赛季的汇总器：按六项赛事列出本赛季已结束比赛，逐场读取球队、球员和进阶统计，再按球队与球员汇总。生成文件包含各赛事已结束场次与统计覆盖场次；没有记录的指标保持空白。运行前需要自己的 PitchAPI Key。请在项目根目录的 PowerShell 终端执行：
+
+```powershell
+$env:PITCHAPI_KEY = Read-Host 'PitchAPI Key'
+$env:KICKOFF_ADVANCED_OUTPUT = 'public/data/advanced.json'
+mvn -f backend/pom.xml '-Dmaven.repo.local=backend/.m2' -DskipTests package
+java -jar backend/target/kickoff-backend-0.1.0.jar --spring.main.web-application-type=none --kickoff.sync-pitch-on-start=true
+Remove-Item Env:PITCHAPI_KEY
+Remove-Item Env:KICKOFF_ADVANCED_OUTPUT
+```
+
+完成后刷新本地页面 `/team-stats` 和 `/players`。`public/data/advanced.json` 已加入 `.gitignore`，用于本地预览。此同步会读取整季已结束比赛，比赛越多运行越久；失败时不会覆盖上一次完整生成的文件。PitchAPI 的官网说明免费 Key 可访问所有赛事和进阶统计，但目前未找到公开的数据再展示或再分发许可条款；确认后才能把进阶统计加入公开仓库和定时发布流程。[PitchAPI 文档](https://pitchapi.dev/)
+
 ## 当前原型
 
-- 独立的首页、新闻、比赛、球队和球员页面；积分榜已并入球队页
+- 独立的首页、新闻、比赛、积分榜、球队榜、球队和球员页面
 - 新闻筛选、赛果筛选、球队关注与讨论示例
 - 积分榜、球队目录、球员页面、比赛详情和赛后分析展示
 - 简体中文、繁体中文、英文；按浏览器语言选默认语言
@@ -58,31 +73,15 @@ Remove-Item Env:KICKOFF_SNAPSHOT_DIR
 
 数据来源：[Football-Data.org](https://www.football-data.org/)；网站使用真实数据时会在页脚显示其要求的署名。
 
-## 启用真实球员数据
+## 球员与球队进阶数据
 
 ### 核对 API-Football 的 2026/27 赛季覆盖
 
 仓库另有手动工作流 **Verify API-Football coverage**。在 GitHub Actions 仓库密钥中新增 `API_FOOTBALL_KEY` 后运行一次，它只读取六项赛事的赛季覆盖标志、球员统计第一页和最近一场已结束比赛的球队/球员统计样本。最多使用 24 次 API-Football 请求，不修改数据快照或网站。日志中的 `coverage` 与 `playerSample.populatedFields` 用于判定哪些指标有实际值；一场比赛的样本不能证明整季每场都有这些指标。
 
-Football-Data.org 免费档只提供赛果、赛程和积分榜，不提供球员统计。球员页因此使用独立的 [GOAL API](https://goal-api.com/documentation) 免费 Key：
+Football-Data.org 免费档只提供赛果、赛程和积分榜，不提供进阶统计。GitHub Actions 中的 **Update football data** 继续每天两次更新这些基础数据；运行成功不代表球队榜和球员榜已有完整指标。
 
-1. 在 GOAL API 注册免费账号并生成 API Key；在 DeepSeek API 控制台获取用于球员姓名本地化的 API Key。
-2. 在 GitHub 仓库 **Settings → Secrets and variables → Actions → New repository secret** 中添加 `GOAL_API_KEY` 和 `DEEPSEEK_API_KEY`。不要把密钥写入前端代码或仓库。
-3. 在 **Actions → Update football data → Run workflow** 手动运行一次。任务每天运行两次；每次会同步六项赛事的当前赛季赛果、积分榜与完整可分页的射手榜，并翻译新增球员姓名。六项赛事或翻译有缺项时，球员快照不会被部分数据覆盖。
-
-当前球员列表来自射手榜端点：同步器会翻完该赛事射手榜的所有分页，但它仍不等于完整球队名单。GOAL API 的球队统计端点只公开了胜平负及进失球等汇总；球员详细统计端点没有可核对的赛季参数。因此同步器不再请求这些端点并假装得到当前赛季进阶指标。每日两次同步共享免费档每天 1000 次请求，单次 GOAL API 请求上限 450 次；运行日志会列出实际用量。球队射门、控球率等需要逐场统计再汇总，完整球员进阶数据也需要可验证的赛季数据源。这些字段在接入前保持空白。
-
-本地可在 PowerShell 中运行：
-
-```powershell
-$env:GOAL_API_KEY = '你的密钥'
-$env:DEEPSEEK_API_KEY = '你的密钥'
-npm run sync:players
-Remove-Item Env:GOAL_API_KEY
-Remove-Item Env:DEEPSEEK_API_KEY
-```
-
-此前 GOAL API 快照曾把已离开巴萨的莱万多夫斯基列为巴萨球员。同步器现在先核对联赛对象的当前赛季，再获取该联赛 ID 的射手榜全部分页；若某条记录自带赛季或赛事 ID，也会再次核对。官方射手榜接口没有列出 `season` 查询参数，因此无法仅靠添加该参数保证球员归属正确。页面显示实际返回的进球、助攻、点球进球及随记录提供的其他统计；缺失字段为空。DeepSeek 只负责姓名翻译，不负责核实统计。
+旧 GOAL API 球员同步器仍保留供手动核查，但射手榜无法证明全部球员的当前赛季球队归属，网站不会自动发布其快照。若要预览进阶指标，请按上文使用 PitchAPI 的 Java 汇总器。它读取六项赛事的本赛季已结束比赛，逐场汇总并标明覆盖场次；缺失的指标显示为空。尚未确认公开再展示许可前，生成文件只在本地使用。
 
 ### 球队与球员统计的数据来源
 
@@ -90,12 +89,10 @@ Remove-Item Env:DEEPSEEK_API_KEY
 | --- | --- | --- |
 | 赛程、积分、进球、失球 | [Football-Data.org](https://www.football-data.org/documentation/api) 免费档 | 当前赛季、六项赛事；进失球来自积分榜总表 |
 | 球队积分、胜平负、进失球、净胜球 | [Football-Data.org](https://www.football-data.org/documentation/api) 当前赛季总积分榜 | 直接来自联赛排名数据 |
-| 球队场均射门、平均控球率、零封 | 暂无已验证的当前赛季聚合源 | 保持空白；GOAL API 球队统计响应示例没有这些字段 |
-| 球队总射门、射正、传球、红黄牌、越位等 | 暂无已验证的当前赛季球队聚合源 | 不把场均数伪装成总数；未核实的字段为空 |
-| 球员进球、助攻、点球进球、出场数 | [GOAL API 射手榜](https://goal-api.com/blog/football-stats-api) | 请求明确指定当前赛季；只显示响应实际返回的字段 |
-| 球员射门、射正、关键传球、过人、抢断等 | 暂无已验证的当前赛季批量源 | 只保留射手榜记录实际提供的字段；缺失项保持空白 |
+| 球队射门、射正、传球、控球率、纪律等 | [PitchAPI](https://pitchapi.dev/) 本地预览 | 逐场汇总；只显示实际返回的字段，并标注统计覆盖场次 |
+| 球员进球、助攻、出场、传球、突破、防守等 | [PitchAPI](https://pitchapi.dev/) 本地预览 | 逐场汇总；只显示实际返回的字段，并标注统计覆盖场次 |
 
-球队、球员的进攻、传控、突破、防守、纪律栏目已搭好；只展示核实来源返回的数字。射正率、射门转化率、传球成功率和过人成功率只在原始分子和分母都可用时计算。一次运行可以完成现有可靠数据的同步，但免费档与当前端点不能保证一次补齐六项赛事所有球队和球员的进阶统计。工作流成功只表示已验证的数据同步成功，不表示空白指标已获得。
+球队、球员的进攻、传控、突破、防守、纪律栏目只展示数据源返回的数字。射正率、射门转化率、传球成功率和过人成功率只在原始分子和分母都可用时计算。PitchAPI 的公开条款、六项赛事整季逐场统计覆盖率及其与官方记录的一致性仍须核对，本地预览不能视为已审核的公开数据。
 
 ## 图片来源
 
