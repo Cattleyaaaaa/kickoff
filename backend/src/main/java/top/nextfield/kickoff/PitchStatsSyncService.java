@@ -130,6 +130,8 @@ public class PitchStatsSyncService {
                     .sorted(Comparator.comparing(row -> String.valueOf(row.get("name")))).toList();
             if (teamRows.isEmpty() || playerRows.isEmpty())
                 throw new IOException(target.label + ": provider returned no team or player rows; previous preview preserved.");
+            for (TeamAggregate team : teams.values()) team.validate(target.label);
+            for (PlayerAggregate player : players.values()) player.validate(target.label);
             Map<String, Object> league = new LinkedHashMap<>();
             league.put("season", season);
             league.put("finishedMatches", finished);
@@ -170,11 +172,15 @@ public class PitchStatsSyncService {
     private void recordTeamStats(JsonNode payload, TeamAggregate home, TeamAggregate away) {
         for (JsonNode period : payload.path("periods")) {
             if (!"All".equals(string(period.path("period")))) continue;
+            Set<String> homeKeys = new HashSet<>();
+            Set<String> awayKeys = new HashSet<>();
             for (JsonNode group : period.path("groups")) for (JsonNode item : group.path("items")) {
                 String key = string(item.path("key"));
                 if (key == null) continue;
-                home.recordBasic(key, numberPrefix(item.path("home")));
-                away.recordBasic(key, numberPrefix(item.path("away")));
+                Double homeValue = numberPrefix(item.path("home"));
+                Double awayValue = numberPrefix(item.path("away"));
+                if (homeValue != null && homeKeys.add(key)) home.recordBasic(key, homeValue);
+                if (awayValue != null && awayKeys.add(key)) away.recordBasic(key, awayValue);
             }
         }
     }
@@ -283,6 +289,16 @@ public class PitchStatsSyncService {
             Map<String, Object> values = new LinkedHashMap<>();
             for (var entry : totals.entrySet()) values.put(entry.getKey(), Math.round(entry.getValue() * 10.0) / 10.0);
             return values;
+        }
+        void validate(String league) throws IOException {
+            checkPair(league, "passesCompleted", "passes");
+            checkPair(league, "shotsOnTarget", "shots");
+            checkPair(league, "dribblesCompleted", "dribblesAttempted");
+        }
+        private void checkPair(String league, String numerator, String denominator) throws IOException {
+            Double a = totals.get(numerator), b = totals.get(denominator);
+            if (a != null && b != null && a > b)
+                throw new IOException(league + ": inconsistent " + numerator + "=" + a + " > " + denominator + "=" + b);
         }
     }
 

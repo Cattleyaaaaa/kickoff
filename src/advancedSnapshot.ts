@@ -26,5 +26,12 @@ export function isAdvancedStatsSnapshot(value: unknown): value is AdvancedStatsS
     && !!snapshot.leagues && typeof snapshot.leagues === 'object'
     && Object.values(snapshot.leagues).every(league => !!league
       && typeof league.finishedMatches === 'number'
-      && Array.isArray(league.teams) && Array.isArray(league.players));
+      && Array.isArray(league.teams) && Array.isArray(league.players)
+      && [...league.teams, ...league.players].every(row => {
+        if (!row || !row.values) return false;
+        const v = row.values;
+        return (v.passesCompleted == null || v.passes == null || v.passesCompleted <= v.passes)
+          && (v.shotsOnTarget == null || v.shots == null || v.shotsOnTarget <= v.shots)
+          && (v.dribblesCompleted == null || v.dribblesAttempted == null || v.dribblesCompleted <= v.dribblesAttempted);
+      }));
 }
