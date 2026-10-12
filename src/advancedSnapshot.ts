@@ -6,6 +6,7 @@ export type AdvancedStatsSnapshot = {
   updatedAt: string;
   season: string;
   requestCount: number;
+  localRepair?: { kind: string; correctedAt: string };
   leagues: Record<string, {
     season: string;
     finishedMatches: number;

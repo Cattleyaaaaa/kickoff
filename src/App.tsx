@@ -180,7 +180,7 @@ function TeamStatsPage({ locale, data, advanced }: { locale: Locale; data: Footb
     crest: <Crest name={team.name} small />, values: team.values,
   })) : baseEntries;
   const source = preview?.teams.length
-    ? `PitchAPI · ${updatedLabel(advanced!.updatedAt, locale)} · ${copy(locale, '球队统计覆盖', '球隊統計涵蓋', 'Team stats cover')} ${preview.teamStatsMatches}/${preview.finishedMatches} ${copy(locale, '场完赛', '場完賽', 'finished matches')}`
+    ? `PitchAPI · ${updatedLabel(advanced!.updatedAt, locale)} · ${copy(locale, '球队统计覆盖', '球隊統計涵蓋', 'Team stats cover')} ${preview.teamStatsMatches}/${preview.finishedMatches} ${copy(locale, '场完赛', '場完賽', 'finished matches')}${advanced?.localRepair ? ` · ${copy(locale, '本地离线修复快照', '本地離線修復快照', 'Locally repaired snapshot')}` : ''}`
     : data
     ? `${copy(locale, '积分榜基础数据：', '積分榜基礎資料：', 'Standings base: ')}Football-Data.org · ${updatedLabel(data.updatedAt, locale)}${data.teamStatsSource ? ` | GOAL API · ${updatedLabel(data.teamStatsSource.updatedAt, locale)}` : ''}`
     : copy(locale, '等待数据同步', '等待資料同步', 'Waiting for data sync');
@@ -220,7 +220,7 @@ function Players({ locale, snapshot, advanced }: { locale: Locale; snapshot: Pla
     <PageTitle title={copy(locale, '球员数据', '球員數據', 'Player stats')} description={copy(locale, '按赛事查看已核实的赛季球员数据。', '按賽事查看已核實的賽季球員資料。', 'Verified season player statistics by competition.')} label="GAME CHANGERS" icon={Zap} />
     {!preview && !snapshot && <p className="stats-unavailable" role="status">{copy(locale, '尚未导入完整的本赛季球员统计快照。', '尚未匯入完整的本賽季球員統計快照。', 'No current-season player statistics snapshot has been imported yet.')}</p>}
     <div className="data-card player-league-card"><div className="table-toolbar player-toolbar"><div className="tabs scroll-tabs">{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => setLeague(name)}>{localizeLeague(name, locale)}</button>)}</div><span className="season-label">{preview?.season || selected?.season || '—'}</span></div></div>
-    <StatsBoard key={league} locale={locale} entries={entries} groups={playerMetricGroups} source={preview ? `PitchAPI · ${updatedLabel(advanced!.updatedAt, locale)} · ${copy(locale, '球员统计覆盖', '球員統計涵蓋', 'Player stats cover')} ${preview.playerStatsMatches}/${preview.finishedMatches} ${copy(locale, '场完赛', '場完賽', 'finished matches')}` : selected ? `GOAL API · ${updatedLabel(snapshot!.updatedAt, locale)}` : copy(locale, '等待本赛季球员统计快照', '等待本賽季球員統計快照', 'Waiting for current-season player stats')} />
+    <StatsBoard key={league} locale={locale} entries={entries} groups={playerMetricGroups} source={preview ? `PitchAPI · ${updatedLabel(advanced!.updatedAt, locale)} · ${copy(locale, '球员统计覆盖', '球員統計涵蓋', 'Player stats cover')} ${preview.playerStatsMatches}/${preview.finishedMatches} ${copy(locale, '场完赛', '場完賽', 'finished matches')}${advanced?.localRepair ? ` · ${copy(locale, '本地离线修复快照', '本地離線修復快照', 'Locally repaired snapshot')}` : ''}` : selected ? `GOAL API · ${updatedLabel(snapshot!.updatedAt, locale)}` : copy(locale, '等待本赛季球员统计快照', '等待本賽季球員統計快照', 'Waiting for current-season player stats')} />
   </section>;
 }
 export default function App() {

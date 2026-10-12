@@ -14,7 +14,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -32,7 +31,6 @@ import tools.jackson.databind.json.JsonMapper;
 /** Builds a compact, reviewable season aggregate. No raw provider response is written. */
 @Service
 public class PitchStatsSyncService {
-    private static final String BASE = "https://api.pitchapi.dev/v1";
     private static final List<LeagueTarget> LEAGUES = List.of(
             new LeagueTarget("英超", Pattern.compile("^(English )?Premier League$", Pattern.CASE_INSENSITIVE), "ENG"),
             new LeagueTarget("西甲", Pattern.compile("^(La ?Liga|Primera Divisi[oó]n)$", Pattern.CASE_INSENSITIVE), "ESP"),
@@ -43,6 +41,7 @@ public class PitchStatsSyncService {
 
     private final String key;
     private final Path output;
+    private final String baseUrl;
     private final JsonMapper mapper = JsonMapper.builder().build();
     private final HttpClient http = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(20)).build();
     private Instant lastRequest = Instant.EPOCH;
@@ -50,13 +49,17 @@ public class PitchStatsSyncService {
 
     public PitchStatsSyncService(
             @Value("${PITCHAPI_KEY:}") String key,
-            @Value("${KICKOFF_ADVANCED_OUTPUT:../public/data/advanced.json}") String output) {
+            @Value("${KICKOFF_ADVANCED_OUTPUT:../public/data/advanced.json}") String output,
+            @Value("${PITCHAPI_BASE_URL:https://api.pitchapi.dev/v1}") String baseUrl) {
         this.key = key.trim();
         this.output = Path.of(output);
+        this.baseUrl = baseUrl.replaceAll("/+$", "");
     }
 
     public void synchronize() throws IOException, InterruptedException {
         if (key.isBlank()) throw new IllegalStateException("PITCHAPI_KEY is not configured.");
+        requestCount = 0;
+        lastRequest = Instant.EPOCH;
         LocalDate today = LocalDate.now();
         int year = today.getMonthValue() >= 7 ? today.getYear() : today.getYear() - 1;
         String season = year + "/" + (year + 1);
@@ -67,7 +70,6 @@ public class PitchStatsSyncService {
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("source", "pitchapi.dev");
         result.put("schemaVersion", 1);
-        result.put("updatedAt", Instant.now().toString());
         result.put("season", season);
         Map<String, Object> leagueResults = new LinkedHashMap<>();
         result.put("leagues", leagueResults);
@@ -148,6 +150,7 @@ public class PitchStatsSyncService {
                     advancedTeamCovered, finished, advancedPlayerCovered, finished, discardedPairs);
         }
         result.put("requestCount", requestCount);
+        result.put("updatedAt", Instant.now().toString());
         Files.createDirectories(output.toAbsolutePath().getParent());
         Path temporary = Files.createTempFile(output.toAbsolutePath().getParent(), "pitch-preview-", ".json");
         try {
@@ -171,10 +174,10 @@ public class PitchStatsSyncService {
     }
 
     private void recordTeamStats(JsonNode payload, TeamAggregate home, TeamAggregate away) {
+        Set<String> homeKeys = new HashSet<>();
+        Set<String> awayKeys = new HashSet<>();
         for (JsonNode period : payload.path("periods")) {
             if (!"All".equals(string(period.path("period")))) continue;
-            Set<String> homeKeys = new HashSet<>();
-            Set<String> awayKeys = new HashSet<>();
             for (JsonNode group : period.path("groups")) for (JsonNode item : group.path("items")) {
                 String key = string(item.path("key"));
                 if (key == null) continue;
@@ -204,11 +207,13 @@ public class PitchStatsSyncService {
         player.appearanceMatches.add(matchId);
         int positionId = row.path("player").path("position_id").asInt(0);
         if (positionId > 0) player.position = position(positionId);
+        Set<String> recordedKeys = new HashSet<>();
         for (JsonNode group : row.path("stats")) for (var entry : group.path("stats").properties()) {
             JsonNode item = entry.getValue();
             String key = string(item.path("key"));
             JsonNode stat = item.path("stat");
-            if (key != null && stat.path("value").isNumber()) player.recordBasic(key, stat.path("value").asDouble());
+            if (key != null && stat.path("value").isNumber() && recordedKeys.add(key))
+                player.recordBasic(key, stat.path("value").asDouble());
         }
     }
 
@@ -239,7 +244,7 @@ public class PitchStatsSyncService {
             long delay = 150 - Duration.between(lastRequest, Instant.now()).toMillis();
             if (delay > 0) Thread.sleep(delay);
             if (++requestCount > 12000) throw new IOException("PitchAPI safety limit of 12000 requests reached.");
-            HttpRequest request = HttpRequest.newBuilder(URI.create(BASE + path)).timeout(Duration.ofSeconds(30))
+            HttpRequest request = HttpRequest.newBuilder(URI.create(baseUrl + path)).timeout(Duration.ofSeconds(30))
                     .header("X-API-KEY", key).GET().build();
             lastRequest = Instant.now();
             HttpResponse<String> response = http.send(request, HttpResponse.BodyHandlers.ofString());
@@ -302,7 +307,7 @@ public class PitchStatsSyncService {
         Map<String, Object> values() {
             Map<String, Object> values = new LinkedHashMap<>();
             for (var entry : totals.entrySet()) values.put(entry.getKey(), Math.round(entry.getValue() * 10.0) / 10.0);
-            if (passAccuracyWeight > 0)
+            if (passAccuracyWeight > 0 && Math.abs(passAccuracyWeight - totals.getOrDefault("passes", 0.0)) < 0.001)
                 values.put("passAccuracy", Math.round(passAccuracyWeightedTotal / passAccuracyWeight * 10.0) / 10.0);
             return values;
         }
@@ -355,9 +360,10 @@ public class PitchStatsSyncService {
             Map<String, Object> row = new LinkedHashMap<>();
             row.put("id", id); row.put("name", name); row.put("games", games);
             Map<String, Object> stats = values();
-            if (possessionCount > 0) stats.put("possession", Math.round(possessionTotal / possessionCount * 10.0) / 10.0);
-            if (totals.containsKey("shots") && counts.getOrDefault("shots", 0) > 0)
-                stats.put("shotsPerGame", Math.round(totals.get("shots") / counts.get("shots") * 10.0) / 10.0);
+            if (possessionCount == games && games > 0)
+                stats.put("possession", Math.round(possessionTotal / games * 10.0) / 10.0);
+            if (totals.containsKey("shots") && counts.getOrDefault("shots", 0) == games && games > 0)
+                stats.put("shotsPerGame", Math.round(totals.get("shots") / games * 10.0) / 10.0);
             row.put("values", stats);
             return row;
         }
