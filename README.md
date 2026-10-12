@@ -24,15 +24,10 @@ mvn '-Dmaven.repo.local=.m2' spring-boot:run
 
 ### 在本地预览球队和球员进阶统计
 
-PitchAPI 的覆盖核验工作流只抽查数据，不会生成网站榜单。Java 后端现在提供完整赛季的汇总器：按六项赛事列出本赛季已结束比赛，逐场读取球队、球员和进阶统计，再按球队与球员汇总。生成文件包含各赛事已结束场次与统计覆盖场次；没有记录的指标保持空白。运行前需要自己的 PitchAPI Key。请在项目根目录的 PowerShell 终端执行：
+PitchAPI 的覆盖核验工作流只抽查数据，不会生成网站榜单。Java 后端现在提供完整赛季的汇总器：按六项赛事列出本赛季已结束比赛，逐场读取球队、球员和进阶统计，再按球队与球员汇总。生成文件包含各赛事已结束场次与统计覆盖场次；没有记录的指标保持空白。运行前需要自己的 PitchAPI Key。请在项目根目录的 PowerShell 终端执行；脚本会隐藏密钥输入，并使用 `JAVA_HOME` 中的 Java：
 
 ```powershell
-$env:PITCHAPI_KEY = Read-Host 'PitchAPI Key'
-$env:KICKOFF_ADVANCED_OUTPUT = 'public/data/advanced.json'
-mvn -f backend/pom.xml '-Dmaven.repo.local=backend/.m2' -DskipTests package
-java -jar backend/target/kickoff-backend-0.1.0.jar --spring.main.web-application-type=none --kickoff.sync-pitch-on-start=true
-Remove-Item Env:PITCHAPI_KEY
-Remove-Item Env:KICKOFF_ADVANCED_OUTPUT
+& .\scripts\sync-local-advanced.ps1
 ```
 
 完成后刷新本地页面 `/team-stats` 和 `/players`。`public/data/advanced.json` 已加入 `.gitignore`，用于本地预览。此同步会读取整季已结束比赛，比赛越多运行越久；失败时不会覆盖上一次完整生成的文件。PitchAPI 的官网说明免费 Key 可访问所有赛事和进阶统计，但目前未找到公开的数据再展示或再分发许可条款；确认后才能把进阶统计加入公开仓库和定时发布流程。[PitchAPI 文档](https://pitchapi.dev/)
