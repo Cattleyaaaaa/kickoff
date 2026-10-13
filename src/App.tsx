@@ -1,12 +1,16 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { ArrowUpRight, ArrowRight, ArrowDown, Search, Sun, Moon, Globe2, Menu, X, Check, Plus, Trophy, UsersRound, MessageCircle, Heart, SlidersHorizontal, Clock3, ChevronRight, Shield, Zap, MoveUpRight } from 'lucide-react';
-import { teams, articles, extraStories, discussions, words, localeIndex, localizeLeague, localizeClub, localizePlayer, browserLocale } from './data';
+import { ArrowUpRight, ArrowRight, ArrowDown, Search, Sun, Moon, Globe2, Menu, X, Check, Plus, Trophy, UsersRound, MessageCircle, Heart, SlidersHorizontal, Clock3, ChevronRight, Shield, Zap, RefreshCw } from 'lucide-react';
+import { teams, discussions, words, localeIndex, localizeLeague, localizeClub, localizePlayer, browserLocale } from './data';
 import type { FootballSnapshot } from '../scripts/football-transform';
 import { isPublishablePlayerStatsSnapshot } from '../scripts/player-transform';
 import type { PlayerStatsSnapshot } from '../scripts/player-transform';
 import { isAdvancedStatsSnapshot } from './advancedSnapshot';
 import type { AdvancedStatsSnapshot } from './advancedSnapshot';
+import { isAdvancedNamesSnapshot } from './advancedNames';
+import type { AdvancedNamesSnapshot } from './advancedNames';
+import { isNewsSnapshot, newsBody, newsCategory, newsHref, newsSummary, newsTitle } from './news';
+import type { NewsItem, NewsSnapshot } from './news';
 import { getClubMark } from './clubIdentity';
 import BayernKit from './BayernKit';
 import StatsBoard from './StatsBoard';
@@ -69,35 +73,113 @@ function Modal({ title, onClose, children, wide = false }) {
   }, []);
   return <div className="modal-backdrop" onMouseDown={e => e.target === e.currentTarget && onClose()}><section ref={ref} className={'modal ' + (wide ? 'modal-wide' : '')} role="dialog" aria-modal="true" aria-label={title}><div className="modal-top"><span className="eyebrow">KICKOFF / YOUR SPACE</span><button className="icon-button" aria-label="Close / 关闭" onClick={onClose}><X /></button></div><h2>{title}</h2>{children}</section></div>;
 }
-function StoryArt({ article, lead = false }) {
-  if (lead) return <div className="story-photo"><img src="/images/soccer-match-photo.jpg" alt="" /><span className="photo-caption">EDITOR'S PICK ↗</span></div>;
-  const label = article.label?.[2] || (article.visual === 'violet' ? 'TACTICS' : 'MATCHDAY');
-  return <div className={'story-art art-' + article.visual} aria-hidden="true"><div className="mini-pitch"><i /><b /><span>×</span></div><strong>{label}</strong><span className="art-arrow">↗</span></div>;
+function NewsArt({ item, locale, lead = false }: { item: NewsItem; locale: Locale; lead?: boolean }) {
+  const category = newsCategory(item, locale);
+  const visual = /champions|europe|uefa/i.test(category) ? 'violet' : /transfer/i.test(category) ? 'amber' : /premier|england/i.test(category) ? 'blue' : 'coral';
+  const articleTitle = newsTitle(item, locale);
+  const imageSeed = `${item.id}|${item.sourceMatchIds?.join(',') || item.url}`;
+  const imageHash = [...imageSeed].reduce((hash, char) => (hash * 31 + char.charCodeAt(0)) >>> 0, 7);
+  const palettes = [
+    { from: '#183d32', to: '#8da83d', accent: '#d8ff42' },
+    { from: '#292354', to: '#5651b8', accent: '#e2dcff' },
+    { from: '#783c23', to: '#e2963f', accent: '#ffe272' },
+    { from: '#173951', to: '#3388a2', accent: '#c7f6ef' },
+    { from: '#672735', to: '#cb5261', accent: '#ffd0b8' },
+  ];
+  const palette = palettes[imageHash % palettes.length];
+  const scoreLines = newsBody(item, locale).split(/\r?\n/)
+    .filter(line => /\d+\s*[–-]\s*\d+/.test(line))
+    .slice(0, 2)
+    .map(line => line.replace(/^.*?[:：]\s*/, '').replace(/\s*[（(].*$/, ''));
+  const matchCount = item.sourceMatchIds?.length || 0;
+  if (lead) {
+    return <div className="story-photo">
+      <svg className="story-editorial-art" viewBox="0 0 1200 620" role="img" aria-label={articleTitle} preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <linearGradient id={`news-gradient-${imageHash}`} x1="0" y1="0" x2="1" y2="1"><stop stopColor={palette.from} /><stop offset="1" stopColor={palette.to} /></linearGradient>
+          <pattern id={`news-lines-${imageHash}`} width="34" height="34" patternUnits="userSpaceOnUse" patternTransform="rotate(35)"><path d="M0 0V34" stroke="white" strokeOpacity=".08" strokeWidth="9" /></pattern>
+        </defs>
+        <rect width="1200" height="620" fill={`url(#news-gradient-${imageHash})`} />
+        <rect width="1200" height="620" fill={`url(#news-lines-${imageHash})`} />
+        <g fill="none" stroke="white" strokeOpacity=".32" strokeWidth="3"><path d="M690 25h470v570H690zM690 175h105v270H690M1055 175h105v270h-105" /><circle cx="925" cy="310" r="128" /><path d="M925 182v256" /></g>
+        <circle cx="940" cy="306" r="93" fill={palette.accent} opacity=".95" />
+        <path d="m940 245 20 15-8 24h-24l-8-24zm-40 43 24-4 13 19-13 20-24-4-8-23zm81 0 8 8-8 23-24 4-13-20 13-19zm-55 62 13-18h24l13 18-10 23h-30zm-25-4 24 4 10 23-16 17-23-11-3-24zm81 0 8 9-3 24-23 11-16-17 10-23z" fill={palette.from} />
+        <text x="58" y="115" fill={palette.accent} fontFamily="Arial,sans-serif" fontSize="27" fontWeight="800" letterSpacing="5">KICKOFF / {category.toUpperCase()}</text>
+        <text x="55" y="310" fill="white" fontFamily="Arial,sans-serif" fontSize="64" fontWeight="900">{articleTitle.slice(0, 17)}</text>
+        <text x="60" y="365" fill="white" fillOpacity=".78" fontFamily="Arial,sans-serif" fontSize="23" fontWeight="700" letterSpacing="3">{matchCount ? `${matchCount} MATCHES · VERIFIED RESULTS` : 'FOOTBALL · THE LATEST'}</text>
+        <path d="M60 420h430" stroke={palette.accent} strokeWidth="8" />
+      </svg>
+      <div className="story-photo-shade" />
+      <div className="story-photo-top"><span>{matchCount ? copy(locale, '赛果速递', '賽果速遞', 'RESULTS ROUNDUP') : category}</span><b>{copy(locale, '原创视觉', '原創視覺', 'EDITORIAL ART')}</b></div>
+      <div className="story-photo-bottom">
+        {matchCount > 0 && <div className="story-photo-count"><strong>{String(matchCount).padStart(2, '0')}</strong><span>{copy(locale, '场完赛', '場完賽', 'MATCHES')}</span></div>}
+        {scoreLines.length > 0 ? <div className="story-photo-scores">{scoreLines.map((score, index) => <span key={`${index}-${score}`}><i>0{index + 1}</i><b>{score}</b></span>)}</div> : <strong className="story-photo-motto">THE GAME IS OURS.</strong>}
+      </div>
+    </div>;
+  }
+  if (matchCount > 0) return <div className="result-story-art">
+    <div className="result-art-top"><span>{category}</span><b>FT</b></div>
+    <div className="result-art-pitch"><i /><b /></div>
+    <strong>{String(matchCount).padStart(2, '0')}</strong>
+    <span className="result-art-label">{copy(locale, '场完赛', '場完賽', 'MATCHES')}</span>
+    {scoreLines[0] && <span className="result-art-score">{scoreLines[0]}</span>}
+    <span className="result-art-arrow">↗</span>
+  </div>;
+  return <div className={'story-art art-' + visual + (lead ? ' story-art-lead' : '')} aria-hidden="true"><div className="mini-pitch"><i /><b /><span>×</span></div><strong>FOOTBALL</strong><span className="art-arrow">↗</span></div>;
 }
-function ArticleCard({ article, locale, onOpen, lead = false }) {
-  const idx = localeIndex[locale];
-  return <article id={article.id} className={lead ? 'lead-story' : 'feed-story'}>
-    <button className="art-button" tabIndex={-1} aria-label={article.title[idx]} onClick={() => onOpen(article)}><StoryArt article={article} lead={lead} /></button>
-    <div className="story-copy"><div className="story-meta"><span className="tag">{localizeLeague(article.league.split(' · ')[0], locale)}</span><span>{copy(locale, '示例选题', '示例選題', 'Editorial sample')}</span><span className="read-time"><Clock3 size={14} />{article.read} {copy(locale, '分钟', '分鐘', 'min')}</span></div><h3><button onClick={() => onOpen(article)}>{article.title[idx]}</button></h3><p>{article.summary[idx]}</p><div className="story-end"><span className="source-dot">K</span><span>Kickoff {copy(locale, '编辑部', '編輯部', 'Editorial')}</span><button aria-label={copy(locale, '阅读摘要', '閱讀摘要', 'Read summary')} className="round-button" onClick={() => onOpen(article)}><ArrowUpRight size={20} /></button></div>{lead && <p className="photo-credit">{copy(locale, '比赛配图：', '比賽配圖：', 'Illustrative match photo: ')}<a href="https://commons.wikimedia.org/wiki/File:Soccer_match.jpg" target="_blank" rel="noopener noreferrer">AngusConnaltyPhotos / Wikimedia Commons</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">CC BY-SA 4.0</a> ({copy(locale, '页面裁切显示', '頁面裁切顯示', 'display cropped')})</p>}</div>
+function NewsCard({ item, locale, source, lead = false }: { item: NewsItem; locale: Locale; source: NewsSnapshot['source']; lead?: boolean }) {
+  const published = item.publishedAt ? updatedLabel(item.publishedAt, locale) : '';
+  const title = newsTitle(item, locale);
+  const summary = newsSummary(item, locale);
+  const href = newsHref(item, source);
+  return <article className={lead ? 'lead-story' : 'feed-story'}>
+    <a className="art-button" href={href} target={source === 'Kickoff' ? undefined : '_blank'} rel={source === 'Kickoff' ? undefined : 'noopener noreferrer'} aria-label={title}><NewsArt item={item} locale={locale} lead={lead} /></a>
+    <div className="story-copy"><div className="story-meta"><span className="tag">{copy(locale, '足球新闻', '足球新聞', 'Football')}</span>{item.aiGenerated && <span className="tag">{copy(locale, 'AI辅助创作', 'AI 輔助創作', 'AI-assisted')}</span>}<span>{newsCategory(item, locale) || source}</span>{published && <span className="read-time"><Clock3 size={14} />{published}</span>}</div><h3><a href={href} target={source === 'Kickoff' ? undefined : '_blank'} rel={source === 'Kickoff' ? undefined : 'noopener noreferrer'}>{title}</a></h3><p>{summary || copy(locale, '打开 BBC Sport 阅读完整报道。', '前往 BBC Sport 閱讀完整報道。', 'Open the full story on BBC Sport.')}</p><div className="story-end"><span className="source-dot">{source === 'Kickoff' ? 'K' : 'B'}</span><a href={href} target={source === 'Kickoff' ? undefined : '_blank'} rel={source === 'Kickoff' ? undefined : 'noopener noreferrer'}>{source === 'Kickoff' ? copy(locale, item.aiGenerated ? 'Kickoff 原创 · AI 辅助撰写' : 'Kickoff 原创 · 阅读全文', item.aiGenerated ? 'Kickoff 原創 · AI 輔助撰寫' : 'Kickoff 原創 · 閱讀全文', item.aiGenerated ? 'Kickoff original · AI-assisted' : 'Kickoff original · Read story') : copy(locale, '来自 BBC Sport · 阅读原文', '來自 BBC Sport · 閱讀原文', 'From BBC Sport · Read story')}</a><a aria-label={copy(locale, '阅读原文', '閱讀原文', 'Read original')} className="round-button" href={href} target={source === 'Kickoff' ? undefined : '_blank'} rel={source === 'Kickoff' ? undefined : 'noopener noreferrer'}><ArrowUpRight size={20} /></a></div>{lead && <p className="photo-credit">{copy(locale, '原创图形根据本文标题、赛事和赛果生成。', '原創圖形根據本文標題、賽事和賽果生成。', 'Original editorial artwork generated from this story’s headline, competition and results.')}</p>}</div>
   </article>;
 }
 function Discussion({ locale, onJoin }) {
   const idx = localeIndex[locale];
   return <section id="discussions" className="discussion-block reveal"><SectionTitle kicker="THE STANDS / 看台声音" title={words[locale].hot} action={<span className="sticker small-sticker">FANS FIRST ✳</span>} /><p className="section-desc">{copy(locale, '聊比赛，也聊你的热爱。', '聊比賽，也聊你的熱愛。', 'Big games. Different takes. Same love.')}</p><div className="discussion-grid">{discussions.map((item, i) => <article className={'discussion-card discussion-' + i} key={item.initials}><span className="discussion-topic">{item.tag[idx]}</span><p className="fan-quote">“{item.text[idx]}”</p><div className="fan-person"><span className="avatar">{item.initials}</span><span><b>{item.name}</b><small>{item.team[idx]}</small></span></div><div className="discussion-actions"><button onClick={onJoin} aria-label={copy(locale, '点赞', '點讚', 'Like')}><Heart size={17} />{item.likes}</button><button onClick={onJoin} aria-label={copy(locale, '回复', '回覆', 'Reply')}><MessageCircle size={17} />{item.replies}</button><span>↗</span></div></article>)}</div><div className="discussion-foot"><span>{copy(locale, '评论示例 · 登录上线后开放发言、点赞和回复', '評論示例 · 登入上線後開放發言、點讚和回覆', 'Sample discussions · Posting, likes and replies open with sign-in')}</span><button className="text-link" onClick={onJoin}>{copy(locale, '加入看台', '加入看台', 'Join the stands')}<ArrowRight size={18} /></button></div></section>;
 }
-function NewsFeed({ locale, onOpen, home = false, navigate, onJoin, onPick }) {
-  const t = words[locale], idx = localeIndex[locale];
+function NewsFeed({ locale, home = false, navigate, onJoin, onPick, data, loading, error, onRefresh }) {
+  const t = words[locale];
+  const storyId = home ? null : new URLSearchParams(window.location.search).get('story');
+  const ownedStory = storyId && data?.source === 'Kickoff' ? data.items.find(item => item.id === storyId) : null;
   const [league, setLeague] = useState('all');
   const [filters, setFilters] = useState(false);
   const [query, setQuery] = useState('');
-  const filtered = articles.filter(a => (league === 'all' || a.league.startsWith(league)) && (a.title[idx] + a.summary[idx]).toLowerCase().includes(query.toLowerCase()));
+  const [visibleCount, setVisibleCount] = useState(home ? 4 : 12);
+  const leagueFor = (item: NewsItem) => {
+    const text = `${item.category} ${item.title} ${item.url}`.toLowerCase();
+    if (/champions league|uefa|european football/.test(text)) return '欧冠';
+    if (/premier league|fa cup|england|english football/.test(text)) return '英超';
+    if (/la liga|laliga|spanish football/.test(text)) return '西甲';
+    if (/serie a|italian football/.test(text)) return '意甲';
+    if (/bundesliga|german football/.test(text)) return '德甲';
+    if (/ligue 1|french football/.test(text)) return '法甲';
+    return 'all';
+  };
+  const filtered = (data?.items || []).filter(item => (league === 'all' || leagueFor(item) === league)
+    && `${newsTitle(item, locale)} ${newsCategory(item, locale)}`.toLowerCase().includes(query.trim().toLowerCase()));
+  useEffect(() => setVisibleCount(home ? 4 : 12), [league, query, home]);
+  if (storyId) return ownedStory ? <article className="owned-news-detail">
+    <a className="text-link" href="/news"><ArrowRight size={18} style={{ transform: 'rotate(180deg)' }} />{copy(locale, '返回新闻', '返回新聞', 'Back to news')}</a>
+    <p className="eyebrow">KICKOFF / {newsCategory(ownedStory, locale)}</p>
+    <h1>{newsTitle(ownedStory, locale)}</h1>
+    <p className="owned-news-date">{updatedLabel(ownedStory.publishedAt, locale)} · Kickoff{ownedStory.aiGenerated ? ` · ${copy(locale, 'AI辅助撰写', 'AI 輔助撰寫', 'AI-assisted')}` : ''}</p>
+    <p className="owned-news-summary">{newsSummary(ownedStory, locale)}</p>
+    <div className="owned-news-body">{newsBody(ownedStory, locale).split(/\n\s*\n/).map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>
+    {ownedStory.dataSources?.length ? <aside className="owned-news-sources"><b>{copy(locale, '核验来源', '核實來源', 'Verified sources')}</b>{ownedStory.dataSources.map((source, index) => <p key={`${source.label}-${source.recordId || index}`}><span>{source.label}</span>{source.updatedAt && <small>{updatedLabel(source.updatedAt, locale)}</small>}{source.recordId && <code>{source.recordId}</code>}{source.url && <a href={source.url} target="_blank" rel="noopener noreferrer">↗</a>}</p>)}</aside> : null}
+    <a className="text-link" href={ownedStory.url} target="_blank" rel="noopener noreferrer">{copy(locale, '查看核实资料', '查看核實資料', 'View source material')}<ArrowUpRight size={18} /></a>
+  </article> : <div className="empty-state" role="status"><h2>{loading ? copy(locale, '正在加载文章…', '正在載入文章…', 'Loading story…') : copy(locale, '这篇文章暂不可用', '這篇文章暫不可用', 'Story unavailable')}</h2><a className="text-link" href="/news">{copy(locale, '返回新闻', '返回新聞', 'Back to news')}</a></div>;
   return <>
     {home ? <section className="home-hero reveal" id="home"><div className="hero-copy"><span className="eyebrow"><span className="live-dot" /> FOOTBALL. FRIENDS. EVERYTHING.</span><h1><span>{t.headline1}</span><br /><em>{t.headline2}</em></h1><p>{copy(locale, '从第一声哨响，到赛后的意犹未尽。这里，都是自己人。', '從第一聲哨響，到賽後的意猶未盡。這裡，都是自己人。', 'From the first whistle to the last debate. This is your home end.')}</p><div className="hero-buttons"><button className="button primary" onClick={() => document.getElementById('news').scrollIntoView({ behavior: 'smooth' })}>{t.discover}<ArrowDown size={19} /></button><button className="button plain" onClick={onPick}><UsersRound size={19} />{t.choose}</button></div></div><div className="hero-collage" aria-hidden="true"><div className="pitch-card"><span>THE HOME END</span><div className="pitch-lines"><i /><b /><em /></div><strong>90<span>+</span></strong><small>ALL FOR THE GAME.</small></div><div className="sticker hero-sticker">FOR THE<br />LOVE OF<br /><b>FOOTBALL.</b></div><span className="scribble-star">✳</span><span className="collage-caption">SAME GAME. YOUR WAY. ↗</span></div></section> : <PageTitle title={t.latest} description={copy(locale, '赛场内外的故事，一次看个够。', '賽場內外的故事，一次看個夠。', 'The stories, the noise, the beautiful game.')} label="NEWSROOM" icon={Zap} />}
     <div className="league-ribbon reveal"><span className="eyebrow">{copy(locale, '全球赛场', '全球賽場', 'AROUND THE GAME')}</span>{leagues.map((l, i) => <button className={'league-pill league-' + i + (league === l ? ' selected' : '')} aria-pressed={league === l} key={l} onClick={() => { setLeague(league === l ? 'all' : l); document.getElementById('news')?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }}><span>●</span>{localizeLeague(l, locale)}</button>)}</div>
     <section id="news" className="news-section reveal"><SectionTitle kicker={home ? '01 / THE LATEST' : 'THE EDIT'} title={home ? t.latest : copy(locale, '新闻速递', '新聞速遞', 'Fresh off the pitch')} action={home ? <button className="text-link" onClick={() => navigate('news')}>{t.allNews}<ArrowUpRight size={20} /></button> : null} />
-      <div className="news-toolbar"><div className="tabs"><button className={league === 'all' ? 'selected' : ''} onClick={() => setLeague('all')}>{copy(locale, '最新发布', '最新發佈', 'Latest')}</button>{league !== 'all' && <button className="selected" onClick={() => setLeague('all')}>{localizeLeague(league, locale)}<X size={14} /></button>}</div><button className="button filter-button" aria-expanded={filters} onClick={() => setFilters(!filters)}><SlidersHorizontal size={18} />{copy(locale, '筛选', '篩選', 'Filter')}</button></div>
+      <div className="news-toolbar"><div className="tabs"><button className={league === 'all' ? 'selected' : ''} onClick={() => setLeague('all')}>{copy(locale, '最新发布', '最新發佈', 'Latest')}</button>{league !== 'all' && <button className="selected" onClick={() => setLeague('all')}>{localizeLeague(league, locale)}<X size={14} /></button>}</div><div className="news-actions"><button className="button filter-button" aria-expanded={filters} onClick={() => setFilters(!filters)}><SlidersHorizontal size={18} />{copy(locale, '筛选', '篩選', 'Filter')}</button><button className="button filter-button" onClick={onRefresh} disabled={loading} aria-label={copy(locale, '刷新新闻', '重新整理新聞', 'Refresh news')}><RefreshCw size={17} className={loading ? 'spin' : ''} />{copy(locale, '刷新', '重新整理', 'Refresh')}</button></div></div>
       {filters && <div className="filter-panel"><label>{copy(locale, '关键词', '關鍵詞', 'Keyword')}<input value={query} onChange={e => setQuery(e.target.value)} placeholder={copy(locale, '搜索新闻标题', '搜尋新聞標題', 'Search headlines')} /></label><label>{t.all}<select value={league} onChange={e => setLeague(e.target.value)}><option value="all">{t.all}</option>{leagues.map(l => <option key={l} value={l}>{localizeLeague(l, locale)}</option>)}</select></label><button className="text-link" onClick={() => { setLeague('all'); setQuery(''); }}>{copy(locale, '重置', '重設', 'Reset')}</button></div>}
-      {filtered.length ? <><div className="news-lead-grid"><ArticleCard article={filtered[0]} locale={locale} onOpen={onOpen} lead /><aside className="quick-read"><div className="quick-title"><Zap size={23} /><h3>{copy(locale, '球迷快读', '球迷快讀', 'The quick read')}</h3><span>↗</span></div>{extraStories.map((a, i) => <button className="quick-item" key={a.id} onClick={() => onOpen(a)}><span>0{i + 1}</span><div><small>{a.label[idx]}</small><b>{a.title[idx]}</b></div><ArrowUpRight size={18} /></button>)}<span className="quick-note">{copy(locale, '编辑选题 / 示例内容', '編輯選題 / 示例內容', 'EDITORIAL PICKS / SAMPLE STORIES')}</span></aside></div><div className="feed-heading"><h3>{t.moreStory}</h3><span>{String(filtered.length).padStart(2, '0')} STORIES</span></div><div className="story-list">{filtered.slice(1).map(a => <ArticleCard article={a} locale={locale} onOpen={onOpen} key={a.topic} />)}</div></> : <div className="empty-state"><Search size={32} /><h3>{t.noSearch}</h3><button className="button primary" onClick={() => { setLeague('all'); setQuery(''); }}>{copy(locale, '查看全部新闻', '查看全部新聞', 'Show all stories')}</button></div>}
+      {data && <div className="news-source-note"><span>{copy(locale, '来源：', '來源：', 'Source: ')}{data.source === 'BBC Sport' ? <a href="https://www.bbc.co.uk/sport/football" target="_blank" rel="noopener noreferrer">BBC Sport</a> : 'Kickoff'}</span><span>{copy(locale, '更新于', '更新於', 'Updated')} {updatedLabel(data.updatedAt, locale)}</span>{error && <span>{copy(locale, '暂时无法刷新，显示缓存新闻。', '暫時無法更新，顯示快取新聞。', 'Refresh failed; showing cached headlines.')}</span>}</div>}
+      {loading && !data?.items.length ? <div className="empty-state" role="status"><RefreshCw className="spin" size={32} /><h3>{copy(locale, '正在获取最新足球新闻…', '正在載入最新足球新聞…', 'Loading the latest football news…')}</h3></div> : error && !data?.items.length ? <div className="empty-state" role="alert"><Zap size={32} /><h3>{copy(locale, '新闻暂时无法加载', '新聞暫時無法載入', 'News is temporarily unavailable')}</h3><p>{copy(locale, '新闻源暂时无法连接，请稍后重试。', '新聞來源暫時無法連線，請稍後重試。', 'The news source is temporarily unreachable. Please try again shortly.')}</p><button className="button primary" onClick={onRefresh}>{copy(locale, '重试', '重試', 'Retry')}</button></div> : filtered.length ? <><div className="news-lead-grid"><NewsCard item={filtered[0]} locale={locale} source={data!.source} lead /><aside className="quick-read"><div className="quick-title"><Zap size={23} /><h3>{copy(locale, '最新快讯', '最新快訊', 'Latest headlines')}</h3><span>↗</span></div>{filtered.slice(1, 5).map((item, i) => <a className="quick-item" key={item.id} href={newsHref(item, data!.source)} target={data!.source === 'Kickoff' ? undefined : '_blank'} rel={data!.source === 'Kickoff' ? undefined : 'noopener noreferrer'}><span>0{i + 1}</span><div><small>{newsCategory(item, locale) || data!.source}</small><b>{newsTitle(item, locale)}</b></div><ArrowUpRight size={18} /></a>)}<span className="quick-note">{data!.source === 'Kickoff' ? copy(locale, '同一篇原创内容，按站点语言显示', '同一篇原創內容，按網站語言顯示', 'The same original stories in your language') : copy(locale, '新闻标题与时间来自 BBC Sport RSS', '新聞標題與時間來自 BBC Sport RSS', 'Headlines and dates from BBC Sport RSS')}</span></aside></div><div className="feed-heading"><h3>{home ? copy(locale, '更多最新报道', '更多最新報道', 'More headlines') : t.moreStory}</h3><span>{String(filtered.length).padStart(2, '0')} {copy(locale, '条报道', '則報道', 'STORIES')}</span></div><div className="story-list">{filtered.slice(1, visibleCount).map(item => <NewsCard item={item} locale={locale} source={data!.source} key={item.id} />)}</div>{visibleCount < filtered.length && <div className="news-load-more"><button className="button plain" onClick={() => setVisibleCount(visibleCount + 12)}>{copy(locale, '加载更多', '載入更多', 'Load more')}<ArrowDown size={18} /></button></div>}</> : <div className="empty-state"><Search size={32} /><h3>{t.noSearch}</h3><button className="button primary" onClick={() => { setLeague('all'); setQuery(''); }}>{copy(locale, '查看全部新闻', '查看全部新聞', 'Show all stories')}</button></div>}
     </section>{home && <Discussion locale={locale} onJoin={onJoin} />}
   </>;
 }
@@ -187,7 +269,7 @@ function TeamStatsPage({ locale, data, advanced }: { locale: Locale; data: Footb
   return <section className="team-stats-page">
     <PageTitle title={copy(locale, '球队榜', '球隊榜', 'Team stats')} description={copy(locale, '比较各队进攻、传控、防守和纪律表现。', '比較各隊進攻、傳控、防守和紀律表現。', 'Compare team attack, passing, defence and discipline.')} label="CLUB NUMBERS" icon={Shield} />
     <CompetitionTabs locale={locale} league={league} onChange={setLeague} />
-    <StatsBoard key={league} locale={locale} entries={entries} groups={teamMetricGroups} source={source} />
+    <StatsBoard key={league} locale={locale} entries={entries} groups={teamMetricGroups} alwaysVisible={['yellowCards', 'redCards']} source={source} />
   </section>;
 }
 
@@ -201,35 +283,47 @@ function Teams({ locale, favorites, toggleFavorite, onPick, clubs }: { locale: L
     <section className="team-hub-section"><SectionTitle kicker="YOUR COLORS" title={copy(locale, '找到你的主队', '找到你的主隊', 'Find your club')} /><div className="page-tools"><label className="inline-search"><Search size={19} /><input aria-label={words[locale].choose} value={q} onChange={e => setQ(e.target.value)} placeholder={copy(locale, '搜索球队', '搜尋球隊', 'Search clubs')} /></label><button className="button primary" onClick={onPick}>{words[locale].choose}<Plus size={18} /></button></div><div className="club-grid">{rows.map(t => <article className="club-card" key={t.short} style={{ '--club': t.color } as React.CSSProperties}><div className="club-card-top"><span>{localizeLeague(t.league, locale)}</span><span>{t.short}</span></div><Crest name={t.short} color={t.color} /><h2>{locale === 'en' ? t.en : localizeClub(t.name, locale)}</h2><span className="club-english">{t.en.toUpperCase()}</span><button className={favorites.includes(t.short) ? 'club-follow followed' : 'club-follow'} aria-pressed={favorites.includes(t.short)} onClick={() => toggleFavorite(t.short)}>{favorites.includes(t.short) ? <Check size={19} /> : <Plus size={19} />}{favorites.includes(t.short) ? copy(locale, '已关注', '已關注', 'Following') : copy(locale, '关注球队', '關注球隊', 'Follow club')}</button></article>)}</div>{!rows.length && <div className="empty-state">{words[locale].noSearch}</div>}</section>
   </section>;
 }
-function Players({ locale, snapshot, advanced }: { locale: Locale; snapshot: PlayerStatsSnapshot | null; advanced: AdvancedStatsSnapshot | null }) {
+function Players({ locale, snapshot, advanced, names }: { locale: Locale; snapshot: PlayerStatsSnapshot | null; advanced: AdvancedStatsSnapshot | null; names: AdvancedNamesSnapshot | null }) {
   const [league, setLeague] = useState('英超');
   const selected = snapshot?.leagues[league];
   const preview = advanced?.leagues[league];
+  const playerName = (name: string) => locale === 'en' ? name
+    : names?.season === advanced?.season && names?.names[name]?.[locale] || localizePlayer(name, locale);
+  const positionName = (position: string | null) => position && ({
+    GK: copy(locale, '门将', '守門員', 'Goalkeeper'), DF: copy(locale, '后卫', '後衛', 'Defender'),
+    MF: copy(locale, '中场', '中場', 'Midfielder'), FW: copy(locale, '前锋', '前鋒', 'Forward'),
+  })[position] || position;
   const legacyEntries = (selected?.players || []).map(player => ({
     id: player.id,
     name: player.localizedNames?.[locale] || localizePlayer(player.name, locale),
-    sub: [localizeClub(player.team, locale), player.position, player.nationality].filter(Boolean).join(' · '),
+    sub: [localizeClub(player.team, locale), positionName(player.position), player.nationality].filter(Boolean).join(' · '),
     values: playerValues(player),
   }));
   const entries = preview?.players.length ? preview.players.map(player => ({
-    id: player.id, name: localizePlayer(player.name, locale),
-    sub: [localizeClub(player.team, locale), player.position].filter(Boolean).join(' · '),
+    id: player.id, name: playerName(player.name),
+    sub: [localizeClub(player.team, locale), positionName(player.position)].filter(Boolean).join(' · '),
     values: player.values,
   })) : legacyEntries;
+  const translatedCount = locale !== 'en' && preview
+    ? preview.players.filter(player => playerName(player.name) !== player.name).length : null;
   return <section id="players">
     <PageTitle title={copy(locale, '球员数据', '球員數據', 'Player stats')} description={copy(locale, '按赛事查看已核实的赛季球员数据。', '按賽事查看已核實的賽季球員資料。', 'Verified season player statistics by competition.')} label="GAME CHANGERS" icon={Zap} />
     {!preview && !snapshot && <p className="stats-unavailable" role="status">{copy(locale, '尚未导入完整的本赛季球员统计快照。', '尚未匯入完整的本賽季球員統計快照。', 'No current-season player statistics snapshot has been imported yet.')}</p>}
     <div className="data-card player-league-card"><div className="table-toolbar player-toolbar"><div className="tabs scroll-tabs">{leagues.map(name => <button key={name} className={league === name ? 'selected' : ''} onClick={() => setLeague(name)}>{localizeLeague(name, locale)}</button>)}</div><span className="season-label">{preview?.season || selected?.season || '—'}</span></div></div>
-    <StatsBoard key={league} locale={locale} entries={entries} groups={playerMetricGroups} source={preview ? `PitchAPI · ${updatedLabel(advanced!.updatedAt, locale)} · ${copy(locale, '球员统计覆盖', '球員統計涵蓋', 'Player stats cover')} ${preview.playerStatsMatches}/${preview.finishedMatches} ${copy(locale, '场完赛', '場完賽', 'finished matches')}${advanced?.localRepair ? ` · ${copy(locale, '本地离线修复快照', '本地離線修復快照', 'Locally repaired snapshot')}` : ''}` : selected ? `GOAL API · ${updatedLabel(snapshot!.updatedAt, locale)}` : copy(locale, '等待本赛季球员统计快照', '等待本賽季球員統計快照', 'Waiting for current-season player stats')} />
+    {translatedCount !== null && <p className="stats-coverage">{copy(locale, `本赛事已有 ${translatedCount}/${preview!.players.length} 名球员显示中文译名，其余保留数据源姓名。`, `本賽事已有 ${translatedCount}/${preview!.players.length} 名球員顯示中文譯名，其餘保留資料來源姓名。`, '')}</p>}
+    <StatsBoard key={league} locale={locale} entries={entries} groups={playerMetricGroups} initialCategory="discipline" alwaysVisible={['yellowCards', 'redCards']} source={preview ? `PitchAPI · ${updatedLabel(advanced!.updatedAt, locale)} · ${copy(locale, '球员统计覆盖', '球員統計涵蓋', 'Player stats cover')} ${preview.playerStatsMatches}/${preview.finishedMatches} ${copy(locale, '场完赛', '場完賽', 'finished matches')}${advanced?.localRepair ? ` · ${copy(locale, '本地离线修复快照', '本地離線修復快照', 'Locally repaired snapshot')}` : ''}` : selected ? `GOAL API · ${updatedLabel(snapshot!.updatedAt, locale)}` : copy(locale, '等待本赛季球员统计快照', '等待本賽季球員統計快照', 'Waiting for current-season player stats')} />
   </section>;
 }
 export default function App() {
   const [page,setPage]=useState(readRoute), [locale,setLocale]=useState(browserLocale), [theme,setTheme]=useState(localStorage.getItem('kickoff-theme')||'light');
-  const [favorites,setFavorites]=useState(()=>readSaved('kickoff-teams',[])), [draft,setDraft]=useState([]), [modal,setModal]=useState(null), [article,setArticle]=useState(null), [menu,setMenu]=useState(false), [pickerQuery,setPickerQuery]=useState('');
+  const [favorites,setFavorites]=useState(()=>readSaved('kickoff-teams',[])), [draft,setDraft]=useState([]), [modal,setModal]=useState(null), [menu,setMenu]=useState(false), [pickerQuery,setPickerQuery]=useState('');
   const [query,setQuery]=useState(''), [searchFilter,setSearchFilter]=useState(0);
-  const root=useRef(null); const t=words[locale]; const idx=localeIndex[locale]; const [snapshot,setSnapshot]=useState<FootballSnapshot | null>(null);
+  const root=useRef(null); const t=words[locale]; const [snapshot,setSnapshot]=useState<FootballSnapshot | null>(null);
   const [playerStats,setPlayerStats]=useState<PlayerStatsSnapshot | null>(null);
   const [advancedStats,setAdvancedStats]=useState<AdvancedStatsSnapshot | null>(null);
+  const [advancedNames,setAdvancedNames]=useState<AdvancedNamesSnapshot | null>(null);
+  const [newsSnapshot,setNewsSnapshot]=useState<NewsSnapshot | null>(null);
+  const [newsLoading,setNewsLoading]=useState(true), [newsError,setNewsError]=useState(false), [newsRefresh,setNewsRefresh]=useState(0);
   const clubOptions = (() => {
     if (!snapshot) return teams;
     const byCode = new Map<string, { name: string; en: string; short: string; color: string; league: string }>();
@@ -242,7 +336,9 @@ export default function App() {
   useEffect(()=>{ document.documentElement.lang=locale; localStorage.setItem('kickoff-locale',locale); },[locale]);
   useEffect(()=>{ const controller=new AbortController(); (async()=>{ for(const url of ['/api/v1/football','/data/football.json']) { try { const response=await fetch(url,{signal:controller.signal,cache:'no-store'}); if(!response.ok)continue; const data=await response.json(); if(isFootballSnapshot(data)){setSnapshot(data);break;} } catch { if(controller.signal.aborted)break; } } })(); return ()=>controller.abort(); },[]);
   useEffect(()=>{ const controller=new AbortController(); fetch('/data/players.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isPublishablePlayerStatsSnapshot(data))setPlayerStats(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
-  useEffect(()=>{ const controller=new AbortController(); fetch('/data/advanced.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isAdvancedStatsSnapshot(data))setAdvancedStats(data);}).catch(()=>{}); return ()=>controller.abort(); },[]);
+  useEffect(()=>{ const controller=new AbortController(); const load=()=>fetch('/data/advanced.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isAdvancedStatsSnapshot(data))setAdvancedStats(data);}).catch(()=>{}); void load(); const timer=window.setInterval(load,5*60*1000); return ()=>{window.clearInterval(timer);controller.abort();}; },[]);
+  useEffect(()=>{ const controller=new AbortController(); const load=()=>fetch('/data/advanced-names.json',{signal:controller.signal,cache:'no-store'}).then(response=>response.ok?response.json():null).then(data=>{if(isAdvancedNamesSnapshot(data))setAdvancedNames(data);}).catch(()=>{}); void load(); const timer=window.setInterval(load,5*60*1000); return ()=>{window.clearInterval(timer);controller.abort();}; },[]);
+  useEffect(()=>{ const controller=new AbortController(); const load=()=>{setNewsLoading(true);fetch('/api/v1/news',{signal:controller.signal,cache:'no-store'}).then(response=>{if(!response.ok)throw new Error('News feed unavailable');return response.json();}).then(data=>{if(!isNewsSnapshot(data))throw new Error('Invalid news feed');setNewsSnapshot(data);setNewsError(false);}).catch(()=>{if(!controller.signal.aborted)setNewsError(true);}).finally(()=>{if(!controller.signal.aborted)setNewsLoading(false);});}; load(); const timer=window.setInterval(load,10*60*1000); return ()=>{window.clearInterval(timer);controller.abort();}; },[newsRefresh]);
   useEffect(()=>{ const media=matchMedia('(prefers-color-scheme: dark)'); const apply=()=>document.documentElement.dataset.theme=theme==='system'?(media.matches?'dark':'light'):theme; apply();localStorage.setItem('kickoff-theme',theme);media.addEventListener('change',apply);return()=>media.removeEventListener('change',apply); },[theme]);
   useEffect(()=>{const onPop=()=>{setPage(readRoute());setMenu(false);window.scrollTo(0,0);};window.addEventListener('popstate',onPop);return()=>window.removeEventListener('popstate',onPop);},[]);
   useEffect(()=>{const key=e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setModal('search');}};document.addEventListener('keydown',key);return()=>document.removeEventListener('keydown',key);},[]);
@@ -253,15 +349,13 @@ export default function App() {
   const toggleFavorite=code=>persist(favorites.includes(code)?favorites.filter(v=>v!==code):[...favorites,code]);
   const openPicker=()=>{setDraft([...favorites]);setPickerQuery('');setModal('teams');};
   const closeModal=()=>{if(modal==='teams')localStorage.setItem('kickoff-onboarded','1');setModal(null);};
-  const openArticle=a=>{setArticle(a);setModal('article');};
-  const items: Array<{ kind: number; title: string; meta: string; article?: (typeof articles)[number]; route?: string }> = [...articles.map(a=>({kind:1,title:a.title[idx],meta:localizeLeague(a.league.split(' · ')[0],locale),article:a})),...clubOptions.map(v=>({kind:2,title:locale==='en'?v.en:localizeClub(v.name,locale),meta:localizeLeague(v.league,locale),route:'teams'})),...Object.values(playerStats?.leagues || {}).flatMap(group=>group.players.map(player=>({kind:3,title:player.localizedNames?.[locale] || localizePlayer(player.name,locale),meta:localizeClub(player.team,locale),route:'players'}))),...(snapshot?.matches || []).map(v=>({kind:4,title:`${localizeClub(v.home,locale)} ${v.hs} — ${v.as} ${localizeClub(v.away,locale)}`,meta:localizeLeague(v.league,locale),route:'matches'}))];
+  const items: Array<{ kind: number; title: string; meta: string; url?: string; route?: string }> = [...(newsSnapshot?.items || []).map(item=>({kind:1,title:newsTitle(item, locale),meta:item.category || newsSnapshot?.source || 'BBC Sport',url:newsHref(item, newsSnapshot!.source)})),...clubOptions.map(v=>({kind:2,title:locale==='en'?v.en:localizeClub(v.name,locale),meta:localizeLeague(v.league,locale),route:'teams'})),...Object.values(playerStats?.leagues || {}).flatMap(group=>group.players.map(player=>({kind:3,title:player.localizedNames?.[locale] || localizePlayer(player.name,locale),meta:localizeClub(player.team,locale),route:'players'}))),...(snapshot?.matches || []).map(v=>({kind:4,title:`${localizeClub(v.home,locale)} ${v.hs} — ${v.as} ${localizeClub(v.away,locale)}`,meta:localizeLeague(v.league,locale),route:'matches'}))];
   const searchResults=items.filter(v=>(!searchFilter||v.kind===searchFilter)&&(v.title+' '+v.meta).toLowerCase().includes(query.trim().toLowerCase()));
   return <div className="app-shell" data-page={page} ref={root}><div className="announcement"><span>THE GAME IS OURS.</span><span>{t.tagline} <span aria-hidden="true">✳</span> EST. 2026</span></div><header className="site-header"><div className="header-inner"><button className="brand" onClick={()=>navigate('home')} aria-label="Kickoff home"><span className="logo-mark">K<span>↗</span></span><b>kickoff<span>.</span></b></button><nav className={menu?'primary-nav nav-open':'primary-nav'} aria-label="主导航">{routes.map((r,i)=><button key={r} className={page===r?'active':''} aria-current={page===r?'page':undefined} onClick={()=>navigate(r)}>{t.nav[i]}</button>)}</nav><div className="header-actions"><button className="header-search" aria-label={t.openSearch} onClick={()=>setModal('search')}><Search size={20}/><span>{copy(locale,'搜点什么','搜點甚麼','Search')}</span><kbd>⌘ K</kbd></button><select aria-label={t.language} value={locale} onChange={e=>setLocale(e.target.value as Locale)}><option value="zh-CN">简</option><option value="zh-TW">繁</option><option value="en">EN</option></select><button className="icon-button" aria-label={t.theme} title={theme} onClick={()=>setTheme(theme==='light'?'dark':theme==='dark'?'system':'light')}>{theme==='dark'?<Moon size={20}/>:theme==='system'?<Globe2 size={20}/>:<Sun size={20}/>}</button><button className="menu-button icon-button" aria-label="Menu" aria-expanded={menu} onClick={()=>setMenu(!menu)}>{menu?<X/>:<Menu/>}</button></div></div></header>
-  <main className="page-container" key={page}>{page==='home'||page==='news'?<NewsFeed locale={locale} onOpen={openArticle} home={page==='home'} navigate={navigate} onJoin={()=>setModal('join')} onPick={openPicker}/>:page==='matches'?(snapshot?<LiveMatches locale={locale} favorites={favorites} data={snapshot}/>:<UnavailableMatches locale={locale}/>):page==='standings'?<StandingsPage locale={locale} data={snapshot}/>:page==='team-stats'?<TeamStatsPage locale={locale} data={snapshot} advanced={advancedStats}/>:page==='teams'?<Teams locale={locale} favorites={favorites} toggleFavorite={toggleFavorite} onPick={openPicker} clubs={clubOptions}/>:<Players locale={locale} snapshot={playerStats} advanced={advancedStats}/>}</main>
+  <main className="page-container" key={page}>{page==='home'||page==='news'?<NewsFeed locale={locale} home={page==='home'} navigate={navigate} onJoin={()=>setModal('join')} onPick={openPicker} data={newsSnapshot} loading={newsLoading} error={newsError} onRefresh={()=>setNewsRefresh(v=>v+1)}/>:page==='matches'?(snapshot?<LiveMatches locale={locale} favorites={favorites} data={snapshot}/>:<UnavailableMatches locale={locale}/>):page==='standings'?<StandingsPage locale={locale} data={snapshot}/>:page==='team-stats'?<TeamStatsPage locale={locale} data={snapshot} advanced={advancedStats}/>:page==='teams'?<Teams locale={locale} favorites={favorites} toggleFavorite={toggleFavorite} onPick={openPicker} clubs={clubOptions}/>:<Players locale={locale} snapshot={playerStats} advanced={advancedStats} names={advancedNames}/>}</main>
   <footer className="site-footer"><div><b>kickoff<span>↗</span></b><p>{t.footer}</p></div><div className="footer-right"><span>© 2026 KICKOFF</span><span>FOOTBALL NEVER ENDS.</span>{snapshot&&<a href="https://www.football-data.org/" target="_blank" rel="noopener noreferrer">Football data provided by the Football-Data.org API</a>}{playerStats && Object.keys(playerStats.leagues).length > 0 && <a href="https://goal-api.com/" target="_blank" rel="noopener noreferrer">Player stats provided by GOAL API</a>}</div></footer>
   {modal==='teams'&&<Modal title={t.chooseTitle} onClose={closeModal}><p className="modal-description">{t.chooseNote}</p><label className="team-picker-search"><Search size={19}/><input autoFocus value={pickerQuery} onChange={e=>setPickerQuery(e.target.value)} placeholder={copy(locale,'搜索球队名称或缩写','搜尋球隊名稱或縮寫','Search clubs or abbreviations')}/></label><div className="team-picker-grid">{clubOptions.filter(v=>(v.name+v.en+v.short+v.league).toLowerCase().includes(pickerQuery.trim().toLowerCase())).map(v=><button className={'team-choice'+(draft.includes(v.short)?' chosen':'')} key={v.short} onClick={()=>setDraft(draft.includes(v.short)?draft.filter(a=>a!==v.short):[...draft,v.short])} aria-pressed={draft.includes(v.short)}><Crest name={v.short} color={v.color} small/><span><b>{locale==='en'?v.en:localizeClub(v.name,locale)}</b><small>{localizeLeague(v.league,locale)}</small></span>{draft.includes(v.short)?<Check size={21}/>:<Plus size={21}/>}</button>)}</div><div className="modal-actions"><button className="text-link" onClick={closeModal}>{t.skip}</button><button className="button primary" onClick={()=>{persist(draft);closeModal();}}>{t.save}<ArrowRight size={19}/></button></div><p className="data-note">{t.local}</p></Modal>}
-  {modal==='search'&&<Modal title={t.searchTitle} onClose={closeModal} wide><label className="search-input"><Search size={24}/><input autoFocus aria-label={t.search} value={query} placeholder={t.search} onChange={e=>setQuery(e.target.value)}/></label><div className="tabs search-filters">{t.filters.map((v,i)=><button className={searchFilter===i?'selected':''} key={v} onClick={()=>setSearchFilter(i)}>{v}</button>)}</div><div className="search-results">{query.trim()?searchResults.length?searchResults.map((v,i)=><button className="search-result" key={i} onClick={()=>v.article?openArticle(v.article):navigate(v.route)}><span className="tag">{t.filters[v.kind]}</span><span><b>{v.title}</b><small>{v.meta}</small></span><ArrowUpRight size={22}/></button>):<p className="empty-state">{t.noSearch}</p>:<p className="search-hint"><Zap size={21}/>{t.searchTip}</p>}</div></Modal>}
-  {modal==='article'&&article&&<Modal title={article.title[idx]} onClose={closeModal} wide><div className="story-meta"><span className="tag">{localizeLeague(article.league.split(' · ')[0],locale)}</span><span>{copy(locale,'示例摘要','示例摘要','Sample summary')}</span></div><p className="article-summary">{article.summary[idx]}</p><p className="data-note">{copy(locale,'这是版式预览内容。真实新闻上线后会提供媒体来源和原文链接。','這是版面預覽內容。真實新聞上線後會提供媒體來源和原文連結。','This is sample editorial content. Published news will include its source and original link.')}</p><div className="article-comments"><MessageCircle size={23}/><h3>{copy(locale,'这球，你怎么看？','這球，你怎麼看？','What’s your take?')}</h3><p>{copy(locale,'登录功能上线后，即可在新闻下评论。','登入功能上線後，即可在新聞下評論。','Comments will open when sign-in launches.')}</p></div></Modal>}
+  {modal==='search'&&<Modal title={t.searchTitle} onClose={closeModal} wide><label className="search-input"><Search size={24}/><input autoFocus aria-label={t.search} value={query} placeholder={t.search} onChange={e=>setQuery(e.target.value)}/></label><div className="tabs search-filters">{t.filters.map((v,i)=><button className={searchFilter===i?'selected':''} key={v} onClick={()=>setSearchFilter(i)}>{v}</button>)}</div><div className="search-results">{query.trim()?searchResults.length?searchResults.map((v,i)=><button className="search-result" key={i} onClick={()=>v.url?window.open(v.url,'_blank','noopener,noreferrer'):navigate(v.route)}><span className="tag">{t.filters[v.kind]}</span><span><b>{v.title}</b><small>{v.meta}</small></span><ArrowUpRight size={22}/></button>):<p className="empty-state">{t.noSearch}</p>:<p className="search-hint"><Zap size={21}/>{t.searchTip}</p>}</div></Modal>}
   {modal==='join'&&<Modal title={copy(locale,'看台为你留了位置','看台為你留了位置','Your place in the stands')} onClose={closeModal}><div className="join-art" aria-hidden="true">✳</div><p className="modal-description">{copy(locale,'评论、点赞和回复会在登录功能上线后开放。现在可以先关注主队。','評論、點讚和回覆會在登入功能上線後開放。現在可以先關注主隊。','Comments, likes and replies will open with sign-in. You can choose your clubs now.')}</p><button className="button primary" onClick={openPicker}>{t.choose}<ArrowRight size={19}/></button></Modal>}
   </div>;
 }

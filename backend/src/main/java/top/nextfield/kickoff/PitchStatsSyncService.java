@@ -14,10 +14,12 @@ import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -27,8 +29,9 @@ import org.springframework.stereotype.Service;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ObjectNode;
 
-/** Builds a compact, reviewable season aggregate. No raw provider response is written. */
+/** Builds compact season aggregates and normalized per-match facts. No raw provider response is written. */
 @Service
 public class PitchStatsSyncService {
     private static final List<LeagueTarget> LEAGUES = List.of(
@@ -73,6 +76,7 @@ public class PitchStatsSyncService {
         result.put("season", season);
         Map<String, Object> leagueResults = new LinkedHashMap<>();
         result.put("leagues", leagueResults);
+        Map<String, List<Map<String, Object>>> matchResults = new LinkedHashMap<>();
 
         for (LeagueTarget target : LEAGUES) {
             String id = findLeague(leagues, target, season);
@@ -82,7 +86,8 @@ public class PitchStatsSyncService {
             if (!matches.isArray()) throw new IOException(target.label + ": match list is unavailable.");
             Map<String, TeamAggregate> teams = new LinkedHashMap<>();
             Map<String, PlayerAggregate> players = new LinkedHashMap<>();
-            int finished = 0, teamCovered = 0, playerCovered = 0, advancedTeamCovered = 0, advancedPlayerCovered = 0;
+            List<Map<String, Object>> matchRows = new ArrayList<>();
+            int finished = 0, teamCovered = 0, playerCovered = 0, advancedTeamCovered = 0, advancedPlayerCovered = 0, cardEventsCovered = 0;
             for (JsonNode match : matches) {
                 if (!"finished".equals(string(match.path("status"))) || !match.path("score_home").isNumber()
                         || !match.path("score_away").isNumber()) continue;
@@ -104,14 +109,32 @@ public class PitchStatsSyncService {
                     teamCovered++;
                 }
                 JsonNode advancedTeams = optional("/matches/" + matchId + "/advanced");
+                JsonNode advancedHome = null, advancedAway = null;
                 if (advancedTeams != null && advancedTeams.path("teams").isArray()
                         && advancedTeams.path("teams").size() >= 2) {
                     for (JsonNode row : advancedTeams.path("teams")) {
-                        TeamAggregate team = teams.get(string(row.path("team").path("id")));
+                        String teamId = string(row.path("team").path("id"));
+                        TeamAggregate team = teams.get(teamId);
+                        if (homeId.equals(teamId)) advancedHome = row;
+                        if (awayId.equals(teamId)) advancedAway = row;
                         if (team != null) team.recordAdvanced(row);
                     }
                     advancedTeamCovered++;
                 }
+                Map<String, Object> matchRow = new LinkedHashMap<>();
+                matchRow.put("id", matchId);
+                matchRow.put("date", string(match.path("time_utc")) != null
+                        ? string(match.path("time_utc")) : string(match.path("date")));
+                matchRow.put("league", target.label);
+                matchRow.put("home", home.name);
+                matchRow.put("away", away.name);
+                matchRow.put("scoreHome", match.path("score_home").asInt());
+                matchRow.put("scoreAway", match.path("score_away").asInt());
+                matchRow.put("homeStats", matchTeamValues(teamStats, advancedHome, "home"));
+                matchRow.put("awayStats", matchTeamValues(teamStats, advancedAway, "away"));
+                matchRow.put("teamStatsVerified", teamStats != null && hasAllPeriod(teamStats));
+                matchRow.put("advancedStatsVerified", advancedHome != null && advancedAway != null);
+                matchRows.add(matchRow);
                 JsonNode playerStats = optional("/matches/" + matchId + "/players");
                 if (playerStats != null && playerStats.isArray() && !playerStats.isEmpty()) {
                     for (JsonNode row : playerStats) recordPlayer(matchId, row, players, teams);
@@ -124,8 +147,17 @@ public class PitchStatsSyncService {
                     for (JsonNode row : advancedRows) recordAdvancedPlayer(matchId, row, players, teams);
                     advancedPlayerCovered++;
                 }
+                JsonNode events = optional("/matches/" + matchId + "/events");
+                if (events != null && events.path("events").isArray()) {
+                    recordCardEvents(matchId, events.path("events"), players, teams);
+                    recordMatchCardEvents(events.path("events"), matchRow, homeId, awayId);
+                    cardEventsCovered++;
+                }
             }
             if (finished == 0) throw new IOException(target.label + ": no finished match in " + season + ".");
+            if (cardEventsCovered != finished)
+                throw new IOException(target.label + ": card events cover " + cardEventsCovered + "/" + finished
+                        + " finished matches; previous snapshot preserved.");
             int discardedPairs = teams.values().stream().mapToInt(Aggregate::discardInconsistentPairs).sum()
                     + players.values().stream().mapToInt(Aggregate::discardInconsistentPairs).sum();
             List<Map<String, Object>> teamRows = teams.values().stream().map(TeamAggregate::toMap)
@@ -141,16 +173,25 @@ public class PitchStatsSyncService {
             league.put("playerStatsMatches", playerCovered);
             league.put("advancedTeamMatches", advancedTeamCovered);
             league.put("advancedPlayerMatches", advancedPlayerCovered);
+            league.put("cardEventsMatches", cardEventsCovered);
             league.put("discardedInconsistentMetricPairs", discardedPairs);
             league.put("teams", teamRows);
             league.put("players", playerRows);
             leagueResults.put(target.label, league);
-            System.out.printf("%s: %d finished; team %d/%d, player %d/%d, advanced team %d/%d, advanced player %d/%d, discarded metric pairs %d%n",
+            matchResults.put(target.label, matchRows);
+            System.out.printf("%s: %d finished; team %d/%d, player %d/%d, advanced team %d/%d, advanced player %d/%d, card events %d/%d, discarded metric pairs %d%n",
                     target.label, finished, teamCovered, finished, playerCovered, finished,
-                    advancedTeamCovered, finished, advancedPlayerCovered, finished, discardedPairs);
+                    advancedTeamCovered, finished, advancedPlayerCovered, finished, cardEventsCovered, finished, discardedPairs);
         }
         result.put("requestCount", requestCount);
         result.put("updatedAt", Instant.now().toString());
+        Map<String, Object> matchSnapshot = new LinkedHashMap<>();
+        matchSnapshot.put("source", "pitchapi.dev");
+        matchSnapshot.put("schemaVersion", 1);
+        matchSnapshot.put("season", season);
+        matchSnapshot.put("updatedAt", result.get("updatedAt"));
+        matchSnapshot.put("requestCount", requestCount);
+        matchSnapshot.put("leagues", matchResults);
         Files.createDirectories(output.toAbsolutePath().getParent());
         Path temporary = Files.createTempFile(output.toAbsolutePath().getParent(), "pitch-preview-", ".json");
         try {
@@ -158,7 +199,161 @@ public class PitchStatsSyncService {
             try { Files.move(temporary, output.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE); }
             catch (AtomicMoveNotSupportedException ignored) { Files.move(temporary, output.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING); }
         } finally { Files.deleteIfExists(temporary); }
+        Path matchOutput = output.resolveSibling("match-stats.json");
+        writeSnapshot(matchOutput, matchSnapshot, "pitch-match-stats-");
+        System.out.println("Per-match statistics saved to " + matchOutput.toAbsolutePath() + ".");
         System.out.println("PitchAPI preview saved to " + output.toAbsolutePath() + " after " + requestCount + " requests.");
+    }
+
+    private void writeSnapshot(Path target, Map<String, Object> value, String prefix) throws IOException {
+        Files.createDirectories(target.toAbsolutePath().getParent());
+        Path temporary = Files.createTempFile(target.toAbsolutePath().getParent(), prefix, ".json");
+        try {
+            Files.writeString(temporary, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(value));
+            try { Files.move(temporary, target.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE); }
+            catch (AtomicMoveNotSupportedException ignored) { Files.move(temporary, target.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING); }
+        } finally { Files.deleteIfExists(temporary); }
+    }
+
+    private Map<String, Object> matchTeamValues(JsonNode basic, JsonNode advanced, String side) {
+        Map<String, Object> values = new LinkedHashMap<>();
+        if (basic != null) for (JsonNode period : basic.path("periods")) {
+            if (!"All".equals(string(period.path("period")))) continue;
+            for (JsonNode group : period.path("groups")) for (JsonNode item : group.path("items")) {
+                String key = string(item.path("key"));
+                if (key == null) continue;
+                String mapped = switch (key) {
+                    case "total_shots" -> "shots"; case "ShotsOnTarget" -> "shotsOnTarget";
+                    case "fouls" -> "fouls"; case "yellow_cards" -> "yellowCards";
+                    case "red_cards" -> "redCards"; case "Offsides" -> "offsides";
+                    case "keeper_saves" -> "saves"; default -> null;
+                };
+                Double value = numberPrefix(item.path(side));
+                if (mapped != null && value != null) values.putIfAbsent(mapped, value);
+            }
+        }
+        if (advanced != null) {
+            addMatchPath(values, "passes", advanced, "passing", "passes");
+            addMatchPath(values, "passAccuracy", advanced, "passing", "pass_accuracy");
+            addMatchPath(values, "keyPasses", advanced, "passing", "key_passes");
+            addMatchPath(values, "dribblesAttempted", advanced, "carrying", "take_ons");
+            addMatchPath(values, "dribblesCompleted", advanced, "carrying", "take_ons_won");
+            addMatchPath(values, "tackles", advanced, "defending", "tackles");
+            addMatchPath(values, "interceptions", advanced, "defending", "interceptions");
+            addMatchPath(values, "clearances", advanced, "defending", "clearances");
+            addMatchPath(values, "possession", advanced, "territory", "possession_pct");
+        }
+        return values;
+    }
+
+    private void addMatchPath(Map<String, Object> values, String key, JsonNode node, String... path) {
+        JsonNode value = node;
+        for (String segment : path) value = value.path(segment);
+        if (value.isNumber() && Double.isFinite(value.asDouble()) && value.asDouble() >= 0)
+            values.put(key, value.asDouble());
+    }
+
+    @SuppressWarnings("unchecked")
+    private void recordMatchCardEvents(JsonNode events, Map<String, Object> match, String homeId, String awayId) {
+        Map<String, Object> home = (Map<String, Object>) match.get("homeStats");
+        Map<String, Object> away = (Map<String, Object>) match.get("awayStats");
+        int[] homeCards = new int[2], awayCards = new int[2];
+        for (JsonNode event : events) {
+            String type = string(event.path("event_type"));
+            if (type == null) continue;
+            type = type.replaceAll("[^A-Za-z]", "").toLowerCase(Locale.ROOT);
+            int index = type.equals("yellowcard") ? 0 : type.equals("redcard") ? 1 : -1;
+            if (index < 0) continue;
+            String teamId = string(event.path("team_id"));
+            if (homeId.equals(teamId)) homeCards[index]++;
+            else if (awayId.equals(teamId)) awayCards[index]++;
+        }
+        home.putIfAbsent("yellowCards", (double) homeCards[0]);
+        home.putIfAbsent("redCards", (double) homeCards[1]);
+        away.putIfAbsent("yellowCards", (double) awayCards[0]);
+        away.putIfAbsent("redCards", (double) awayCards[1]);
+    }
+
+    /** Fills player cards in an existing season snapshot without repeating other match-stat requests. */
+    public void synchronizeCards() throws IOException, InterruptedException {
+        if (key.isBlank()) throw new IllegalStateException("PITCHAPI_KEY is not configured.");
+        if (!Files.isRegularFile(output)) throw new IOException("PitchAPI snapshot does not exist: " + output);
+        JsonNode parsed = mapper.readTree(Files.readString(output));
+        if (!(parsed instanceof ObjectNode snapshot) || !"pitchapi.dev".equals(string(snapshot.path("source")))
+                || snapshot.path("schemaVersion").asInt() != 1) throw new IOException("Invalid PitchAPI snapshot.");
+        String season = string(snapshot.path("season"));
+        if (season == null) throw new IOException("PitchAPI snapshot has no season.");
+        JsonNode catalogue = get("/leagues").path("leagues");
+        if (!catalogue.isArray()) throw new IOException("PitchAPI league catalogue has no leagues array.");
+        int covered = 0;
+        for (LeagueTarget target : LEAGUES) {
+            JsonNode league = snapshot.path("leagues").path(target.label);
+            JsonNode playerRows = league.path("players");
+            if (!playerRows.isArray() || playerRows.isEmpty()) throw new IOException(target.label + ": no saved player rows.");
+            Set<String> knownPlayers = new HashSet<>();
+            for (JsonNode row : playerRows) {
+                String playerId = string(row.path("id"));
+                if (playerId == null || !(row.path("values") instanceof ObjectNode))
+                    throw new IOException(target.label + ": invalid saved player row.");
+                knownPlayers.add(playerId);
+            }
+            String id = findLeague(catalogue, target, season);
+            if (id == null) throw new IOException(target.label + ": season not listed in PitchAPI catalogue.");
+            JsonNode matches = get("/leagues/" + id + "/matches?season=" + encode(season)).path("matches");
+            if (!matches.isArray()) throw new IOException(target.label + ": match list is unavailable.");
+            List<JsonNode> finishedMatches = new ArrayList<>();
+            for (JsonNode match : matches) {
+                if ("finished".equals(string(match.path("status"))) && match.path("score_home").isNumber()
+                        && match.path("score_away").isNumber()) finishedMatches.add(match);
+            }
+            if (finishedMatches.size() != league.path("finishedMatches").asInt(-1)) {
+                System.out.printf("%s: finished match count changed (%d -> %d); refreshing the full statistics snapshot.%n",
+                        target.label, league.path("finishedMatches").asInt(-1), finishedMatches.size());
+                synchronize();
+                return;
+            }
+            Map<String, int[]> cards = new LinkedHashMap<>();
+            for (JsonNode match : finishedMatches) {
+                String matchId = string(match.path("id"));
+                if (matchId == null) throw new IOException(target.label + ": a finished match has no ID.");
+                JsonNode events = get("/matches/" + matchId + "/events").path("events");
+                if (!events.isArray()) throw new IOException(target.label + ": card events are unavailable for " + matchId);
+                countCardEvents(events, cards);
+                for (String playerId : cards.keySet())
+                    if (!knownPlayers.contains(playerId)) throw new IOException(target.label + ": card event has no matching saved player: " + playerId);
+            }
+            for (JsonNode row : playerRows) {
+                String playerId = string(row.path("id"));
+                ObjectNode values = (ObjectNode) row.path("values");
+                int[] total = cards.getOrDefault(playerId, new int[2]);
+                values.put("yellowCards", total[0]);
+                values.put("redCards", total[1]);
+            }
+            if (league instanceof ObjectNode leagueObject) {
+                leagueObject.put("cardEventsMatches", finishedMatches.size());
+                leagueObject.put("cardsUpdatedAt", Instant.now().toString());
+            }
+            covered += finishedMatches.size();
+        }
+        Files.createDirectories(output.toAbsolutePath().getParent());
+        Path temporary = Files.createTempFile(output.toAbsolutePath().getParent(), "pitch-cards-", ".json");
+        try {
+            Files.writeString(temporary, mapper.writerWithDefaultPrettyPrinter().writeValueAsString(snapshot));
+            try { Files.move(temporary, output.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING, StandardCopyOption.ATOMIC_MOVE); }
+            catch (AtomicMoveNotSupportedException ignored) { Files.move(temporary, output.toAbsolutePath(), StandardCopyOption.REPLACE_EXISTING); }
+        } finally { Files.deleteIfExists(temporary); }
+        System.out.println("PitchAPI cards saved from " + covered + " matches after " + requestCount + " requests.");
+    }
+
+    private static void countCardEvents(JsonNode events, Map<String, int[]> cards) {
+        for (JsonNode event : events) {
+            String type = string(event.path("event_type"));
+            if (type == null) continue;
+            type = type.replaceAll("[^A-Za-z]", "").toLowerCase(Locale.ROOT);
+            if (!type.equals("yellowcard") && !type.equals("redcard")) continue;
+            String id = string(event.path("player").path("id"));
+            if (id != null) cards.computeIfAbsent(id, ignored -> new int[2])[type.equals("yellowcard") ? 0 : 1]++;
+        }
     }
 
     private String findLeague(JsonNode leagues, LeagueTarget target, String season) {
@@ -227,6 +422,33 @@ public class PitchStatsSyncService {
         player.teamName = teams.get(teamId).name;
         player.appearanceMatches.add(matchId);
         player.recordAdvanced(row);
+    }
+
+    private void recordCardEvents(String matchId, JsonNode events, Map<String, PlayerAggregate> players,
+            Map<String, TeamAggregate> teams) {
+        Map<String, int[]> cards = new LinkedHashMap<>();
+        for (JsonNode event : events) {
+            String type = string(event.path("event_type"));
+            if (type == null) continue;
+            type = type.replaceAll("[^A-Za-z]", "").toLowerCase(Locale.ROOT);
+            if (!type.equals("yellowcard") && !type.equals("redcard")) continue;
+            String id = string(event.path("player").path("id"));
+            String teamId = string(event.path("team_id"));
+            TeamAggregate team = teams.get(teamId);
+            if (id == null || team == null) continue;
+            PlayerAggregate player = players.computeIfAbsent(id,
+                    value -> new PlayerAggregate(value, string(event.path("player").path("name"))));
+            player.teamId = teamId;
+            player.teamName = team.name;
+            player.appearanceMatches.add(matchId);
+        }
+        countCardEvents(events, cards);
+        for (PlayerAggregate player : players.values()) {
+            if (!player.appearanceMatches.contains(matchId)) continue;
+            int[] counts = cards.getOrDefault(player.id, new int[2]);
+            player.add("yellowCards", (double) counts[0]);
+            player.add("redCards", (double) counts[1]);
+        }
     }
 
     private JsonNode optional(String path) throws InterruptedException {
@@ -334,7 +556,7 @@ public class PitchStatsSyncService {
         double possessionTotal;
         int possessionCount;
         TeamAggregate(String id, String name) { this.id = id; this.name = name == null ? id : name; }
-        void recordScore(int goals, int conceded) { games++; add("goals", (double) goals); add("goalsAgainst", (double) conceded); if (conceded == 0) add("cleanSheets", 1.0); }
+        void recordScore(int goals, int conceded) { games++; add("goals", (double) goals); add("goalsAgainst", (double) conceded); add("cleanSheets", conceded == 0 ? 1.0 : 0.0); }
         void recordBasic(String key, Double value) {
             String mapped = switch (key) {
                 case "total_shots" -> "shots"; case "ShotsOnTarget" -> "shotsOnTarget";
@@ -382,7 +604,6 @@ public class PitchStatsSyncService {
                 case "goals" -> "goals"; case "assists" -> "assists"; case "total_shots" -> "shots";
                 case "ShotsOnTarget" -> "shotsOnTarget";
                 case "Offsides" -> "offsides"; case "fouls" -> "fouls";
-                case "yellow_cards" -> "yellowCards"; case "red_cards" -> "redCards";
                 case "saves" -> "saves";
                 default -> null;
             };

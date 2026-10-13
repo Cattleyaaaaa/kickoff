@@ -3,6 +3,7 @@ package top.nextfield.kickoff;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -36,16 +37,34 @@ class PitchStatsSyncServiceTest {
             JsonNode snapshot = mapper.readTree(Files.readString(output));
             assertEquals("pitchapi.dev", snapshot.path("source").asText());
             assertEquals(6, snapshot.path("leagues").size());
-            assertEquals(35, snapshot.path("requestCount").asInt());
+            assertEquals(42, snapshot.path("requestCount").asInt());
+
+            JsonNode matchSnapshot = mapper.readTree(Files.readString(output.resolveSibling("match-stats.json")));
+            assertEquals("pitchapi.dev", matchSnapshot.path("source").asText());
+            JsonNode matchRow = matchSnapshot.path("leagues").path("英超").get(0);
+            assertEquals("m_eng_1", matchRow.path("id").asText());
+            assertEquals("2026-10-12T18:30:00Z", matchRow.path("date").asText());
+            assertEquals("Home eng", matchRow.path("home").asText());
+            assertEquals(5, matchRow.path("homeStats").path("shots").asInt());
+            assertEquals(3, matchRow.path("homeStats").path("shotsOnTarget").asInt());
+            assertEquals(10, matchRow.path("homeStats").path("passes").asInt());
+            assertEquals(50, matchRow.path("homeStats").path("possession").asInt());
+            assertEquals(1, matchRow.path("homeStats").path("yellowCards").asInt());
+            assertEquals(0, matchRow.path("awayStats").path("redCards").asInt());
+            assertTrue(matchRow.path("teamStatsVerified").asBoolean());
+            assertTrue(matchRow.path("advancedStatsVerified").asBoolean());
 
             JsonNode english = snapshot.path("leagues").path("英超");
             assertEquals(2, english.path("finishedMatches").asInt());
             assertEquals(2, english.path("teamStatsMatches").asInt());
             assertEquals(2, english.path("advancedPlayerMatches").asInt());
+            assertEquals(2, english.path("cardEventsMatches").asInt());
             assertEquals(1, english.path("discardedInconsistentMetricPairs").asInt());
             JsonNode home = findById(english.path("teams"), "t_eng_home");
             assertEquals(2, home.path("games").asInt());
             assertEquals(4, home.path("values").path("goals").asInt());
+            assertTrue(home.path("values").has("cleanSheets"));
+            assertEquals(0, home.path("values").path("cleanSheets").asInt());
             assertEquals(10, home.path("values").path("shots").asInt());
             assertEquals(5, home.path("values").path("shotsPerGame").asInt());
             assertEquals(30, home.path("values").path("passes").asInt());
@@ -57,11 +76,17 @@ class PitchStatsSyncServiceTest {
             assertEquals(4, scorer.path("values").path("goals").asInt());
             assertEquals(30, scorer.path("values").path("passes").asInt());
             assertEquals(66.7, scorer.path("values").path("passAccuracy").asDouble(), 0.01);
+            assertEquals(2, scorer.path("values").path("yellowCards").asInt());
+            assertTrue(scorer.path("values").has("redCards"));
+            assertEquals(0, scorer.path("values").path("redCards").asInt());
             assertFalse(scorer.path("values").has("passesCompleted"));
             JsonNode inconsistentPlayer = findById(english.path("players"), "p_eng_away");
             assertFalse(inconsistentPlayer.path("values").has("shots"));
             assertFalse(inconsistentPlayer.path("values").has("shotsOnTarget"));
             assertEquals(2, inconsistentPlayer.path("appearances").asInt());
+            assertEquals(1, inconsistentPlayer.path("values").path("redCards").asInt());
+            assertTrue(findById(snapshot.path("leagues").path("西甲").path("players"), "p_esp_home")
+                    .path("values").has("yellowCards"));
         } finally {
             server.stop(0);
         }
@@ -79,6 +104,83 @@ class PitchStatsSyncServiceTest {
                     "http://127.0.0.1:" + server.getAddress().getPort() + "/v1");
             assertThrows(IOException.class, sync::synchronize);
             assertEquals("previous snapshot", Files.readString(output));
+        } finally {
+            server.stop(0);
+        }
+    }
+
+    @Test
+    void incompleteCardEventCoveragePreservesPreviousSnapshot() throws Exception {
+        Path output = testOutput("incomplete-cards.json");
+        Files.writeString(output, "previous complete snapshot");
+        HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        server.createContext("/v1", exchange -> {
+            if (exchange.getRequestURI().getPath().endsWith("/events")) {
+                send(exchange, "{\"error\":{\"code\":\"NOT_FOUND\"}}");
+            } else {
+                respond(exchange);
+            }
+        });
+        server.start();
+        try {
+            var sync = new PitchStatsSyncService("test-key", output.toString(),
+                    "http://127.0.0.1:" + server.getAddress().getPort() + "/v1");
+            assertThrows(IOException.class, sync::synchronize);
+            assertEquals("previous complete snapshot", Files.readString(output));
+        } finally {
+            server.stop(0);
+        }
+    }
+
+    @Test
+    void backfillsCardsWithoutRepeatingOtherStatistics() throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        server.createContext("/v1", this::respond);
+        server.start();
+        try {
+            Path output = testOutput("cards-only.json");
+            String baseUrl = "http://127.0.0.1:" + server.getAddress().getPort() + "/v1";
+            new PitchStatsSyncService("test-key", output.toString(), baseUrl).synchronize();
+            String before = Files.readString(output);
+            var sync = new PitchStatsSyncService("test-key", output.toString(), baseUrl);
+            sync.synchronizeCards();
+            JsonNode after = mapper.readTree(Files.readString(output));
+            assertEquals(2, after.path("leagues").path("英超").path("cardEventsMatches").asInt());
+            assertEquals(2, findById(after.path("leagues").path("英超").path("players"), "p_eng_home")
+                    .path("values").path("yellowCards").asInt());
+            assertEquals(1, findById(after.path("leagues").path("英超").path("players"), "p_eng_away")
+                    .path("values").path("redCards").asInt());
+            assertEquals(mapper.readTree(before).path("leagues").path("英超").path("teams").toString(),
+                    after.path("leagues").path("英超").path("teams").toString());
+        } finally {
+            server.stop(0);
+        }
+    }
+
+    @Test
+    void refreshesFullSnapshotWhenFinishedMatchCountChanges() throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        server.createContext("/v1", this::respond);
+        server.start();
+        try {
+            Path output = testOutput("outdated-cards.json");
+            String baseUrl = "http://127.0.0.1:" + server.getAddress().getPort() + "/v1";
+            new PitchStatsSyncService("test-key", output.toString(), baseUrl).synchronize();
+            var stale = (tools.jackson.databind.node.ObjectNode) mapper.readTree(Files.readString(output));
+            ((tools.jackson.databind.node.ObjectNode) stale.path("leagues").path("英超"))
+                    .put("finishedMatches", 1);
+            Files.writeString(output, mapper.writeValueAsString(stale));
+
+            new PitchStatsSyncService("test-key", output.toString(), baseUrl).synchronizeCards();
+
+            JsonNode refreshed = mapper.readTree(Files.readString(output));
+            JsonNode english = refreshed.path("leagues").path("英超");
+            assertEquals(2, english.path("finishedMatches").asInt());
+            assertEquals(2, english.path("cardEventsMatches").asInt());
+            assertEquals(2, findById(english.path("players"), "p_eng_home")
+                    .path("values").path("yellowCards").asInt());
+            assertEquals(1, findById(english.path("players"), "p_eng_away")
+                    .path("values").path("redCards").asInt());
         } finally {
             server.stop(0);
         }
@@ -107,7 +209,7 @@ class PitchStatsSyncServiceTest {
             for (int i = 1; i <= count; i++) {
                 if (i > 1) matches.append(',');
                 matches.append("{\"id\":\"m_").append(code).append('_').append(i)
-                        .append("\",\"status\":\"finished\",\"score_home\":2,\"score_away\":1,")
+                        .append("\",\"date\":\"2026-10-12T18:30:00Z\",\"status\":\"finished\",\"score_home\":2,\"score_away\":1,")
                         .append("\"home_team\":{\"id\":\"t_").append(code).append("_home\",\"name\":\"Home ")
                         .append(code).append("\"},\"away_team\":{\"id\":\"t_").append(code)
                         .append("_away\",\"name\":\"Away ").append(code).append("\"}}");
@@ -122,6 +224,14 @@ class PitchStatsSyncServiceTest {
             int matchNumber = Integer.parseInt(id[2]);
             String home = "t_" + code + "_home", away = "t_" + code + "_away";
             String first = "p_" + code + "_home", second = "p_" + code + "_away";
+            if (parts[2].equals("events")) {
+                String yellow = "{\"event_type\":\"YellowCard\",\"team_id\":\"%s\",\"player\":{\"id\":\"%s\",\"name\":\"Home player\"}}"
+                        .formatted(home, first);
+                String red = "{\"event_type\":\"RedCard\",\"team_id\":\"%s\",\"player\":{\"id\":\"%s\",\"name\":\"Away player\"}}"
+                        .formatted(away, second);
+                send(exchange, "{\"data\":{\"events\":[" + (code.equals("eng") ? yellow + (matchNumber == 2 ? "," + red : "") : "") + "]}}");
+                return;
+            }
             if (parts[2].equals("stats")) {
                 send(exchange, "{\"data\":{\"periods\":[{\"period\":\"All\",\"groups\":["
                         + "{\"items\":[{\"key\":\"total_shots\",\"home\":\"5\",\"away\":\"4\"},"

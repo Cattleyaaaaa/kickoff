@@ -13,6 +13,8 @@
 .stats-club-line .crest { flex: 0 0 50px; width: 50px; height: 48px; }
 .stats-active-cell { font-weight: 850; color: var(--ink); background: color-mix(in srgb, var(--lime) 15%, transparent); }
 .stats-unavailable { margin: 0; padding: 16px 20px; color: var(--muted); font-size: 15px; }
+.stats-coverage { margin: 0; padding: 10px 20px; color: var(--muted); font-size: 13px; border-bottom: 1px solid var(--line); }
+.stats-missing { margin: 0; padding: 10px 20px; color: var(--muted); font-size: 13px; border-bottom: 1px solid var(--line); }
 @media (max-width: 760px) {
   .stats-categories, .stats-metrics { padding: 12px 15px; }
   .stats-table { min-width: 0; table-layout: fixed; }

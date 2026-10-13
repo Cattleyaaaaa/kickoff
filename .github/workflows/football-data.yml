@@ -26,6 +26,7 @@ jobs:
       FOOTBALL_DATA_API_KEY: ${{ secrets.FOOTBALL_DATA_API_KEY }}
       GOAL_API_KEY: ${{ secrets.GOAL_API_KEY }}
       DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
+      PITCHAPI_KEY: ${{ secrets.PITCHAPI_KEY }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -37,13 +38,23 @@ jobs:
           node-version: '20'
           cache: npm
       - run: npm ci
+      - name: Build Java data synchronizer
+        if: env.FOOTBALL_DATA_API_KEY != '' || env.PITCHAPI_KEY != ''
+        run: mvn -B -f backend/pom.xml -DskipTests package
       - name: Update snapshot
         if: env.FOOTBALL_DATA_API_KEY != ''
         env:
           KICKOFF_SNAPSHOT_DIR: public/data
         run: |
-          mvn -B -f backend/pom.xml -DskipTests package
           java -jar backend/target/kickoff-backend-0.1.0.jar --spring.main.web-application-type=none --kickoff.sync-on-start=true
+      - name: Update PitchAPI season and match statistics
+        if: env.PITCHAPI_KEY != ''
+        env:
+          KICKOFF_ADVANCED_OUTPUT: public/data/advanced.json
+        run: java -jar backend/target/kickoff-backend-0.1.0.jar --spring.main.web-application-type=none --kickoff.sync-pitch-on-start=true
+      - name: Missing PitchAPI key
+        if: env.PITCHAPI_KEY == ''
+        run: echo '::notice::Add PITCHAPI_KEY in Settings > Secrets and variables > Actions to fetch verified per-match and season statistics.'
       - name: Missing API key
         if: env.FOOTBALL_DATA_API_KEY == ''
         run: echo '::notice::Add FOOTBALL_DATA_API_KEY in Settings > Secrets and variables > Actions.'
@@ -61,9 +72,22 @@ jobs:
       - name: Missing player-name translation key
         if: github.event_name == 'workflow_dispatch' && inputs.sync_players && env.GOAL_API_KEY != '' && env.DEEPSEEK_API_KEY == ''
         run: echo '::notice::Add DEEPSEEK_API_KEY in Settings > Secrets and variables > Actions to localize player names in Chinese.'
+      - name: Draft original match results news
+        if: env.FOOTBALL_DATA_API_KEY != '' && env.DEEPSEEK_API_KEY != ''
+        run: npm run generate:news
+      - name: Publish translated news
+        if: env.FOOTBALL_DATA_API_KEY != '' && env.DEEPSEEK_API_KEY != ''
+        run: npm run publish:news
+      - name: Missing news-generation key
+        if: env.FOOTBALL_DATA_API_KEY != '' && env.DEEPSEEK_API_KEY == ''
+        run: echo '::notice::Add DEEPSEEK_API_KEY to generate and publish original football news.'
       - name: Commit changed snapshot
         run: |
           git add public/data/football.json
+          if test -f content/generated-news.json; then git add content/generated-news.json; fi
+          if test -f public/data/news.json; then git add public/data/news.json; fi
+          if test -f public/data/advanced.json; then git add public/data/advanced.json; fi
+          if test -f public/data/match-stats.json; then git add public/data/match-stats.json; fi
           if test -f public/data/players.json; then git add public/data/players.json; fi
           if git diff --cached --quiet; then exit 0; fi
           git config user.name 'github-actions[bot]'

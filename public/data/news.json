@@ -1,0 +1,37 @@
+{
+  "source": "Kickoff",
+  "updatedAt": "2026-10-13T04:20:09.484Z",
+  "items": [
+    {
+      "id": "match-results-2441e33829b0",
+      "title": "西甲、意甲、法甲赛果速递",
+      "summary": "4场比赛已完赛：主队胜1场、平局2场、客队胜1场，共15个进球。",
+      "body": "本稿依据 Football-Data.org 的完赛记录整理，按赛事和开赛日期列出近期比分。\n\n本次汇总 4 场比赛：主队胜 1 场、平局 2 场、客队胜 1 场，共有 15 个进球。\n\n西甲\n2026年10月12日：皇家贝蒂斯 5–2 奥萨苏纳（主队获胜）\n2026年10月12日：桑坦德竞技 2–2 瓦伦西亚（双方战平）\n\n意甲\n2026年10月12日：卡利亚里 1–1 尤文图斯（双方战平）\n\n法甲\n2026年10月12日：特鲁瓦 0–2 马赛（客队获胜）\n\n数据来源：Kickoff 同步的 Football-Data.org 完赛记录。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-13T04:20:06.070Z",
+      "category": "赛果速递",
+      "aiGenerated": false,
+      "sourceMatchIds": [
+        "564701",
+        "558584",
+        "559671",
+        "564705"
+      ],
+      "localizedTitles": {
+        "zh-CN": "西甲、意甲、法甲赛果速递",
+        "zh-TW": "西甲、意甲、法甲賽果速遞",
+        "en": "La Liga, Serie A, Ligue 1 Results Roundup"
+      },
+      "localizedSummaries": {
+        "zh-CN": "4场比赛已完赛：主队胜1场、平局2场、客队胜1场，共15个进球。",
+        "zh-TW": "4場比賽已完賽：主隊勝1場、平局2場、客隊勝1場，共15個進球。",
+        "en": "4 matches have been completed: 1 home win, 2 draws, 1 away win, with 15 goals in total."
+      },
+      "localizedBodies": {
+        "zh-CN": "本稿依据 Football-Data.org 的完赛记录整理，按赛事和开赛日期列出近期比分。\n\n本次汇总 4 场比赛：主队胜 1 场、平局 2 场、客队胜 1 场，共有 15 个进球。\n\n西甲\n2026年10月12日：皇家贝蒂斯 5–2 奥萨苏纳（主队获胜）\n2026年10月12日：桑坦德竞技 2–2 瓦伦西亚（双方战平）\n\n意甲\n2026年10月12日：卡利亚里 1–1 尤文图斯（双方战平）\n\n法甲\n2026年10月12日：特鲁瓦 0–2 马赛（客队获胜）\n\n数据来源：Kickoff 同步的 Football-Data.org 完赛记录。",
+        "zh-TW": "本稿依據 Football-Data.org 的完賽記錄整理，按賽事和開賽日期列出近期比分。\n\n本次匯總 4 場比賽：主隊勝 1 場、平局 2 場、客隊勝 1 場，共有 15 個進球。\n\n西甲\n2026年10月12日：皇家貝蒂斯 5–2 奧薩蘇納（主隊獲勝）\n2026年10月12日：桑坦德競技 2–2 瓦倫西亞（雙方戰平）\n\n意甲\n2026年10月12日：卡利亞里 1–1 尤文圖斯（雙方戰平）\n\n法甲\n2026年10月12日：特魯瓦 0–2 馬賽（客隊獲勝）\n\n數據來源：Kickoff 同步的 Football-Data.org 完賽記錄。",
+        "en": "This report is compiled based on completed match records from Football-Data.org, listing recent scores by competition and kickoff date.\n\nThis roundup covers 4 matches: 1 home win, 2 draws, 1 away win, with 15 goals in total.\n\nLa Liga\nOctober 12, 2026: Real Betis 5–2 Osasuna (home win)\nOctober 12, 2026: Racing Santander 2–2 Valencia (draw)\n\nSerie A\nOctober 12, 2026: Cagliari 1–1 Juventus (draw)\n\nLigue 1\nOctober 12, 2026: Troyes 0–2 Marseille (away win)\n\nData source: Football-Data.org completed match records synced by Kickoff."
+      }
+    }
+  ]
+}

@@ -12,4 +12,7 @@ Thumbs.db
 backend/.m2/
 backend/target/
 backend/.cache/
+deploy/certs/*
+!deploy/certs/README.md
 public/data/advanced.json
+public/data/advanced-names.json

@@ -53,7 +53,7 @@ public class FootballDataSyncService {
 
     public FootballDataSyncService(
             @Value("${FOOTBALL_DATA_API_KEY:}") String apiKey,
-            @Value("${KICKOFF_SNAPSHOT_DIR:../public/data}") String snapshotDirectory) {
+            @Value("${KICKOFF_SNAPSHOT_DIR:public/data}") String snapshotDirectory) {
         this.apiKey = apiKey.trim();
         this.output = Path.of(snapshotDirectory).resolve("football.json");
     }

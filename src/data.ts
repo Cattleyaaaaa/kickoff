@@ -170,7 +170,28 @@ const apiClubNames = {
   'Bodø/Glimt': ['博德闪耀', '波杜基林特', 'Bodø/Glimt'],
 };
 function localizeLeague(name, locale) { return leagueNames[name]?.[localeIndex[locale]] || name; }
-function localizeClub(name, locale) { return clubNames[name]?.[localeIndex[locale]] || apiClubNames[name]?.[localeIndex[locale]] || name; }
+// PitchAPI and Football-Data.org use different English spellings for the same clubs.
+const pitchClubAliases = {
+  'AFC Bournemouth': 'Bournemouth', Arsenal: '阿森纳', 'Brighton & Hove Albion': 'Brighton Hove',
+  Liverpool: '利物浦', 'Manchester City': '曼城', 'Manchester United': 'Man United',
+  'Newcastle United': 'Newcastle', 'Nottingham Forest': 'Nottingham', 'Tottenham Hotspur': 'Tottenham',
+  'Athletic Club': 'Athletic', 'Atlético Madrid': 'Atleti', Barcelona: '巴塞罗那',
+  'Celta Vigo': 'Celta', 'Deportivo A Coruña': 'Deportivo', 'Deportivo Alavés': 'Alavés',
+  'Racing Santander': 'Santander', 'Real Madrid': '皇家马德里', Sevilla: 'Sevilla FC',
+  Como: 'Como 1907', Inter: '国际米兰', Venezia: 'Venezia FC',
+  'Bayer Leverkusen': 'Leverkusen', 'Bayern München': '拜仁慕尼黑', 'Borussia Dortmund': '多特蒙德',
+  'Borussia Mönchengladbach': "M'gladbach", 'Eintracht Frankfurt': 'Frankfurt',
+  'Hamburger SV': 'HSV', 'Mainz 05': 'Mainz', Paderborn: 'SC Paderborn',
+  'Schalke 04': 'Schalke', 'VfB Stuttgart': 'Stuttgart', 'Werder Bremen': 'Bremen',
+  Angers: 'Angers SCO', Lens: 'RC Lens', Lyon: 'Olympique Lyon',
+  'Paris Saint-Germain': '巴黎圣日耳曼', Rennes: 'Stade Rennais',
+  'AEK Athens': 'PAE AEK', 'FC Porto': 'Porto', 'PSV Eindhoven': 'PSV',
+  'Shakhtar Donetsk': 'Shaktar', 'Slavia Prague': 'Slavia Praha', 'Slovan Bratislava': 'Sl. Bratislava',
+};
+function localizeClub(name, locale) {
+  const canonical = pitchClubAliases[name] || name;
+  return clubNames[canonical]?.[localeIndex[locale]] || apiClubNames[canonical]?.[localeIndex[locale]] || name;
+}
 const knownPlayerNames = {
   'Erling Haaland': ['埃尔林·哈兰德', '艾寧·夏蘭特', 'Erling Haaland'],
   'E. Haaland': ['埃尔林·哈兰德', '艾寧·夏蘭特', 'Erling Haaland'],
@@ -205,8 +226,51 @@ const knownPlayerNames = {
   'V. Osimhen': ['维克托·奥斯梅恩', '域陀·奧森漢', 'Victor Osimhen'],
   'A. Gordon': ['安东尼·戈登', '安東尼·哥頓', 'Anthony Gordon'],
   'G. Martinelli': ['加布里埃尔·马丁内利', '加比爾·馬天尼利', 'Gabriel Martinelli'],
+  'João Pedro': ['若昂·佩德罗', '祖奧·柏度', 'João Pedro'],
+  Raphinha: ['拉菲尼亚', '拉芬夏', 'Raphinha'],
+  'Morgan Rogers': ['摩根·罗杰斯', '摩根·羅渣士', 'Morgan Rogers'],
+  'Bryan Mbeumo': ['布莱恩·姆伯莫', '白賴仁·麥比奧莫', 'Bryan Mbeumo'],
+  'Kevin De Bruyne': ['凯文·德布劳内', '奇雲·迪布尼', 'Kevin De Bruyne'],
+  'Lautaro Martínez': ['劳塔罗·马丁内斯', '拿達路·馬天尼斯', 'Lautaro Martínez'],
+  'Donyell Malen': ['多尼尔·马伦', '當耶爾·馬倫', 'Donyell Malen'],
+  'Patrik Schick': ['帕特里克·希克', '柏德列·舒希克', 'Patrik Schick'],
+  'Christopher Nkunku': ['克里斯托弗·恩昆库', '基斯杜化·尼干古', 'Christopher Nkunku'],
+  'Michael Olise': ['迈克尔·奥利塞', '米高·奧利斯', 'Michael Olise'],
+  'Niclas Füllkrug': ['尼克拉斯·菲尔克鲁格', '尼卡斯·富古加', 'Niclas Füllkrug'],
+  'Ferran Torres': ['费兰·托雷斯', '費倫·托利斯', 'Ferran Torres'],
+  'Marc Bartra': ['马克·巴尔特拉', '馬克·巴查', 'Marc Bartra'],
+  'Serhou Guirassy': ['塞尔胡·吉拉西', '錫侯·古拉斯', 'Serhou Guirassy'],
+  'Alexis Mac Allister': ['亚历克西斯·麦卡利斯特', '阿歷斯·麥亞里士打', 'Alexis Mac Allister'],
+  'Florian Thauvin': ['弗洛里安·托万', '科利安·泰奧雲', 'Florian Thauvin'],
+  'Brian Brobbey': ['布莱恩·布罗贝伊', '白賴仁·布洛比', 'Brian Brobbey'],
+  'Kevin Schade': ['凯文·沙德', '奇雲·沙迪', 'Kevin Schade'],
+  'Marcus Tavernier': ['马库斯·塔韦尼耶', '馬古斯·泰雲尼亞', 'Marcus Tavernier'],
+  'Sergio Camello': ['塞尔希奥·卡梅略', '沙治奧·卡美路', 'Sergio Camello'],
+  'Ante Budimir': ['安特·布迪米尔', '安特·布迪米爾', 'Ante Budimir'],
+  'Lucas Boyé': ['卢卡斯·博耶', '盧卡斯·保耶', 'Lucas Boyé'],
+  'Pierre-Emerick Aubameyang': ['皮埃尔-埃默里克·奥巴梅扬', '皮埃爾-埃默里克·奧巴美揚', 'Pierre-Emerick Aubameyang'],
+  'Fermín López': ['费尔明·洛佩斯', '費明·盧比斯', 'Fermín López'],
+  'Álex Baena': ['亚历克斯·巴埃纳', '阿歷斯·巴艾拿', 'Álex Baena'],
+  'Daniel Maldini': ['丹尼尔·马尔蒂尼', '丹尼爾·馬甸尼', 'Daniel Maldini'],
+  'Adrien Rabiot': ['阿德里安·拉比奥', '艾迪恩·拉比奧特', 'Adrien Rabiot'],
+  'Davide Frattesi': ['达维德·弗拉泰西', '達維迪·法迪斯', 'Davide Frattesi'],
+  'Franco Mastantuono': ['弗兰科·马斯坦托诺', '法蘭高·馬斯坦杜諾', 'Franco Mastantuono'],
+  'Phillip Tietz': ['菲利普·蒂茨', '菲臘·迪茨', 'Phillip Tietz'],
+  'Yuito Suzuki': ['铃木唯人', '鈴木唯人', 'Yuito Suzuki'],
+  'Antonio Nusa': ['安东尼奥·努萨', '安東尼奧·紐沙', 'Antonio Nusa'],
+  'Amine Gouiri': ['阿明·古伊里', '阿明·古爾尼', 'Amine Gouiri'],
+  'Cameron Archer': ['卡梅隆·阿彻', '卡梅隆·艾查', 'Cameron Archer'],
+  'Casper Tengstedt': ['卡斯珀·滕斯泰特', '卡斯帕·坦斯迪特', 'Casper Tengstedt'],
+  'Ernest Nuamah': ['欧内斯特·努瓦马', '安尼斯特·紐亞馬', 'Ernest Nuamah'],
+  'Abdallah Sima': ['阿卜杜拉·西马', '阿布杜拉·施馬', 'Abdallah Sima'],
 };
-function localizePlayer(name, locale) { return knownPlayerNames[name]?.[localeIndex[locale]] || name; }
+const playerAliases = {
+  'Kylian Mbappé': 'K. Mbappe', 'Lamine Yamal': 'Yamal Lamine',
+  'Harry Kane': 'H. Kane', 'Jonathan Burkardt': 'J. Burkardt',
+  'Ousmane Dembélé': 'O. Dembele', 'Estéban Lepaul': 'E. Lepaul',
+  'Hakan Çalhanoglu': 'H. Calhanoglu', 'Ferrán Torres': 'Ferran Torres',
+};
+function localizePlayer(name, locale) { return knownPlayerNames[playerAliases[name] || name]?.[localeIndex[locale]] || name; }
 function localizeDate(date, locale) {
   if (locale !== 'en') return date;
   const match = date.match(/(\d+)月(\d+)日/);

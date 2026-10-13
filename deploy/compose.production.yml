@@ -1,0 +1,66 @@
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: deploy/backend.Dockerfile
+    restart: unless-stopped
+    environment:
+      PORT: "8080"
+      KICKOFF_SNAPSHOT_DIR: /app/data
+      KICKOFF_CORS_ALLOWED_ORIGINS: https://kickoff.nextfield.top
+    command:
+      - --server.forward-headers-strategy=framework
+    volumes:
+      - ../public/data:/app/data:ro
+    expose:
+      - "8080"
+    networks:
+      - backend
+    read_only: true
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=32m
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 512m
+    cpus: 1.0
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: deploy/frontend.Dockerfile
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "80:8080"
+      - "443:8443"
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+    networks:
+      - edge
+      - backend
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETUID
+      - SETGID
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 256m
+    cpus: 1.0
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+networks:
+  edge: {}
+  backend:
+    internal: true
