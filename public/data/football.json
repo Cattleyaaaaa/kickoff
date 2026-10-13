@@ -1,11 +1,33 @@
 {
   "source" : "football-data.org",
-  "updatedAt" : "2026-10-12T19:39:40.516947407Z",
+  "updatedAt" : "2026-10-13T02:58:16.628044651Z",
   "range" : {
-    "from" : "2026-10-04",
-    "to" : "2026-10-12"
+    "to" : "2026-10-13",
+    "from" : "2026-10-05"
   },
   "matches" : [ {
+    "id" : "564704",
+    "league" : "西甲",
+    "utcDate" : "2026-10-12T19:00:00Z",
+    "home" : "Levante",
+    "away" : "Sevilla FC",
+    "hs" : 3,
+    "as" : 3,
+    "teamHome" : "LEV",
+    "teamAway" : "SEV",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
+    "id" : "558587",
+    "league" : "意甲",
+    "utcDate" : "2026-10-12T18:45:00Z",
+    "home" : "Torino",
+    "away" : "Udinese",
+    "hs" : 2,
+    "as" : 1,
+    "teamHome" : "TOR",
+    "teamAway" : "UDI",
+    "colors" : [ "#7377db", "#7377db" ]
+  }, {
     "id" : "558579",
     "league" : "意甲",
     "utcDate" : "2026-10-12T16:30:00Z",
@@ -72,17 +94,6 @@
     "teamAway" : "MIL",
     "colors" : [ "#7377db", "#7377db" ]
   }, {
-    "id" : "560598",
-    "league" : "英超",
-    "utcDate" : "2026-10-11T15:30:00Z",
-    "home" : "利物浦",
-    "away" : "曼城",
-    "hs" : 0,
-    "as" : 3,
-    "teamHome" : "LIV",
-    "teamAway" : "MCI",
-    "colors" : [ "#c93640", "#54a8dc" ]
-  }, {
     "id" : "565816",
     "league" : "德甲",
     "utcDate" : "2026-10-11T15:30:00Z",
@@ -125,28 +136,6 @@
     "as" : 1,
     "teamHome" : "KOE",
     "teamAway" : "BMG",
-    "colors" : [ "#7377db", "#7377db" ]
-  }, {
-    "id" : "560594",
-    "league" : "英超",
-    "utcDate" : "2026-10-11T13:00:00Z",
-    "home" : "Hull City",
-    "away" : "Everton",
-    "hs" : 2,
-    "as" : 2,
-    "teamHome" : "HUL",
-    "teamAway" : "EVE",
-    "colors" : [ "#7377db", "#7377db" ]
-  }, {
-    "id" : "560596",
-    "league" : "英超",
-    "utcDate" : "2026-10-11T13:00:00Z",
-    "home" : "Crystal Palace",
-    "away" : "Nottingham",
-    "hs" : 3,
-    "as" : 1,
-    "teamHome" : "CRY",
-    "teamAway" : "NOT",
     "colors" : [ "#7377db", "#7377db" ]
   }, {
     "id" : "558581",
@@ -4159,8 +4148,8 @@
     "teamHome" : "TOR",
     "teamAway" : "UDI",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "IN_PLAY",
-    "hs" : 1,
+    "status" : "FINISHED",
+    "hs" : 2,
     "as" : 1
   }, {
     "id" : "560597",
@@ -4171,9 +4160,9 @@
     "teamHome" : "COV",
     "teamAway" : "NEW",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "IN_PLAY",
-    "hs" : 1,
-    "as" : 0
+    "status" : "FINISHED",
+    "hs" : 4,
+    "as" : 1
   }, {
     "id" : "564704",
     "league" : "西甲",
@@ -4183,9 +4172,9 @@
     "teamHome" : "LEV",
     "teamAway" : "SEV",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "IN_PLAY",
-    "hs" : 0,
-    "as" : 1
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 3
   }, {
     "id" : "575341",
     "league" : "欧冠",
@@ -23153,6 +23142,7 @@
       "startDate" : "2026-08-21",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 65,
           "sourceName" : "Manchester City FC",
@@ -23315,9 +23305,9 @@
           "w" : 2,
           "d" : 2,
           "l" : 2,
-          "gd" : "-1",
-          "gf" : 9,
-          "ga" : 10
+          "gd" : "-3",
+          "gf" : 10,
+          "ga" : 13
         }, {
           "id" : 354,
           "sourceName" : "Crystal Palace FC",
@@ -23360,9 +23350,9 @@
           "w" : 2,
           "d" : 0,
           "l" : 4,
-          "gd" : "-8",
-          "gf" : 2,
-          "ga" : 10
+          "gd" : "-6",
+          "gf" : 5,
+          "ga" : 11
         }, {
           "id" : 351,
           "sourceName" : "Nottingham Forest FC",
@@ -23453,8 +23443,7 @@
           "gd" : "-4",
           "gf" : 6,
           "ga" : 10
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "西甲" : {
@@ -23462,6 +23451,7 @@
       "startDate" : "2026-08-16",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 81,
           "sourceName" : "FC Barcelona",
@@ -23529,14 +23519,14 @@
           "pos" : 5,
           "team" : "Sevilla FC",
           "color" : "#7377db",
-          "pts" : 16,
+          "pts" : 14,
           "p" : 8,
-          "w" : 5,
-          "d" : 1,
+          "w" : 4,
+          "d" : 2,
           "l" : 2,
-          "gd" : "+2",
-          "gf" : 11,
-          "ga" : 9
+          "gd" : "+1",
+          "gf" : 13,
+          "ga" : 12
         }, {
           "id" : 92,
           "sourceName" : "Real Sociedad de Fútbol",
@@ -23703,10 +23693,25 @@
           "gf" : 8,
           "ga" : 18
         }, {
+          "id" : 88,
+          "sourceName" : "Levante UD",
+          "code" : "LEV",
+          "pos" : 17,
+          "team" : "Levante",
+          "color" : "#7377db",
+          "pts" : 6,
+          "p" : 7,
+          "w" : 1,
+          "d" : 3,
+          "l" : 3,
+          "gd" : "-4",
+          "gf" : 11,
+          "ga" : 15
+        }, {
           "id" : 285,
           "sourceName" : "Elche CF",
           "code" : "ELC",
-          "pos" : 17,
+          "pos" : 18,
           "team" : "Elche",
           "color" : "#7377db",
           "pts" : 6,
@@ -23717,21 +23722,6 @@
           "gd" : "-6",
           "gf" : 11,
           "ga" : 17
-        }, {
-          "id" : 88,
-          "sourceName" : "Levante UD",
-          "code" : "LEV",
-          "pos" : 18,
-          "team" : "Levante",
-          "color" : "#7377db",
-          "pts" : 5,
-          "p" : 7,
-          "w" : 1,
-          "d" : 2,
-          "l" : 4,
-          "gd" : "-5",
-          "gf" : 8,
-          "ga" : 13
         }, {
           "id" : 95,
           "sourceName" : "Valencia CF",
@@ -23762,8 +23752,7 @@
           "gd" : "-9",
           "gf" : 4,
           "ga" : 13
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "意甲" : {
@@ -23771,6 +23760,7 @@
       "startDate" : "2026-08-23",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 108,
           "sourceName" : "FC Internazionale Milano",
@@ -23937,10 +23927,25 @@
           "gf" : 10,
           "ga" : 10
         }, {
+          "id" : 586,
+          "sourceName" : "Torino FC",
+          "code" : "TOR",
+          "pos" : 12,
+          "team" : "Torino",
+          "color" : "#7377db",
+          "pts" : 7,
+          "p" : 6,
+          "w" : 2,
+          "d" : 1,
+          "l" : 3,
+          "gd" : "-2",
+          "gf" : 7,
+          "ga" : 9
+        }, {
           "id" : 5890,
           "sourceName" : "US Lecce",
           "code" : "USL",
-          "pos" : 12,
+          "pos" : 13,
           "team" : "Lecce",
           "color" : "#7377db",
           "pts" : 6,
@@ -23955,7 +23960,7 @@
           "id" : 103,
           "sourceName" : "Bologna FC 1909",
           "code" : "BOL",
-          "pos" : 13,
+          "pos" : 14,
           "team" : "Bologna",
           "color" : "#7377db",
           "pts" : 5,
@@ -23970,32 +23975,17 @@
           "id" : 115,
           "sourceName" : "Udinese Calcio",
           "code" : "UDI",
-          "pos" : 14,
+          "pos" : 15,
           "team" : "Udinese",
           "color" : "#7377db",
-          "pts" : 5,
+          "pts" : 4,
           "p" : 6,
           "w" : 1,
-          "d" : 2,
-          "l" : 3,
-          "gd" : "-3",
+          "d" : 1,
+          "l" : 4,
+          "gd" : "-4",
           "gf" : 9,
-          "ga" : 12
-        }, {
-          "id" : 586,
-          "sourceName" : "Torino FC",
-          "code" : "TOR",
-          "pos" : 15,
-          "team" : "Torino",
-          "color" : "#7377db",
-          "pts" : 5,
-          "p" : 6,
-          "w" : 1,
-          "d" : 2,
-          "l" : 3,
-          "gd" : "-3",
-          "gf" : 6,
-          "ga" : 9
+          "ga" : 13
         }, {
           "id" : 5911,
           "sourceName" : "AC Monza",
@@ -24071,8 +24061,7 @@
           "gd" : "-11",
           "gf" : 5,
           "ga" : 16
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "德甲" : {
@@ -24080,6 +24069,7 @@
       "startDate" : "2026-08-28",
       "endDate" : "2027-05-22",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 17,
           "sourceName" : "SC Freiburg",
@@ -24350,8 +24340,7 @@
           "gd" : "-11",
           "gf" : 7,
           "ga" : 18
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "法甲" : {
@@ -24359,6 +24348,7 @@
       "startDate" : "2026-08-22",
       "endDate" : "2027-05-29",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 548,
           "sourceName" : "AS Monaco FC",
@@ -24629,8 +24619,7 @@
           "gd" : "-4",
           "gf" : 4,
           "ga" : 8
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "欧冠" : {
@@ -24638,6 +24627,7 @@
       "startDate" : "2026-09-08",
       "endDate" : "2027-01-27",
       "groups" : [ {
+        "name" : "League phase",
         "rows" : [ {
           "id" : 524,
           "sourceName" : "Paris Saint-Germain FC",
@@ -25178,8 +25168,7 @@
           "gd" : "-5",
           "gf" : 0,
           "ga" : 5
-        } ],
-        "name" : "League phase"
+        } ]
       } ]
     }
   }
