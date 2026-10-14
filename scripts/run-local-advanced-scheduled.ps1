@@ -2,6 +2,7 @@ $ErrorActionPreference = 'Stop'
 $projectRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 $secretPath = Join-Path $projectRoot 'backend\.cache\pitchapi-key.xml'
 $deepSeekSecretPath = Join-Path $projectRoot 'backend\.cache\deepseek-key.xml'
+$proxyPath = Join-Path $projectRoot 'backend\.cache\https-proxy.txt'
 $snapshotPath = Join-Path $projectRoot 'public\data\advanced.json'
 $logPath = Join-Path $projectRoot 'backend\.cache\scheduled-advanced-sync.log'
 $javaExecutable = if ($env:JAVA_HOME) { Join-Path $env:JAVA_HOME 'bin\java.exe' } else { 'java.exe' }
@@ -11,6 +12,9 @@ New-Item -ItemType Directory -Force -Path (Split-Path -Parent $logPath) | Out-Nu
 "[$(Get-Date -Format o)] Starting scheduled PitchAPI season sync." | Add-Content -LiteralPath $logPath
 if (-not (Test-Path -LiteralPath $secretPath)) { throw "Encrypted PitchAPI key is missing: $secretPath. Reinstall the local schedule." }
 if (-not (Test-Path -LiteralPath $jar)) { throw "Backend JAR is missing: $jar. Reinstall the local schedule to build it." }
+if ([string]::IsNullOrWhiteSpace($env:HTTPS_PROXY) -and (Test-Path -LiteralPath $proxyPath)) {
+    $env:HTTPS_PROXY = (Get-Content -LiteralPath $proxyPath -Raw).Trim()
+}
 
 $secureKey = Import-Clixml -LiteralPath $secretPath
 $secretPointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secureKey)

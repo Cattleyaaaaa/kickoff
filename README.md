@@ -42,7 +42,7 @@ GitHub 每天两次的工作流更新的是远端比赛结果和积分榜，不�
 & .\scripts\install-local-advanced-schedule.ps1
 ```
 
-安装脚本会构建 Java 同步器、隐藏提示输入一次 PitchAPI Key，并用当前 Windows 用户加密保存到被 Git 忽略的 `backend/.cache/`。随后立即进行首次更新，并注册每天本机时间 06:00、18:00 的计划任务；电脑需要开机且当前用户已登录，错过的任务会在下次可运行时补执行。运行记录位于 `backend/.cache/scheduled-advanced-sync.log`。此方案只更新本地文件，不会把 PitchAPI 数据提交到 GitHub。要移除计划任务，可运行 `Unregister-ScheduledTask -TaskName 'Kickoff Advanced Football Data' -Confirm:$false`，并删除 `backend/.cache/pitchapi-key.xml`。
+安装脚本会构建 Java 同步器；已有本地加密 Key 时会复用，否则才隐藏提示输入一次 PitchAPI Key，并用当前 Windows 用户加密保存到被 Git 忽略的 `backend/.cache/`。随后立即进行首次更新，并注册每天本机时间 06:00、18:00 的计划任务；电脑需要开机且当前用户已登录，错过的任务会在下次可运行时补执行。PitchAPI 本地同步会使用 `HTTPS_PROXY` 环境变量（如 `http://127.0.0.1:7897`）。运行记录位于 `backend/.cache/scheduled-advanced-sync.log`。此方案只更新本地文件，不会把 PitchAPI 数据提交到 GitHub。要移除计划任务，可运行 `Unregister-ScheduledTask -TaskName 'Kickoff Advanced Football Data' -Confirm:$false`，并删除 `backend/.cache/pitchapi-key.xml`。
 
 球队榜使用球队英文名别名表，按站点语言展示简体、繁体或英文。球员榜优先使用本地译名缓存 `public/data/advanced-names.json`，再回退到内置常见球员译名。首次批量翻译时，在项目根目录运行 `& .\scripts\translate-local-advanced-names.ps1` 并按隐藏提示输入 DeepSeek Key；Key 会加密保存在当前 Windows 用户的 `backend/.cache/deepseek-key.xml`。脚本按批保存译名，可重复运行补全失败批次。此后本地早晚同步会为新球员名自动补译；打开中的页面每 5 分钟刷新一次译名缓存。译名缓存和 Key 都不会提交到仓库。翻译请求只向 DeepSeek 发送球员姓名，生成译名仍需人工核对，特别是同名球员。
 

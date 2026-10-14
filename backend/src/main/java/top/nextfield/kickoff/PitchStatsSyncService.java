@@ -3,6 +3,8 @@ package top.nextfield.kickoff;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URLEncoder;
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -26,6 +28,8 @@ import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.json.JsonMapper;
@@ -34,6 +38,7 @@ import tools.jackson.databind.node.ObjectNode;
 /** Builds compact season aggregates and normalized per-match facts. No raw provider response is written. */
 @Service
 public class PitchStatsSyncService {
+    private static final Logger log = LoggerFactory.getLogger(PitchStatsSyncService.class);
     private static final List<LeagueTarget> LEAGUES = List.of(
             new LeagueTarget("英超", Pattern.compile("^(English )?Premier League$", Pattern.CASE_INSENSITIVE), "ENG"),
             new LeagueTarget("西甲", Pattern.compile("^(La ?Liga|Primera Divisi[oó]n)$", Pattern.CASE_INSENSITIVE), "ESP"),
@@ -46,17 +51,43 @@ public class PitchStatsSyncService {
     private final Path output;
     private final String baseUrl;
     private final JsonMapper mapper = JsonMapper.builder().build();
-    private final HttpClient http = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(20)).build();
+    private final HttpClient http;
     private Instant lastRequest = Instant.EPOCH;
     private int requestCount;
 
     public PitchStatsSyncService(
             @Value("${PITCHAPI_KEY:}") String key,
             @Value("${KICKOFF_ADVANCED_OUTPUT:../public/data/advanced.json}") String output,
-            @Value("${PITCHAPI_BASE_URL:https://api.pitchapi.dev/v1}") String baseUrl) {
+            @Value("${PITCHAPI_BASE_URL:https://api.pitchapi.dev/v1}") String baseUrl,
+            @Value("${kickoff.news.proxy:}") String proxySetting) {
         this.key = key.trim();
         this.output = Path.of(output);
         this.baseUrl = baseUrl.replaceAll("/+$", "");
+        HttpClient.Builder client = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(20));
+        URI proxy = parseProxy(proxySetting);
+        if (proxy != null) {
+            int port = proxy.getPort() > 0 ? proxy.getPort()
+                    : ("https".equalsIgnoreCase(proxy.getScheme()) ? 443 : 80);
+            client.proxy(ProxySelector.of(new InetSocketAddress(proxy.getHost(), port)));
+            log.info("PitchAPI requests will use configured HTTPS proxy {}:{}", proxy.getHost(), port);
+        }
+        this.http = client.build();
+    }
+
+    private URI parseProxy(String value) {
+        if (value == null || value.isBlank()) return null;
+        try {
+            URI proxy = URI.create(value.trim());
+            if (proxy.getHost() == null || !("http".equalsIgnoreCase(proxy.getScheme())
+                    || "https".equalsIgnoreCase(proxy.getScheme()))) {
+                log.warn("Ignoring invalid HTTPS_PROXY value; expected an http(s) proxy URL.");
+                return null;
+            }
+            return proxy;
+        } catch (IllegalArgumentException exception) {
+            log.warn("Ignoring invalid HTTPS_PROXY value; expected an http(s) proxy URL.");
+            return null;
+        }
     }
 
     public void synchronize() throws IOException, InterruptedException {

@@ -8,25 +8,42 @@ if (-not $javaExecutable -or -not (Test-Path -LiteralPath $javaExecutable)) {
 $mavenExecutable = Get-Command mvn -ErrorAction Stop
 $secretDirectory = Join-Path $projectRoot 'backend\.cache'
 $secretPath = Join-Path $secretDirectory 'pitchapi-key.xml'
+$proxyPath = Join-Path $secretDirectory 'https-proxy.txt'
 $runnerPath = Join-Path $projectRoot 'scripts\run-local-advanced-scheduled.ps1'
 if (-not (Test-Path -LiteralPath $runnerPath)) { throw "Scheduled runner is missing: $runnerPath" }
 
 Push-Location $projectRoot
 try {
     Write-Host 'Building the local data synchronizer...'
-    & $mavenExecutable.Source -B -f backend/pom.xml '-Dmaven.repo.local=backend/.m2' '-DskipTests' package
+    & $mavenExecutable.Source -B -f backend/pom.xml '-Dmaven.repo.local=backend/.m2/repository' '-DskipTests' package
     if ($LASTEXITCODE -ne 0) { throw "Backend build failed with exit code $LASTEXITCODE." }
 
-    $secureKey = Read-Host -Prompt 'PitchAPI Key (hidden; stored encrypted for this Windows user)' -AsSecureString
-    if ($secureKey.Length -eq 0) { $secureKey.Dispose(); throw 'PitchAPI Key cannot be empty.' }
-    try {
-        New-Item -ItemType Directory -Force -Path $secretDirectory | Out-Null
-        $secureKey | Export-Clixml -LiteralPath $secretPath
-    } finally {
-        $secureKey.Dispose()
+    if (Test-Path -LiteralPath $secretPath) {
+        Write-Host 'Using the PitchAPI key already encrypted for this Windows user.'
+    } else {
+        $secureKey = Read-Host -Prompt 'PitchAPI Key (hidden; stored encrypted for this Windows user)' -AsSecureString
+        if ($secureKey.Length -eq 0) { $secureKey.Dispose(); throw 'PitchAPI Key cannot be empty.' }
+        try {
+            New-Item -ItemType Directory -Force -Path $secretDirectory | Out-Null
+            $secureKey | Export-Clixml -LiteralPath $secretPath
+        } finally {
+            $secureKey.Dispose()
+        }
     }
 
-    $powerShell = Join-Path $PSHOME 'powershell.exe'
+    if (-not [string]::IsNullOrWhiteSpace($env:HTTPS_PROXY)) {
+        $proxyUri = [Uri]$env:HTTPS_PROXY
+        if ($proxyUri.Host -and @('http', 'https') -contains $proxyUri.Scheme.ToLowerInvariant()) {
+            $proxyPort = if ($proxyUri.IsDefaultPort) { if ($proxyUri.Scheme -eq 'https') { 443 } else { 80 } } else { $proxyUri.Port }
+            $safeProxy = '{0}://{1}:{2}' -f $proxyUri.Scheme.ToLowerInvariant(), $proxyUri.Host, $proxyPort
+            Set-Content -LiteralPath $proxyPath -Value $safeProxy -Encoding ASCII -NoNewline
+            Write-Host "Saved the local proxy endpoint for scheduled sync: $($proxyUri.Host):$proxyPort"
+        } else {
+            throw 'HTTPS_PROXY must be an http(s) proxy URL with a host.'
+        }
+    }
+
+    $powerShell = (Get-Command powershell.exe -ErrorAction Stop).Source
     $action = New-ScheduledTaskAction -Execute $powerShell `
         -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$runnerPath`"" `
         -WorkingDirectory $projectRoot

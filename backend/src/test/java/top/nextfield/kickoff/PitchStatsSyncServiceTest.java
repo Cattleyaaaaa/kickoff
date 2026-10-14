@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.junit.jupiter.api.Test;
 
@@ -25,6 +26,26 @@ class PitchStatsSyncServiceTest {
     private final JsonMapper mapper = JsonMapper.builder().build();
 
     @Test
+    void routesProviderRequestsThroughConfiguredProxy() throws Exception {
+        AtomicInteger proxyRequests = new AtomicInteger();
+        HttpServer proxy = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
+        proxy.createContext("/", exchange -> {
+            proxyRequests.incrementAndGet();
+            send(exchange, "{\"data\":{\"leagues\":[]}}");
+        });
+        proxy.start();
+        try {
+            String proxyUrl = "http://127.0.0.1:" + proxy.getAddress().getPort();
+            var sync = new PitchStatsSyncService("test-key", testOutput("proxy.json").toString(),
+                    "http://api.example.invalid/v1", proxyUrl);
+            assertThrows(IOException.class, sync::synchronize);
+            assertEquals(1, proxyRequests.get());
+        } finally {
+            proxy.stop(0);
+        }
+    }
+
+    @Test
     void aggregatesSixLeaguesWithoutDuplicateOrMixedPassingMetrics() throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress("127.0.0.1", 0), 0);
         server.createContext("/v1", this::respond);
@@ -32,7 +53,7 @@ class PitchStatsSyncServiceTest {
         try {
             Path output = testOutput("advanced.json");
             var sync = new PitchStatsSyncService("test-key", output.toString(),
-                    "http://127.0.0.1:" + server.getAddress().getPort() + "/v1");
+                    "http://127.0.0.1:" + server.getAddress().getPort() + "/v1", "");
             sync.synchronize();
             JsonNode snapshot = mapper.readTree(Files.readString(output));
             assertEquals("pitchapi.dev", snapshot.path("source").asText());
@@ -101,7 +122,7 @@ class PitchStatsSyncServiceTest {
         server.start();
         try {
             var sync = new PitchStatsSyncService("test-key", output.toString(),
-                    "http://127.0.0.1:" + server.getAddress().getPort() + "/v1");
+                    "http://127.0.0.1:" + server.getAddress().getPort() + "/v1", "");
             assertThrows(IOException.class, sync::synchronize);
             assertEquals("previous snapshot", Files.readString(output));
         } finally {
@@ -124,7 +145,7 @@ class PitchStatsSyncServiceTest {
         server.start();
         try {
             var sync = new PitchStatsSyncService("test-key", output.toString(),
-                    "http://127.0.0.1:" + server.getAddress().getPort() + "/v1");
+                    "http://127.0.0.1:" + server.getAddress().getPort() + "/v1", "");
             assertThrows(IOException.class, sync::synchronize);
             assertEquals("previous complete snapshot", Files.readString(output));
         } finally {
@@ -140,9 +161,9 @@ class PitchStatsSyncServiceTest {
         try {
             Path output = testOutput("cards-only.json");
             String baseUrl = "http://127.0.0.1:" + server.getAddress().getPort() + "/v1";
-            new PitchStatsSyncService("test-key", output.toString(), baseUrl).synchronize();
+            new PitchStatsSyncService("test-key", output.toString(), baseUrl, "").synchronize();
             String before = Files.readString(output);
-            var sync = new PitchStatsSyncService("test-key", output.toString(), baseUrl);
+            var sync = new PitchStatsSyncService("test-key", output.toString(), baseUrl, "");
             sync.synchronizeCards();
             JsonNode after = mapper.readTree(Files.readString(output));
             assertEquals(2, after.path("leagues").path("英超").path("cardEventsMatches").asInt());
@@ -165,13 +186,13 @@ class PitchStatsSyncServiceTest {
         try {
             Path output = testOutput("outdated-cards.json");
             String baseUrl = "http://127.0.0.1:" + server.getAddress().getPort() + "/v1";
-            new PitchStatsSyncService("test-key", output.toString(), baseUrl).synchronize();
+            new PitchStatsSyncService("test-key", output.toString(), baseUrl, "").synchronize();
             var stale = (tools.jackson.databind.node.ObjectNode) mapper.readTree(Files.readString(output));
             ((tools.jackson.databind.node.ObjectNode) stale.path("leagues").path("英超"))
                     .put("finishedMatches", 1);
             Files.writeString(output, mapper.writeValueAsString(stale));
 
-            new PitchStatsSyncService("test-key", output.toString(), baseUrl).synchronizeCards();
+            new PitchStatsSyncService("test-key", output.toString(), baseUrl, "").synchronizeCards();
 
             JsonNode refreshed = mapper.readTree(Files.readString(output));
             JsonNode english = refreshed.path("leagues").path("英超");
