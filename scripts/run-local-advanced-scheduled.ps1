@@ -44,6 +44,35 @@ try {
             try {
                 & node scripts/translate-advanced-names.ts *>> $logPath
                 if ($LASTEXITCODE -ne 0) { throw "Player-name translation failed with exit code $LASTEXITCODE." }
+
+                & git -C $projectRoot fetch --quiet origin main 2>> $logPath
+                if ($LASTEXITCODE -eq 0) {
+                    $remoteFootball = (& git -C $projectRoot show 'FETCH_HEAD:public/data/football.json') -join "`n"
+                    if ($LASTEXITCODE -eq 0 -and -not [string]::IsNullOrWhiteSpace($remoteFootball)) {
+                        $remoteSnapshot = $remoteFootball | ConvertFrom-Json
+                        $localSnapshot = Get-Content -LiteralPath 'public/data/football.json' -Raw | ConvertFrom-Json
+                        $remoteUpdated = [DateTimeOffset]::Parse($remoteSnapshot.updatedAt)
+                        $localUpdated = [DateTimeOffset]::Parse($localSnapshot.updatedAt)
+                        if ($remoteUpdated -gt $localUpdated) {
+                            $footballTemp = Join-Path $projectRoot 'backend\.cache\football.json.tmp'
+                            [IO.File]::WriteAllText($footballTemp, $remoteFootball, [Text.UTF8Encoding]::new($false))
+                            Move-Item -LiteralPath $footballTemp -Destination (Join-Path $projectRoot 'public\data\football.json') -Force
+                            "[$(Get-Date -Format o)] Refreshed local football results from GitHub snapshot $($remoteSnapshot.updatedAt)." | Add-Content -LiteralPath $logPath
+                        }
+                    }
+                } else {
+                    "[$(Get-Date -Format o)] Could not fetch the latest football snapshot from GitHub; using the local snapshot." | Add-Content -LiteralPath $logPath
+                }
+
+                & npm run generate:news *>> $logPath
+                if ($LASTEXITCODE -ne 0) { throw "AI news drafting failed with exit code $LASTEXITCODE." }
+
+                & npm run publish:news *>> $logPath
+                if ($LASTEXITCODE -ne 0) { throw "AI news translation/publication failed with exit code $LASTEXITCODE." }
+
+                $newsSnapshot = Get-Content -LiteralPath 'public/data/news.json' -Raw | ConvertFrom-Json
+                $aiStories = @($newsSnapshot.items | Where-Object { $_.aiGenerated -eq $true }).Count
+                "[$(Get-Date -Format o)] News generation and publication complete: $($newsSnapshot.items.Count) articles, $aiStories AI-assisted." | Add-Content -LiteralPath $logPath
             } finally {
                 Remove-Item Env:DEEPSEEK_API_KEY -ErrorAction SilentlyContinue
             }

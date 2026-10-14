@@ -42,7 +42,7 @@ GitHub 每天两次的工作流更新的是远端比赛结果和积分榜，不�
 & .\scripts\install-local-advanced-schedule.ps1
 ```
 
-安装脚本会构建 Java 同步器；已有本地加密 Key 时会复用，否则才隐藏提示输入一次 PitchAPI Key，并用当前 Windows 用户加密保存到被 Git 忽略的 `backend/.cache/`。随后立即进行首次更新，并注册每天本机时间 06:00、18:00 的计划任务；电脑需要开机且当前用户已登录，错过的任务会在下次可运行时补执行。PitchAPI 本地同步会使用 `HTTPS_PROXY` 环境变量（如 `http://127.0.0.1:7897`）。运行记录位于 `backend/.cache/scheduled-advanced-sync.log`。此方案只更新本地文件，不会把 PitchAPI 数据提交到 GitHub。要移除计划任务，可运行 `Unregister-ScheduledTask -TaskName 'Kickoff Advanced Football Data' -Confirm:$false`，并删除 `backend/.cache/pitchapi-key.xml`。
+安装脚本会构建 Java 同步器；已有本地加密 Key 时会复用，否则才隐藏提示输入一次 PitchAPI Key，并用当前 Windows 用户加密保存到被 Git 忽略的 `backend/.cache/`。随后立即进行首次更新，并注册每天本机时间 06:00、18:00 的计划任务；电脑需要开机且当前用户已登录，错过的任务会在下次可运行时补执行。PitchAPI 本地同步会使用 `HTTPS_PROXY` 环境变量（如 `http://127.0.0.1:7897`）。每次统计同步成功后，任务会先从 GitHub 读取更新时间较新的 `football.json`（不切换本地分支），再使用本地加密保存的 DeepSeek Key 自动生成并发布赛后速评；新闻记录与球员译名共用 `backend/.cache/scheduled-advanced-sync.log`。此方案只更新本地文件，不会把 PitchAPI 数据提交到 GitHub。要移除计划任务，可运行 `Unregister-ScheduledTask -TaskName 'Kickoff Advanced Football Data' -Confirm:$false`，并删除 `backend/.cache/pitchapi-key.xml`。
 
 球队榜使用球队英文名别名表，按站点语言展示简体、繁体或英文。球员榜优先使用本地译名缓存 `public/data/advanced-names.json`，再回退到内置常见球员译名。首次批量翻译时，在项目根目录运行 `& .\scripts\translate-local-advanced-names.ps1` 并按隐藏提示输入 DeepSeek Key；Key 会加密保存在当前 Windows 用户的 `backend/.cache/deepseek-key.xml`。脚本按批保存译名，可重复运行补全失败批次。此后本地早晚同步会为新球员名自动补译；打开中的页面每 5 分钟刷新一次译名缓存。译名缓存和 Key 都不会提交到仓库。翻译请求只向 DeepSeek 发送球员姓名，生成译名仍需人工核对，特别是同名球员。
 
@@ -58,7 +58,7 @@ GitHub 每天两次的工作流更新的是远端比赛结果和积分榜，不�
 - 使用 React、TypeScript、CSS 与 GSAP 构建响应式界面
 - Playwright 交互测试覆盖主题/语言、关注列表、搜索筛选和赛果日期筛选
 
-新闻和比赛分析仍是演示内容。赛果、赛程和积分榜使用 Football-Data.org 免费 API；真实快照加载失败时，比赛页显示不可用状态，不再回退到编造的比分。球队页展示赛程、积分榜和多类别球队统计；球员页展示进攻、传控、突破、防守与纪律指标。只有数据源提供并核实的数值才显示，其余用“—”表示缺失。用户账号、后台审核和真实新闻源尚未接入。
+新闻模块会根据已核实的比赛快照生成原创赛后速评，并标注数据来源；没有可用赛果时不会编造稿件。比分、球队名和统计数字来自数据快照，AI 只负责组织标题、摘要和正文；AI 不可用或输出校验失败时会退回程序生成的事实稿。赛果、赛程和积分榜使用 Football-Data.org 免费 API；真实快照加载失败时，比赛页显示不可用状态，不再回退到编造的比分。球队页展示赛程、积分榜和多类别球队统计；球员页展示进攻、传控、突破、防守与纪律指标。只有数据源提供并核实的数值才显示，其余用“—”表示缺失。用户账号和后台审核尚未接入。
 
 ## 启用真实赛果与积分榜
 
@@ -86,7 +86,7 @@ Remove-Item Env:KICKOFF_SNAPSHOT_DIR
 
 新闻页和首页新闻列表通过 Java 接口 `/api/v1/news` 读取 BBC Sport 足球 RSS。页面显示原始标题、发布时间和原文链接，并标明 BBC Sport 来源；不复制正文或使用 BBC 标志。Java 后端在内存中缓存 10 分钟，页面每 10 分钟刷新，亦可点击“刷新”。本地浏览时需同时启动 Vite 与 Java 后端。BBC 说明网站可展示其 RSS 标题，但须注明来源并遵守其使用条款；商业使用前需另行确认许可。[BBC Sport RSS 使用说明](https://www.bbc.co.uk/sport/articles/cqllxj2n4kyo)
 
-自有新闻稿可写入 `content/news.json` 的 `articles` 数组。每篇需有固定 `id`、原创简体中文 `title`、`summary` 与 `body`、`category`、ISO 格式的 `publishedAt` 和 HTTPS `url`（用于打开核实资料的来源）。`npm run generate:news` 会从最近 36 小时的 Football-Data.org 已完赛记录直接生成原创赛果稿；标题、摘要、比分和统计数字都由程序根据赛果快照整理，避免生成模型改写事实；重复比赛不会再次成稿。运行 `npm run publish:news` 后，脚本用 `DEEPSEEK_API_KEY` 将标题、摘要和正文翻译为繁体中文、英文，并写入 `public/data/news.json`。本地可在项目 PowerShell 中运行 `& .\scripts\run-local-news.ps1`，脚本读取当前 Windows 用户加密保存的 DeepSeek Key；首次需要输入 Key 时会隐藏输入并加密保存。翻译缓存位于被忽略的 `backend/.cache/news-translations.json`，文章内容未变时不会重复付费。同一篇稿件按浏览器或站点语言显示。生成的快照有稿件时，Java 新闻接口优先展示这些自有稿件；暂无稿件时仍展示 BBC 原文标题。GitHub Actions 每次同步足球赛果后也会生成并提交译文快照。发布前应人工核对姓名、比分和译文。仅将自有稿件或取得翻译授权的内容放入 `content/news.json`，不要填入 BBC/ESPN 的转载标题或摘要。
+自有新闻稿可写入 `content/news.json` 的 `articles` 数组。自动赛评以最近 36 小时内 Football-Data.org 已完赛赛果为准；只有按赛事、球队、日期和比分唯一匹配的 PitchAPI 逐场统计才会写入技术分析。DeepSeek 根据这些事实撰写标题、摘要和正文，程序校验必需字段与数字；AI 不可用或未通过校验时退回事实模板。重复比赛不会再次成稿。`npm run publish:news` 会使用 `DEEPSEEK_API_KEY` 翻译繁体中文和英文，并写入 `public/data/news.json`；内容未改变的译文从缓存复用。同一篇稿件按浏览器或站点语言显示。GitHub Actions 在每日赛果同步后生成并提交新闻快照；本地 Windows 计划任务在统计同步成功后也会生成和发布新闻。若没有最近完赛比赛，已有新闻会保留。新闻 API 优先展示自有稿件；暂无稿件时仍展示 BBC 原文标题。新闻文章会显示 AI 辅助标记与可核验的数据来源。发布前仍应人工抽查姓名、比分、统计和译文。仅将自有稿件或取得翻译授权的内容放入 `content/news.json`，不要填入 BBC/ESPN 的转载标题或摘要。
 
 单篇稿件格式：`{"id":"match-2026-10-12-001","title":"原创中文标题","summary":"原创中文摘要","body":"原创中文正文，段落间留一个空行。","category":"英超","publishedAt":"2026-10-12T12:00:00Z","url":"https://example.com/verified-source"}`。`id` 在修改标题或译文时保持不变；`url` 应指向你实际核实过的资料来源。正文上限 8000 字符，以控制单篇翻译成本和输出长度。
 
