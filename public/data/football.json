@@ -1,9 +1,9 @@
 {
   "source" : "football-data.org",
-  "updatedAt" : "2026-10-14T01:24:33.550330241Z",
+  "updatedAt" : "2026-10-14T14:55:50.595974208Z",
   "range" : {
-    "from" : "2026-10-06",
-    "to" : "2026-10-14"
+    "to" : "2026-10-14",
+    "from" : "2026-10-06"
   },
   "matches" : [ {
     "id" : "575343",
@@ -4159,9 +4159,9 @@
     "teamHome" : "KOE",
     "teamAway" : "BMG",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 2,
+    "as" : 1
   }, {
     "id" : "564707",
     "league" : "西甲",
@@ -4207,9 +4207,9 @@
     "teamHome" : "SCF",
     "teamAway" : "S04",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 2,
+    "as" : 1
   }, {
     "id" : "558580",
     "league" : "意甲",
@@ -23285,6 +23285,7 @@
       "startDate" : "2026-08-21",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 65,
           "sourceName" : "Manchester City FC",
@@ -23585,8 +23586,7 @@
           "gd" : "-4",
           "gf" : 6,
           "ga" : 10
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "西甲" : {
@@ -23594,6 +23594,7 @@
       "startDate" : "2026-08-16",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 81,
           "sourceName" : "FC Barcelona",
@@ -23894,8 +23895,7 @@
           "gd" : "-9",
           "gf" : 4,
           "ga" : 13
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "意甲" : {
@@ -23903,6 +23903,7 @@
       "startDate" : "2026-08-23",
       "endDate" : "2027-05-30",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 108,
           "sourceName" : "FC Internazionale Milano",
@@ -24203,8 +24204,7 @@
           "gd" : "-11",
           "gf" : 5,
           "ga" : 16
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "德甲" : {
@@ -24212,6 +24212,7 @@
       "startDate" : "2026-08-28",
       "endDate" : "2027-05-22",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 17,
           "sourceName" : "SC Freiburg",
@@ -24482,8 +24483,7 @@
           "gd" : "-11",
           "gf" : 7,
           "ga" : 18
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "法甲" : {
@@ -24491,6 +24491,7 @@
       "startDate" : "2026-08-22",
       "endDate" : "2027-05-29",
       "groups" : [ {
+        "name" : "Matchday",
         "rows" : [ {
           "id" : 548,
           "sourceName" : "AS Monaco FC",
@@ -24761,8 +24762,7 @@
           "gd" : "-4",
           "gf" : 4,
           "ga" : 8
-        } ],
-        "name" : "Matchday"
+        } ]
       } ]
     },
     "欧冠" : {
@@ -24770,6 +24770,7 @@
       "startDate" : "2026-09-08",
       "endDate" : "2027-01-27",
       "groups" : [ {
+        "name" : "League phase",
         "rows" : [ {
           "id" : 81,
           "sourceName" : "FC Barcelona",
@@ -25310,8 +25311,7 @@
           "gd" : "-5",
           "gf" : 0,
           "ga" : 5
-        } ],
-        "name" : "League phase"
+        } ]
       } ]
     }
   }
