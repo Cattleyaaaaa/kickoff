@@ -86,7 +86,8 @@ jobs:
           git add public/data/football.json
           if test -f content/generated-news.json; then git add content/generated-news.json; fi
           if test -f public/data/news.json; then git add public/data/news.json; fi
-          if test -f public/data/advanced.json; then git add public/data/advanced.json; fi
+          # advanced.json stays ignored for local development, but Actions intentionally publishes its generated snapshot.
+          if test -f public/data/advanced.json; then git add -f -- public/data/advanced.json; fi
           if test -f public/data/match-stats.json; then git add public/data/match-stats.json; fi
           if test -f public/data/players.json; then git add public/data/players.json; fi
           if git diff --cached --quiet; then exit 0; fi
