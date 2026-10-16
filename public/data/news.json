@@ -1,7 +1,385 @@
 {
   "source": "Kickoff",
-  "updatedAt": "2026-10-15T14:46:57.539Z",
+  "updatedAt": "2026-10-16T00:18:09.762Z",
   "items": [
+    {
+      "id": "match-review-e4a89738d1b1",
+      "title": "斯图加特客场3-0完胜布拉迪斯拉发",
+      "summary": "斯图加特在欧冠客场以3-0击败布拉迪斯拉发，控球率与射正数均大幅领先。",
+      "body": "斯图加特客场3-0战胜布拉迪斯拉发。技术统计显示，斯图加特控球率64.1%对35.9%，射门16次对15次，射正8次对1次，传球632次对341次，传球成功率87.5%对79.8%，关键传球11次对10次。布拉迪斯拉发在成功过人上以8次对3次占优，犯规11次对15次，黄牌1张对3张，红牌均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:40.864Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575358"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575358"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_0KZSEg"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "斯图加特客场3-0完胜布拉迪斯拉发",
+        "zh-TW": "斯圖加特客場3-0完勝布拉迪斯拉發",
+        "en": "Stuttgart win 3-0 away at Slovan Bratislava"
+      },
+      "localizedSummaries": {
+        "zh-CN": "斯图加特在欧冠客场以3-0击败布拉迪斯拉发，控球率与射正数均大幅领先。",
+        "zh-TW": "斯圖加特在歐冠客場以3-0擊敗布拉迪斯拉發，控球率與射正數均大幅領先。",
+        "en": "Stuttgart defeated Slovan Bratislava 3-0 away in the Champions League, leading significantly in possession and shots on target."
+      },
+      "localizedBodies": {
+        "zh-CN": "斯图加特客场3-0战胜布拉迪斯拉发。技术统计显示，斯图加特控球率64.1%对35.9%，射门16次对15次，射正8次对1次，传球632次对341次，传球成功率87.5%对79.8%，关键传球11次对10次。布拉迪斯拉发在成功过人上以8次对3次占优，犯规11次对15次，黄牌1张对3张，红牌均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "斯圖加特客場3-0戰勝布拉迪斯拉發。技術統計顯示，斯圖加特控球率64.1%對35.9%，射門16次對15次，射正8次對1次，傳球632次對341次，傳球成功率87.5%對79.8%，關鍵傳球11次對10次。布拉迪斯拉發在成功過人上以8次對3次佔優，犯規11次對15次，黃牌1張對3張，紅牌均為0張。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "Stuttgart won 3-0 away against Slovan Bratislava. Technical statistics show Stuttgart had 64.1% possession versus 35.9%, 16 shots versus 15, 8 shots on target versus 1, 632 passes versus 341, a passing success rate of 87.5% versus 79.8%, and 11 key passes versus 10. Slovan Bratislava led in successful dribbles with 8 versus 3, committed 11 fouls versus 15, received 1 yellow card versus 3, and both teams had 0 red cards. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-f3d5781e6d92",
+      "title": "顿涅茨克矿工3-1雅典AEK，控球传球占优拿下比赛",
+      "summary": "顿涅茨克矿工在欧冠比赛中以3-1击败雅典AEK，尽管射门次数略少，但凭借更高的控球率和传球成功率取得胜利。",
+      "body": "顿涅茨克矿工以3-1战胜雅典AEK。技术统计显示，矿工控球率53.9%对46.1%，传球434次对361次，传球成功率88.7%对85%，射正4次对3次，均占优。雅典AEK在射门13次对12次、关键传球9次对7次、成功过人12次对5次上领先，但未能转化为更多进球。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:39.241Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575357"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575357"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_2PAfzG"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "顿涅茨克矿工3-1雅典AEK，控球传球占优拿下比赛",
+        "zh-TW": "頓涅茨克礦工3-1雅典AEK，控球傳球佔優拿下比賽",
+        "en": "Shakhtar Donetsk 3-1 AEK Athens, dominates possession and passing to win the match"
+      },
+      "localizedSummaries": {
+        "zh-CN": "顿涅茨克矿工在欧冠比赛中以3-1击败雅典AEK，尽管射门次数略少，但凭借更高的控球率和传球成功率取得胜利。",
+        "zh-TW": "頓涅茨克礦工在歐冠比賽中以3-1擊敗雅典AEK，儘管射門次數略少，但憑藉更高的控球率和傳球成功率取得勝利。",
+        "en": "Shakhtar Donetsk defeated AEK Athens 3-1 in the Champions League, securing victory with higher possession and passing accuracy despite slightly fewer shots."
+      },
+      "localizedBodies": {
+        "zh-CN": "顿涅茨克矿工以3-1战胜雅典AEK。技术统计显示，矿工控球率53.9%对46.1%，传球434次对361次，传球成功率88.7%对85%，射正4次对3次，均占优。雅典AEK在射门13次对12次、关键传球9次对7次、成功过人12次对5次上领先，但未能转化为更多进球。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "頓涅茨克礦工以3-1戰勝雅典AEK。技術統計顯示，礦工控球率53.9%對46.1%，傳球434次對361次，傳球成功率88.7%對85%，射正4次對3次，均佔優。雅典AEK在射門13次對12次、關鍵傳球9次對7次、成功過人12次對5次上領先，但未能轉化為更多進球。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "Shakhtar Donetsk defeated AEK Athens 3-1. Technical statistics show Shakhtar had 53.9% possession versus 46.1%, 434 passes versus 361, 88.7% passing accuracy versus 85%, and 4 shots on target versus 3, all advantages. AEK Athens led in 13 shots versus 12, 9 key passes versus 7, and 12 successful dribbles versus 5, but failed to convert them into more goals. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-b3971f22aa92",
+      "title": "皇家贝蒂斯3-2波尔图，控球与射门数据占优",
+      "summary": "皇家贝蒂斯在欧冠比赛中以3-2战胜波尔图，多项技术统计占据上风。",
+      "body": "皇家贝蒂斯以3-2击败波尔图。控球率方面，贝蒂斯55.5%高于波尔图的44.5%；射门17次对11次，射正7次对5次，传球504次对393次，传球成功率85.5%对81.2%，关键传球12次对6次，成功过人9次对5次，均领先于波尔图。犯规方面，贝蒂斯14次少于波尔图的15次；黄牌贝蒂斯4张，波尔图3张；红牌双方均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:37.511Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575356"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575356"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_09f77c"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "皇家贝蒂斯3-2波尔图，控球与射门数据占优",
+        "zh-TW": "皇家貝蒂斯3-2波爾圖，控球與射門數據佔優",
+        "en": "Real Betis 3-2 Porto, Dominant in Possession and Shooting Data"
+      },
+      "localizedSummaries": {
+        "zh-CN": "皇家贝蒂斯在欧冠比赛中以3-2战胜波尔图，多项技术统计占据上风。",
+        "zh-TW": "皇家貝蒂斯在歐冠比賽中以3-2戰勝波爾圖，多項技術統計佔據上風。",
+        "en": "Real Betis defeated Porto 3-2 in the Champions League match, leading in multiple technical statistics."
+      },
+      "localizedBodies": {
+        "zh-CN": "皇家贝蒂斯以3-2击败波尔图。控球率方面，贝蒂斯55.5%高于波尔图的44.5%；射门17次对11次，射正7次对5次，传球504次对393次，传球成功率85.5%对81.2%，关键传球12次对6次，成功过人9次对5次，均领先于波尔图。犯规方面，贝蒂斯14次少于波尔图的15次；黄牌贝蒂斯4张，波尔图3张；红牌双方均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "皇家貝蒂斯以3-2擊敗波爾圖。控球率方面，貝蒂斯55.5%高於波爾圖的44.5%；射門17次對11次，射正7次對5次，傳球504次對393次，傳球成功率85.5%對81.2%，關鍵傳球12次對6次，成功過人9次對5次，均領先於波爾圖。犯規方面，貝蒂斯14次少於波爾圖的15次；黃牌貝蒂斯4張，波爾圖3張；紅牌雙方均為0張。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "Real Betis defeated Porto 3-2. In terms of possession, Betis had 55.5% higher than Porto's 44.5%; shots 17 to 11, shots on target 7 to 5, passes 504 to 393, pass accuracy 85.5% to 81.2%, key passes 12 to 6, successful dribbles 9 to 5, all leading over Porto. In terms of fouls, Betis had 14 less than Porto's 15; yellow cards Betis 4, Porto 3; red cards both teams 0. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-bf3473295005",
+      "title": "阿斯顿维拉6-0大胜费内巴切",
+      "summary": "阿斯顿维拉在欧冠比赛中以6-0大胜费内巴切。",
+      "body": "阿斯顿维拉在2026年10月15日的欧冠比赛中以6-0战胜费内巴切。技术统计显示，阿斯顿维拉射门20次、射正11次，费内巴切射门15次、射正4次；控球率方面，阿斯顿维拉为44.8%，费内巴切为55.2%。传球成功率上，阿斯顿维拉为88.3%，费内巴切为87.2%。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:35.800Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575355"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575355"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_4WDCuM"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "阿斯顿维拉6-0大胜费内巴切",
+        "zh-TW": "阿斯頓維拉6-0大勝費內巴切",
+        "en": "Aston Villa 6-0 Fenerbahce"
+      },
+      "localizedSummaries": {
+        "zh-CN": "阿斯顿维拉在欧冠比赛中以6-0大胜费内巴切。",
+        "zh-TW": "阿斯頓維拉在歐冠比賽中以6-0大勝費內巴切。",
+        "en": "Aston Villa defeated Fenerbahce 6-0 in the Champions League."
+      },
+      "localizedBodies": {
+        "zh-CN": "阿斯顿维拉在2026年10月15日的欧冠比赛中以6-0战胜费内巴切。技术统计显示，阿斯顿维拉射门20次、射正11次，费内巴切射门15次、射正4次；控球率方面，阿斯顿维拉为44.8%，费内巴切为55.2%。传球成功率上，阿斯顿维拉为88.3%，费内巴切为87.2%。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "阿斯頓維拉在2026年10月15日的歐冠比賽中以6-0戰勝費內巴切。技術統計顯示，阿斯頓維拉射門20次、射正11次，費內巴切射門15次、射正4次；控球率方面，阿斯頓維拉為44.8%，費內巴切為55.2%。傳球成功率上，阿斯頓維拉為88.3%，費內巴切為87.2%。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "Aston Villa defeated Fenerbahce 6-0 in the Champions League on October 15, 2026. Technical statistics show that Aston Villa had 20 shots and 11 shots on target, while Fenerbahce had 15 shots and 4 shots on target; in terms of possession, Aston Villa had 44.8% and Fenerbahce had 55.2%. In passing accuracy, Aston Villa had 88.3% and Fenerbahce had 87.2%. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-66b56802c5e4",
+      "title": "博德闪耀1-0多特蒙德，欧冠小组赛主场取胜",
+      "summary": "博德闪耀在欧冠比赛中主场1-0击败多特蒙德。",
+      "body": "2026年10月15日，博德闪耀在欧冠比赛中以1-0战胜多特蒙德。技术统计显示，博德闪耀射门11次、射正3次，多特蒙德射门9次、射正4次；控球率方面，博德闪耀为47.6%，多特蒙德为52.4%。传球成功率上，博德闪耀为85.6%，多特蒙德为84.7%。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:34.351Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575354"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575354"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_1r6TyQ"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "博德闪耀1-0多特蒙德，欧冠小组赛主场取胜",
+        "zh-TW": "博德閃耀1-0多特蒙德，歐冠小組賽主場取勝",
+        "en": "Bodø/Glimt 1-0 Borussia Dortmund, Champions League group stage home win"
+      },
+      "localizedSummaries": {
+        "zh-CN": "博德闪耀在欧冠比赛中主场1-0击败多特蒙德。",
+        "zh-TW": "博德閃耀在歐冠比賽中主場1-0擊敗多特蒙德。",
+        "en": "Bodø/Glimt defeated Borussia Dortmund 1-0 at home in the Champions League."
+      },
+      "localizedBodies": {
+        "zh-CN": "2026年10月15日，博德闪耀在欧冠比赛中以1-0战胜多特蒙德。技术统计显示，博德闪耀射门11次、射正3次，多特蒙德射门9次、射正4次；控球率方面，博德闪耀为47.6%，多特蒙德为52.4%。传球成功率上，博德闪耀为85.6%，多特蒙德为84.7%。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "2026年10月15日，博德閃耀在歐冠比賽中以1-0戰勝多特蒙德。技術統計顯示，博德閃耀射門11次、射正3次，多特蒙德射門9次、射正4次；控球率方面，博德閃耀為47.6%，多特蒙德為52.4%。傳球成功率上，博德閃耀為85.6%，多特蒙德為84.7%。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "On October 15, 2026, Bodø/Glimt defeated Borussia Dortmund 1-0 in a Champions League match. Technical statistics show that Bodø/Glimt had 11 shots and 3 shots on target, while Borussia Dortmund had 9 shots and 4 shots on target; in terms of possession, Bodø/Glimt had 47.6% and Borussia Dortmund had 52.4%. In passing accuracy, Bodø/Glimt had 85.6% and Borussia Dortmund had 84.7%. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-8fc41fd16e17",
+      "title": "曼城主场2-4不敌巴黎圣日耳曼",
+      "summary": "2026年10月15日欧冠，曼城主场2比4负于巴黎圣日耳曼。",
+      "body": "本场比赛曼城在控球率（54.3%对45.7%）、射门（27对15）、传球（507对429）、关键传球（20对11）和成功过人（13对8）上均高于巴黎圣日耳曼，但射正数以9比10落后，传球成功率也以83%对86.2%处于下风。犯规方面曼城10次、巴黎圣日耳曼11次，两队各得1张黄牌，均无红牌。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:32.893Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575353"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575353"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_0nhvU6"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "曼城主场2-4不敌巴黎圣日耳曼",
+        "zh-TW": "曼城主場2-4不敵巴黎聖日耳曼",
+        "en": "Manchester City lose 2-4 at home to Paris Saint-Germain"
+      },
+      "localizedSummaries": {
+        "zh-CN": "2026年10月15日欧冠，曼城主场2比4负于巴黎圣日耳曼。",
+        "zh-TW": "2026年10月15日歐冠，曼城主場2比4負於巴黎聖日耳曼。",
+        "en": "On October 15, 2026, in the Champions League, Manchester City lost 2-4 at home to Paris Saint-Germain."
+      },
+      "localizedBodies": {
+        "zh-CN": "本场比赛曼城在控球率（54.3%对45.7%）、射门（27对15）、传球（507对429）、关键传球（20对11）和成功过人（13对8）上均高于巴黎圣日耳曼，但射正数以9比10落后，传球成功率也以83%对86.2%处于下风。犯规方面曼城10次、巴黎圣日耳曼11次，两队各得1张黄牌，均无红牌。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "本場比賽曼城在控球率（54.3%對45.7%）、射門（27對15）、傳球（507對429）、關鍵傳球（20對11）和成功過人（13對8）上均高於巴黎聖日耳曼，但射正數以9比10落後，傳球成功率也以83%對86.2%處於下風。犯規方面曼城10次、巴黎聖日耳曼11次，兩隊各得1張黃牌，均無紅牌。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "In this match, Manchester City were higher than Paris Saint-Germain in possession (54.3% vs 45.7%), shots (27 vs 15), passes (507 vs 429), key passes (20 vs 11) and successful dribbles (13 vs 8), but trailed in shots on target at 9 to 10, and also were behind in pass success rate at 83% vs 86.2%. In terms of fouls, Manchester City had 10 and Paris Saint-Germain 11, each team received 1 yellow card, and neither had a red card. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-b79e44f3b3b0",
+      "title": "罗马主场3-4惜败皇家马德里",
+      "summary": "罗马在欧冠比赛中主场3比4不敌皇家马德里。",
+      "body": "罗马与皇家马德里在2026年10月15日的欧冠比赛中战成3比4，客队皇家马德里取胜。技术统计显示，罗马控球率54%高于对手的46%，传球542次也多于皇家马德里的453次，传球成功率85.6%同样占优。但皇家马德里在射门16比14、射正8比7和成功过人11比6上领先。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:31.304Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575352"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575352"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_0sXO3m"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "罗马主场3-4惜败皇家马德里",
+        "zh-TW": "羅馬主場3-4惜敗皇家馬德里",
+        "en": "Roma Lose 3-4 at Home to Real Madrid"
+      },
+      "localizedSummaries": {
+        "zh-CN": "罗马在欧冠比赛中主场3比4不敌皇家马德里。",
+        "zh-TW": "羅馬在歐冠比賽中主場3比4不敵皇家馬德里。",
+        "en": "Roma lost 3-4 at home to Real Madrid in a Champions League match."
+      },
+      "localizedBodies": {
+        "zh-CN": "罗马与皇家马德里在2026年10月15日的欧冠比赛中战成3比4，客队皇家马德里取胜。技术统计显示，罗马控球率54%高于对手的46%，传球542次也多于皇家马德里的453次，传球成功率85.6%同样占优。但皇家马德里在射门16比14、射正8比7和成功过人11比6上领先。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "羅馬與皇家馬德里在2026年10月15日的歐冠比賽中戰成3比4，客隊皇家馬德里取勝。技術統計顯示，羅馬控球率54%高於對手的46%，傳球542次也多於皇家馬德里的453次，傳球成功率85.6%同樣佔優。但皇家馬德里在射門16比14、射正8比7和成功過人11比6上領先。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "Roma and Real Madrid played out a 3-4 scoreline in the Champions League match on October 15, 2026, with the visiting team Real Madrid winning. Technical statistics show that Roma had 54% possession, higher than the opponent's 46%, and also made 542 passes, more than Real Madrid's 453, with a pass success rate of 85.6%, also superior. However, Real Madrid led in shots 16 to 14, shots on target 8 to 7, and successful dribbles 11 to 6. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-d736f52dc55f",
+      "title": "费耶诺德3-2科莫：射门与关键传球占优，控球传球略逊",
+      "summary": "费耶诺德在欧冠比赛中以3-2战胜科莫，尽管控球率和传球数据稍处下风，但射门和关键传球次数占优。",
+      "body": "费耶诺德在射门次数上以13比11领先，关键传球以12比4大幅占优，但控球率48.2%对51.8%和传球成功率86.5%对90%均落后于科莫。双方射正均为5次，成功过人科莫8比5占优，犯规费耶诺德19比18稍多，黄牌科莫3比2更多，红牌均为0。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:29.778Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575351"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575351"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_40UoYs"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "费耶诺德3-2科莫：射门与关键传球占优，控球传球略逊",
+        "zh-TW": "飛燕諾3-2科莫：射門與關鍵傳球佔優，控球傳球略遜",
+        "en": "Feyenoord 3-2 Como: Shots and Key Passes Superior, Possession and Passing Slightly Inferior"
+      },
+      "localizedSummaries": {
+        "zh-CN": "费耶诺德在欧冠比赛中以3-2战胜科莫，尽管控球率和传球数据稍处下风，但射门和关键传球次数占优。",
+        "zh-TW": "飛燕諾在歐冠比賽中以3-2戰勝科莫，儘管控球率和傳球數據稍處下風，但射門和關鍵傳球次數佔優。",
+        "en": "Feyenoord defeated Como 3-2 in the Champions League match, despite slightly trailing in possession and passing data, they led in shots and key passes."
+      },
+      "localizedBodies": {
+        "zh-CN": "费耶诺德在射门次数上以13比11领先，关键传球以12比4大幅占优，但控球率48.2%对51.8%和传球成功率86.5%对90%均落后于科莫。双方射正均为5次，成功过人科莫8比5占优，犯规费耶诺德19比18稍多，黄牌科莫3比2更多，红牌均为0。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "飛燕諾在射門次數上以13比11領先，關鍵傳球以12比4大幅佔優，但控球率48.2%對51.8%和傳球成功率86.5%對90%均落後於科莫。雙方射正均為5次，成功過人科莫8比5佔優，犯規飛燕諾19比18稍多，黃牌科莫3比2更多，紅牌均為0。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "Feyenoord led in shots 13 to 11 and dominated key passes 12 to 4, but trailed Como in possession 48.2% to 51.8% and pass success rate 86.5% to 90%. Both sides had 5 shots on target, Como led in successful dribbles 8 to 5, Feyenoord committed slightly more fouls 19 to 18, Como received more yellow cards 3 to 2, and both had 0 red cards. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-870d62d37726",
+      "title": "利物浦客场6-3击败林茨，控球与射门全面占优",
+      "summary": "欧冠比赛中，利物浦客场以6-3战胜林茨，技术统计显示客队在控球率、射门、射正、传球等多项数据上占据明显优势。",
+      "body": "本场欧冠比赛，林茨主场3-6不敌利物浦。技术统计显示，利物浦控球率达到64.4%，高于林茨的35.6%；射门方面，利物浦26次，林茨12次，射正数分别为9次和4次。传球数据上，利物浦575次、传球成功率89.9%，林茨为318次、78.6%；关键传球利物浦17次，林茨10次，成功过人利物浦16次，林茨4次。犯规和黄牌方面，林茨7次犯规、1张黄牌，利物浦4次犯规、0张黄牌，红牌双方均为0。数据来源：PitchAPI match statistics。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-16T00:17:27.870Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "575350"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-16T00:13:07.703156984Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "575350"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-16T00:17:25.012494219Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_14ZQnO"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "利物浦客场6-3击败林茨，控球与射门全面占优",
+        "zh-TW": "利物浦客場6-3擊敗林茨，控球與射門全面佔優",
+        "en": "Liverpool beat LASK 6-3 away, dominating possession and shots"
+      },
+      "localizedSummaries": {
+        "zh-CN": "欧冠比赛中，利物浦客场以6-3战胜林茨，技术统计显示客队在控球率、射门、射正、传球等多项数据上占据明显优势。",
+        "zh-TW": "歐冠比賽中，利物浦客場以6-3戰勝林茨，技術統計顯示客隊在控球率、射門、射正、傳球等多項數據上佔據明顯優勢。",
+        "en": "In the Champions League match, Liverpool won 6-3 away against LASK, with statistics showing the visitors held a clear advantage in possession, shots, shots on target, passes, and other metrics."
+      },
+      "localizedBodies": {
+        "zh-CN": "本场欧冠比赛，林茨主场3-6不敌利物浦。技术统计显示，利物浦控球率达到64.4%，高于林茨的35.6%；射门方面，利物浦26次，林茨12次，射正数分别为9次和4次。传球数据上，利物浦575次、传球成功率89.9%，林茨为318次、78.6%；关键传球利物浦17次，林茨10次，成功过人利物浦16次，林茨4次。犯规和黄牌方面，林茨7次犯规、1张黄牌，利物浦4次犯规、0张黄牌，红牌双方均为0。数据来源：PitchAPI match statistics。",
+        "zh-TW": "本場歐冠比賽，林茨主場3-6不敵利物浦。技術統計顯示，利物浦控球率達到64.4%，高於林茨的35.6%；射門方面，利物浦26次，林茨12次，射正數分別為9次和4次。傳球數據上，利物浦575次、傳球成功率89.9%，林茨為318次、78.6%；關鍵傳球利物浦17次，林茨10次，成功過人利物浦16次，林茨4次。犯規和黃牌方面，林茨7次犯規、1張黃牌，利物浦4次犯規、0張黃牌，紅牌雙方均為0。數據來源：PitchAPI match statistics。",
+        "en": "In this Champions League match, LASK lost 3-6 at home to Liverpool. Statistics show Liverpool had 64.4% possession, higher than LASK's 35.6%; in shots, Liverpool had 26, LASK 12, with shots on target at 9 and 4 respectively. In passing data, Liverpool had 575 passes with an 89.9% success rate, while LASK had 318 at 78.6%; key passes were 17 for Liverpool and 10 for LASK, and successful dribbles were 16 for Liverpool and 4 for LASK. In fouls and yellow cards, LASK had 7 fouls and 1 yellow card, Liverpool had 4 fouls and 0 yellow cards, with red cards at 0 for both teams. Data source: PitchAPI match statistics."
+      }
+    },
     {
       "id": "match-review-cf41468f7382",
       "title": "比利亚雷亚尔主场3-1击败那不勒斯",

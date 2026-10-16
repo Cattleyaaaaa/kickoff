@@ -1,9 +1,9 @@
 {
   "source" : "football-data.org",
-  "updatedAt" : "2026-10-15T14:42:40.752286266Z",
+  "updatedAt" : "2026-10-16T00:13:07.703156984Z",
   "range" : {
-    "to" : "2026-10-15",
-    "from" : "2026-10-07"
+    "from" : "2026-10-08",
+    "to" : "2026-10-16"
   },
   "matches" : [ {
     "id" : "575352",
@@ -204,17 +204,6 @@
     "teamAway" : "SLP",
     "colors" : [ "#7377db", "#7377db" ]
   }, {
-    "id" : "560597",
-    "league" : "英超",
-    "utcDate" : "2026-10-12T19:00:00Z",
-    "home" : "Coventry City",
-    "away" : "Newcastle",
-    "hs" : 4,
-    "as" : 1,
-    "teamHome" : "COV",
-    "teamAway" : "NEW",
-    "colors" : [ "#7377db", "#7377db" ]
-  }, {
     "id" : "564704",
     "league" : "西甲",
     "utcDate" : "2026-10-12T19:00:00Z",
@@ -303,17 +292,6 @@
     "teamAway" : "MIL",
     "colors" : [ "#7377db", "#7377db" ]
   }, {
-    "id" : "560598",
-    "league" : "英超",
-    "utcDate" : "2026-10-11T15:30:00Z",
-    "home" : "利物浦",
-    "away" : "曼城",
-    "hs" : 0,
-    "as" : 3,
-    "teamHome" : "LIV",
-    "teamAway" : "MCI",
-    "colors" : [ "#c93640", "#54a8dc" ]
-  }, {
     "id" : "565816",
     "league" : "德甲",
     "utcDate" : "2026-10-11T15:30:00Z",
@@ -356,28 +334,6 @@
     "as" : 1,
     "teamHome" : "KOE",
     "teamAway" : "BMG",
-    "colors" : [ "#7377db", "#7377db" ]
-  }, {
-    "id" : "560594",
-    "league" : "英超",
-    "utcDate" : "2026-10-11T13:00:00Z",
-    "home" : "Hull City",
-    "away" : "Everton",
-    "hs" : 2,
-    "as" : 2,
-    "teamHome" : "HUL",
-    "teamAway" : "EVE",
-    "colors" : [ "#7377db", "#7377db" ]
-  }, {
-    "id" : "560596",
-    "league" : "英超",
-    "utcDate" : "2026-10-11T13:00:00Z",
-    "home" : "Crystal Palace",
-    "away" : "Nottingham",
-    "hs" : 3,
-    "as" : 1,
-    "teamHome" : "CRY",
-    "teamAway" : "NOT",
     "colors" : [ "#7377db", "#7377db" ]
   }, {
     "id" : "558581",
@@ -4426,9 +4382,9 @@
     "teamHome" : "RCL",
     "teamAway" : "SPO",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 0,
+    "as" : 2
   }, {
     "id" : "575342",
     "league" : "欧冠",
@@ -4438,9 +4394,9 @@
     "teamHome" : "SAB",
     "teamAway" : "SLP",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 2,
+    "as" : 0
   }, {
     "id" : "575343",
     "league" : "欧冠",
@@ -4450,9 +4406,9 @@
     "teamHome" : "INT",
     "teamAway" : "BRU",
     "colors" : [ "#3279bd", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 4
   }, {
     "id" : "575344",
     "league" : "欧冠",
@@ -4462,9 +4418,9 @@
     "teamHome" : "GAL",
     "teamAway" : "BAR",
     "colors" : [ "#7377db", "#783e99" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 1,
+    "as" : 4
   }, {
     "id" : "575345",
     "league" : "欧冠",
@@ -4474,9 +4430,9 @@
     "teamHome" : "ATL",
     "teamAway" : "MUN",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 2,
+    "as" : 0
   }, {
     "id" : "575346",
     "league" : "欧冠",
@@ -4486,9 +4442,9 @@
     "teamHome" : "ARS",
     "teamAway" : "LIL",
     "colors" : [ "#e34448", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 0
   }, {
     "id" : "575347",
     "league" : "欧冠",
@@ -4498,9 +4454,9 @@
     "teamHome" : "VIK",
     "teamAway" : "FCB",
     "colors" : [ "#7377db", "#d64545" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 3
   }, {
     "id" : "575348",
     "league" : "欧冠",
@@ -4510,9 +4466,9 @@
     "teamHome" : "RBL",
     "teamAway" : "PSV",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 1,
+    "as" : 0
   }, {
     "id" : "575349",
     "league" : "欧冠",
@@ -4522,9 +4478,9 @@
     "teamHome" : "VIL",
     "teamAway" : "NAP",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 1
   }, {
     "id" : "575350",
     "league" : "欧冠",
@@ -4534,9 +4490,9 @@
     "teamHome" : "LIN",
     "teamAway" : "LIV",
     "colors" : [ "#7377db", "#c93640" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 6
   }, {
     "id" : "575351",
     "league" : "欧冠",
@@ -4546,9 +4502,9 @@
     "teamHome" : "FEY",
     "teamAway" : "COM",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 2
   }, {
     "id" : "575352",
     "league" : "欧冠",
@@ -4558,9 +4514,9 @@
     "teamHome" : "ROM",
     "teamAway" : "RMA",
     "colors" : [ "#7377db", "#d6b652" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 4
   }, {
     "id" : "575353",
     "league" : "欧冠",
@@ -4570,9 +4526,9 @@
     "teamHome" : "MCI",
     "teamAway" : "PSG",
     "colors" : [ "#54a8dc", "#4b67b2" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 2,
+    "as" : 4
   }, {
     "id" : "575354",
     "league" : "欧冠",
@@ -4582,9 +4538,9 @@
     "teamHome" : "FK",
     "teamAway" : "BVB",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 1,
+    "as" : 0
   }, {
     "id" : "575355",
     "league" : "欧冠",
@@ -4594,9 +4550,9 @@
     "teamHome" : "AVL",
     "teamAway" : "FEN",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 6,
+    "as" : 0
   }, {
     "id" : "575356",
     "league" : "欧冠",
@@ -4606,9 +4562,9 @@
     "teamHome" : "BET",
     "teamAway" : "FCP",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 2
   }, {
     "id" : "575357",
     "league" : "欧冠",
@@ -4618,9 +4574,9 @@
     "teamHome" : "SHD",
     "teamAway" : "AEK",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 3,
+    "as" : 1
   }, {
     "id" : "575358",
     "league" : "欧冠",
@@ -4630,9 +4586,9 @@
     "teamHome" : "SBA",
     "teamAway" : "VFB",
     "colors" : [ "#7377db", "#7377db" ],
-    "status" : "TIMED",
-    "hs" : null,
-    "as" : null
+    "status" : "FINISHED",
+    "hs" : 0,
+    "as" : 3
   }, {
     "id" : "565828",
     "league" : "德甲",
