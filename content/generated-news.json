@@ -1,6 +1,87 @@
 {
   "articles": [
     {
+      "id": "match-review-a9daca1bb67d",
+      "title": "法兰克福主场1-0小胜科隆",
+      "summary": "法兰克福在德甲比赛中主场1比0击败科隆。",
+      "body": "法兰克福以1比0战胜科隆。技术统计显示，法兰克福控球率55.6%高于科隆的44.4%，射门15次对9次，射正7次对3次，传球442次对355次，传球成功率78.5%对74.9%，关键传球12次对8次，成功过人10次对3次。犯规方面法兰克福8次，科隆17次；两队黄牌均为2张，红牌均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "aiGenerated": true,
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-17T00:21:34.950Z",
+      "category": "赛后速评",
+      "sourceMatchIds": [
+        "565828"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-17T00:17:04.934109514Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "565828"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-17T00:21:32.580104657Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_2dYlDX"
+        }
+      ]
+    },
+    {
+      "id": "match-review-78a75d559ace",
+      "title": "勒芒主场0-3不敌图卢兹",
+      "summary": "法甲一场比赛中，勒芒主场0比3负于图卢兹。",
+      "body": "本场比赛勒芒0比3不敌图卢兹。技术统计显示，勒芒控球率52.8%高于图卢兹的47.2%，传球数581次也多于对手的519次；但图卢兹射门13次、射正5次，均高于勒芒的11次和1次。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "aiGenerated": true,
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-17T00:21:36.105Z",
+      "category": "赛后速评",
+      "sourceMatchIds": [
+        "559661"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-17T00:17:04.934109514Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "559661"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-17T00:21:32.580104657Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_3pln58"
+        }
+      ]
+    },
+    {
+      "id": "match-review-5b6830dd6183",
+      "title": "拉科鲁尼亚1-1莱万特：控球略逊但射门占优，双方握手言和",
+      "summary": "拉科鲁尼亚与莱万特在西甲比赛中1-1战平，主队射门和射正次数略占上风，客队控球率与传球数更高。",
+      "body": "本场拉科鲁尼亚与莱万特1-1握手言和。技术统计显示，拉科鲁尼亚控球率为46.7%，莱万特为53.3%；主队射门13次、射正5次，客队射门11次、射正4次。传球方面，拉科鲁尼亚364次、成功率80.2%，莱万特422次、成功率81%；关键传球主队10次，客队4次。犯规主队17次、客队12次，黄牌双方各2张，红牌均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "aiGenerated": true,
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-17T00:21:37.907Z",
+      "category": "赛后速评",
+      "sourceMatchIds": [
+        "564716"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-17T00:17:04.934109514Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "564716"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-17T00:21:32.580104657Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_1vMG4I"
+        }
+      ]
+    },
+    {
       "id": "match-review-870d62d37726",
       "title": "利物浦客场6-3击败林茨，控球与射门全面占优",
       "summary": "欧冠比赛中，利物浦客场以6-3战胜林茨，技术统计显示客队在控球率、射门、射正、传球等多项数据上占据明显优势。",

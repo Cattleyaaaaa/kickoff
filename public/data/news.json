@@ -1,7 +1,133 @@
 {
   "source": "Kickoff",
-  "updatedAt": "2026-10-16T14:38:56.330Z",
+  "updatedAt": "2026-10-17T00:21:47.120Z",
   "items": [
+    {
+      "id": "match-review-5b6830dd6183",
+      "title": "拉科鲁尼亚1-1莱万特：控球略逊但射门占优，双方握手言和",
+      "summary": "拉科鲁尼亚与莱万特在西甲比赛中1-1战平，主队射门和射正次数略占上风，客队控球率与传球数更高。",
+      "body": "本场拉科鲁尼亚与莱万特1-1握手言和。技术统计显示，拉科鲁尼亚控球率为46.7%，莱万特为53.3%；主队射门13次、射正5次，客队射门11次、射正4次。传球方面，拉科鲁尼亚364次、成功率80.2%，莱万特422次、成功率81%；关键传球主队10次，客队4次。犯规主队17次、客队12次，黄牌双方各2张，红牌均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-17T00:21:37.907Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "564716"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-17T00:17:04.934109514Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "564716"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-17T00:21:32.580104657Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_1vMG4I"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "拉科鲁尼亚1-1莱万特：控球略逊但射门占优，双方握手言和",
+        "zh-TW": "拉科魯尼亞1-1萊萬特：控球略遜但射門佔優，雙方握手言和",
+        "en": "Deportivo La Coruña 1-1 Levante: Slightly less possession but more shots, the two sides shake hands"
+      },
+      "localizedSummaries": {
+        "zh-CN": "拉科鲁尼亚与莱万特在西甲比赛中1-1战平，主队射门和射正次数略占上风，客队控球率与传球数更高。",
+        "zh-TW": "拉科魯尼亞與萊萬特在西甲比賽中1-1戰平，主隊射門和射正次數略佔上風，客隊控球率與傳球數更高。",
+        "en": "Deportivo La Coruña and Levante drew 1-1 in a La Liga match; the home team had a slight edge in shots and shots on target, while the away team had higher possession and more passes."
+      },
+      "localizedBodies": {
+        "zh-CN": "本场拉科鲁尼亚与莱万特1-1握手言和。技术统计显示，拉科鲁尼亚控球率为46.7%，莱万特为53.3%；主队射门13次、射正5次，客队射门11次、射正4次。传球方面，拉科鲁尼亚364次、成功率80.2%，莱万特422次、成功率81%；关键传球主队10次，客队4次。犯规主队17次、客队12次，黄牌双方各2张，红牌均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "本場拉科魯尼亞與萊萬特1-1握手言和。技術統計顯示，拉科魯尼亞控球率為46.7%，萊萬特為53.3%；主隊射門13次、射正5次，客隊射門11次、射正4次。傳球方面，拉科魯尼亞364次、成功率80.2%，萊萬特422次、成功率81%；關鍵傳球主隊10次，客隊4次。犯規主隊17次、客隊12次，黃牌雙方各2張，紅牌均為0張。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "Deportivo La Coruña and Levante shook hands with a 1-1 draw in this match. Technical statistics show that Deportivo La Coruña had 46.7% possession, while Levante had 53.3%; the home team had 13 shots and 5 shots on target, and the away team had 11 shots and 4 shots on target. In terms of passing, Deportivo La Coruña had 364 passes with a success rate of 80.2%, and Levante had 422 passes with a success rate of 81%; key passes were 10 for the home team and 4 for the away team. Fouls were 17 for the home team and 12 for the away team, yellow cards were 2 for each side, and red cards were 0 for both. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-78a75d559ace",
+      "title": "勒芒主场0-3不敌图卢兹",
+      "summary": "法甲一场比赛中，勒芒主场0比3负于图卢兹。",
+      "body": "本场比赛勒芒0比3不敌图卢兹。技术统计显示，勒芒控球率52.8%高于图卢兹的47.2%，传球数581次也多于对手的519次；但图卢兹射门13次、射正5次，均高于勒芒的11次和1次。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-17T00:21:36.105Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "559661"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-17T00:17:04.934109514Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "559661"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-17T00:21:32.580104657Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_3pln58"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "勒芒主场0-3不敌图卢兹",
+        "zh-TW": "勒芒主場0-3不敵圖盧茲",
+        "en": "Le Mans lose 0-3 at home to Toulouse"
+      },
+      "localizedSummaries": {
+        "zh-CN": "法甲一场比赛中，勒芒主场0比3负于图卢兹。",
+        "zh-TW": "法甲一場比賽中，勒芒主場0比3負於圖盧茲。",
+        "en": "In a Ligue 1 match, Le Mans lost 0-3 at home to Toulouse."
+      },
+      "localizedBodies": {
+        "zh-CN": "本场比赛勒芒0比3不敌图卢兹。技术统计显示，勒芒控球率52.8%高于图卢兹的47.2%，传球数581次也多于对手的519次；但图卢兹射门13次、射正5次，均高于勒芒的11次和1次。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "本場比賽勒芒0比3不敵圖盧茲。技術統計顯示，勒芒控球率52.8%高於圖盧茲的47.2%，傳球數581次也多於對手的519次；但圖盧茲射門13次、射正5次，均高於勒芒的11次和1次。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "In this match, Le Mans lost 0-3 to Toulouse. Technical statistics show that Le Mans had 52.8% possession, higher than Toulouse's 47.2%, and made 581 passes, also more than the opponent's 519; however, Toulouse had 13 shots and 5 shots on target, both higher than Le Mans' 11 and 1. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
+    {
+      "id": "match-review-a9daca1bb67d",
+      "title": "法兰克福主场1-0小胜科隆",
+      "summary": "法兰克福在德甲比赛中主场1比0击败科隆。",
+      "body": "法兰克福以1比0战胜科隆。技术统计显示，法兰克福控球率55.6%高于科隆的44.4%，射门15次对9次，射正7次对3次，传球442次对355次，传球成功率78.5%对74.9%，关键传球12次对8次，成功过人10次对3次。犯规方面法兰克福8次，科隆17次；两队黄牌均为2张，红牌均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+      "url": "https://www.football-data.org/",
+      "publishedAt": "2026-10-17T00:21:34.950Z",
+      "category": "赛后速评",
+      "aiGenerated": true,
+      "sourceMatchIds": [
+        "565828"
+      ],
+      "dataSources": [
+        {
+          "label": "Football-Data.org · fixture and final score",
+          "updatedAt": "2026-10-17T00:17:04.934109514Z",
+          "url": "https://www.football-data.org/",
+          "recordId": "565828"
+        },
+        {
+          "label": "PitchAPI · verified match statistics",
+          "updatedAt": "2026-10-17T00:21:32.580104657Z",
+          "url": "https://pitchapi.dev/",
+          "recordId": "m_2dYlDX"
+        }
+      ],
+      "localizedTitles": {
+        "zh-CN": "法兰克福主场1-0小胜科隆",
+        "zh-TW": "法蘭克福主場1-0小勝科隆",
+        "en": "Eintracht Frankfurt win 1-0 at home against Cologne"
+      },
+      "localizedSummaries": {
+        "zh-CN": "法兰克福在德甲比赛中主场1比0击败科隆。",
+        "zh-TW": "法蘭克福在德甲比賽中主場1比0擊敗科隆。",
+        "en": "Eintracht Frankfurt defeated Cologne 1-0 at home in a Bundesliga match."
+      },
+      "localizedBodies": {
+        "zh-CN": "法兰克福以1比0战胜科隆。技术统计显示，法兰克福控球率55.6%高于科隆的44.4%，射门15次对9次，射正7次对3次，传球442次对355次，传球成功率78.5%对74.9%，关键传球12次对8次，成功过人10次对3次。犯规方面法兰克福8次，科隆17次；两队黄牌均为2张，红牌均为0张。数据来源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "zh-TW": "法蘭克福以1比0戰勝科隆。技術統計顯示，法蘭克福控球率55.6%高於科隆的44.4%，射門15次對9次，射正7次對3次，傳球442次對355次，傳球成功率78.5%對74.9%，關鍵傳球12次對8次，成功過人10次對3次。犯規方面法蘭克福8次，科隆17次；兩隊黃牌均為2張，紅牌均為0張。數據來源：PitchAPI match statistics; match joined by competition, teams, date and exact score。",
+        "en": "Eintracht Frankfurt beat Cologne 1-0. Technical statistics show that Eintracht Frankfurt had 55.6% possession, higher than Cologne's 44.4%, with 15 shots to 9, 7 shots on target to 3, 442 passes to 355, pass success rate 78.5% to 74.9%, 12 key passes to 8, and 10 successful dribbles to 3. In terms of fouls, Eintracht Frankfurt had 8, Cologne had 17; both teams received 2 yellow cards and 0 red cards. Data source: PitchAPI match statistics; match joined by competition, teams, date and exact score."
+      }
+    },
     {
       "id": "match-review-e4a89738d1b1",
       "title": "斯图加特客场3-0完胜布拉迪斯拉发",
